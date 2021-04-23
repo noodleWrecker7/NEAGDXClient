@@ -21,7 +21,7 @@ public class Menu extends ScreenAdapter {
         this.client = app;
 
         Skin skin = new Skin(); // will store texture data
-        TextureAtlas texAtlas = (TextureAtlas) client.assets.get("UI.atlas");
+        TextureAtlas texAtlas = client.assets.get("UI.atlas");
         skin.addRegions(texAtlas);
 
         float scaleFactor = (client.cam.viewportWidth / 4) / texAtlas.findRegion("ButtonLevelSelect").originalWidth; // desired width / current width
@@ -55,17 +55,26 @@ public class Menu extends ScreenAdapter {
 
             stage.addActor(menuButton); // adds button to stage
 
+            menuButton.setName(buttonNames[i]); // stores name of button for use later
+
             menuButton.addListener(new ClickListener() { // adds listener to each button
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     // handle input here
                     // change screen etc
+                    goToButtonTarget(event.getListenerActor().getName());
                     System.out.println("hello");
                 }
             });
         }
+    }
 
-
+    public void goToButtonTarget(String name) {
+        switch (name) {
+            case "ButtonLevelSelect":
+                client.setScreen(new GameScreen(client));
+                break;
+        }
     }
 
     @Override

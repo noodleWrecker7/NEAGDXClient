@@ -4,14 +4,11 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.utils.ScreenUtils;
 import dev.adamhodgkinson.screens.Loading;
-import dev.adamhodgkinson.screens.Menu;
 
 public class GDXClient extends Game {
     public SpriteBatch batch;
@@ -45,14 +42,6 @@ public class GDXClient extends Game {
 
         setScreen(new Loading(this)); // changes screen to the loading screen
     }
-
-  /*  @Override
-    public void render() {
-        ScreenUtils.clear(1, 0, 0, 1);
-        batch.begin();
-        sprite.draw(batch);
-        batch.end();
-    }*/
 
     @Override
     public void dispose() {
