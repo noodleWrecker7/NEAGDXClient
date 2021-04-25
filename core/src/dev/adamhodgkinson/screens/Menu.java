@@ -40,7 +40,7 @@ public class Menu extends ScreenAdapter {
         float topMargin = 10f;
         float verticalSpacePerButton = (client.cam.viewportHeight - topMargin) / buttonNames.length;
 
-        Gdx.input.setInputProcessor(stage); // input must be directed to stage for this screen
+
 
         for (int i = 0; i < buttonNames.length; i++) {
             ImageButton menuButton;
@@ -80,6 +80,7 @@ public class Menu extends ScreenAdapter {
     @Override
     public void show() {
         // setup input handling
+        Gdx.input.setInputProcessor(stage); // input must be directed to stage for this screen
 
     }
 
@@ -92,6 +93,13 @@ public class Menu extends ScreenAdapter {
 
     @Override
     public void hide() {
+        Gdx.input.setInputProcessor(null);
+    }
+
+    @Override
+    public void dispose() {
+        stage.dispose();
+        super.dispose();
     }
 }
 
