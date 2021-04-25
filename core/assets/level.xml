@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ShootyStabbyLevel height="10" width="20">
+    <meta>
+        <spawnpos x="1" y="1"/>
+        <name>Test Level</name>
+    </meta>
+    <Tiles> <!--permanent-->
+        <solid x="0" y="0" texture="floor" i="1"/>
+        <solid x="1" y="0" texture="floor" i="2"/>
+        <solid x="2" y="0" texture="floor" i="3"/>
+    </Tiles>
+    <Enemies></Enemies>
+    <Chests></Chests>
+    <LootTables></LootTables>
+</ShootyStabbyLevel>
+
