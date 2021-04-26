@@ -1,0 +1,2375 @@
+
+pack.png
+size: 1024, 64
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+game/environment/column_mid
+  rotate: false
+  xy: 20, 8
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/column_top
+  rotate: false
+  xy: 172, 40
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/coulmn_base
+  rotate: false
+  xy: 38, 8
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/crate
+  rotate: false
+  xy: 2, 2
+  size: 16, 22
+  orig: 16, 22
+  offset: 0, 0
+  index: -1
+game/environment/doors_all
+  rotate: false
+  xy: 2, 26
+  size: 64, 35
+  orig: 64, 35
+  offset: 0, 0
+  index: -1
+game/environment/doors_frame_left
+  rotate: false
+  xy: 136, 29
+  size: 16, 32
+  orig: 16, 32
+  offset: 0, 0
+  index: -1
+game/environment/doors_frame_righ
+  rotate: false
+  xy: 154, 29
+  size: 16, 32
+  orig: 16, 32
+  offset: 0, 0
+  index: -1
+game/environment/doors_frame_top
+  rotate: false
+  xy: 172, 58
+  size: 32, 3
+  orig: 32, 3
+  offset: 0, 0
+  index: -1
+game/environment/doors_leaf_closed
+  rotate: false
+  xy: 68, 29
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+game/environment/doors_leaf_open
+  rotate: false
+  xy: 102, 29
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+game/environment/edge
+  rotate: false
+  xy: 190, 40
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/flask_big_blue
+  rotate: false
+  xy: 208, 45
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/flask_big_green
+  rotate: false
+  xy: 226, 45
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/flask_big_red
+  rotate: false
+  xy: 244, 45
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/flask_big_yellow
+  rotate: false
+  xy: 262, 45
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/flask_blue
+  rotate: false
+  xy: 280, 45
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/flask_green
+  rotate: false
+  xy: 298, 45
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/flask_red
+  rotate: false
+  xy: 316, 45
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/flask_yellow
+  rotate: false
+  xy: 334, 45
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/floor
+  rotate: false
+  xy: 352, 45
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 1
+game/environment/floor
+  rotate: false
+  xy: 370, 45
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 2
+game/environment/floor
+  rotate: false
+  xy: 388, 45
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 3
+game/environment/floor
+  rotate: false
+  xy: 406, 45
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 4
+game/environment/floor
+  rotate: false
+  xy: 424, 45
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 5
+game/environment/floor
+  rotate: false
+  xy: 442, 45
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 6
+game/environment/floor
+  rotate: false
+  xy: 460, 45
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 7
+game/environment/floor
+  rotate: false
+  xy: 478, 45
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 8
+game/environment/floor_ladder
+  rotate: false
+  xy: 496, 45
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/floor_spikes_anim_f0
+  rotate: false
+  xy: 514, 45
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/floor_spikes_anim_f1
+  rotate: false
+  xy: 532, 45
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/floor_spikes_anim_f2
+  rotate: false
+  xy: 550, 45
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/floor_spikes_anim_f3
+  rotate: false
+  xy: 568, 45
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/hole
+  rotate: false
+  xy: 586, 45
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/skull
+  rotate: false
+  xy: 604, 45
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/wall_banner_blue
+  rotate: false
+  xy: 622, 45
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/wall_banner_green
+  rotate: false
+  xy: 640, 45
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/wall_banner_red
+  rotate: false
+  xy: 658, 45
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/wall_banner_yellow
+  rotate: false
+  xy: 676, 45
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/wall_column_mid
+  rotate: false
+  xy: 694, 45
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/wall_column_top
+  rotate: false
+  xy: 712, 45
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/wall_corner_bottom_left
+  rotate: false
+  xy: 730, 45
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/wall_corner_bottom_right
+  rotate: false
+  xy: 748, 45
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/wall_corner_front_left
+  rotate: false
+  xy: 766, 45
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/wall_corner_front_right
+  rotate: false
+  xy: 784, 45
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/wall_corner_left
+  rotate: false
+  xy: 802, 45
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/wall_corner_right
+  rotate: false
+  xy: 820, 45
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/wall_corner_top_left
+  rotate: false
+  xy: 838, 45
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/wall_corner_top_right
+  rotate: false
+  xy: 856, 45
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/wall_coulmn_base
+  rotate: false
+  xy: 874, 45
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/wall_fountain_basin_blue_anim_f0
+  rotate: false
+  xy: 892, 45
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/wall_fountain_basin_blue_anim_f1
+  rotate: false
+  xy: 910, 45
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/wall_fountain_basin_blue_anim_f2
+  rotate: false
+  xy: 928, 45
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/wall_fountain_basin_red_anim_f0
+  rotate: false
+  xy: 946, 45
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/wall_fountain_basin_red_anim_f1
+  rotate: false
+  xy: 964, 45
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/wall_fountain_basin_red_anim_f2
+  rotate: false
+  xy: 982, 45
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/wall_fountain_mid_blue_anim_f0
+  rotate: false
+  xy: 1000, 45
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/wall_fountain_mid_blue_anim_f1
+  rotate: false
+  xy: 56, 8
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/wall_fountain_mid_blue_anim_f2
+  rotate: false
+  xy: 74, 11
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/wall_fountain_mid_red_anim_f0
+  rotate: false
+  xy: 92, 11
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/wall_fountain_mid_red_anim_f1
+  rotate: false
+  xy: 110, 11
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/wall_fountain_mid_red_anim_f2
+  rotate: false
+  xy: 128, 11
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/wall_fountain_top
+  rotate: false
+  xy: 146, 11
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/wall_goo
+  rotate: false
+  xy: 172, 22
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/wall_goo_base
+  rotate: false
+  xy: 190, 22
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/wall_hole
+  rotate: false
+  xy: 208, 27
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 1
+game/environment/wall_hole
+  rotate: false
+  xy: 226, 27
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 2
+game/environment/wall_inner_corner_l_top_left
+  rotate: false
+  xy: 244, 27
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/wall_inner_corner_l_top_rigth
+  rotate: false
+  xy: 262, 27
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/wall_inner_corner_mid_left
+  rotate: false
+  xy: 280, 27
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/wall_inner_corner_mid_rigth
+  rotate: false
+  xy: 298, 27
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/wall_inner_corner_t_top_left
+  rotate: false
+  xy: 316, 27
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/wall_inner_corner_t_top_rigth
+  rotate: false
+  xy: 334, 27
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/wall_left
+  rotate: false
+  xy: 352, 27
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/wall_mid
+  rotate: false
+  xy: 370, 27
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/wall_right
+  rotate: false
+  xy: 388, 27
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/wall_side_front_left
+  rotate: false
+  xy: 406, 27
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/wall_side_front_right
+  rotate: false
+  xy: 424, 27
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/wall_side_mid_left
+  rotate: false
+  xy: 442, 27
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/wall_side_mid_right
+  rotate: false
+  xy: 460, 27
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/wall_side_top_left
+  rotate: false
+  xy: 478, 27
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/wall_side_top_right
+  rotate: false
+  xy: 496, 27
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/wall_top_left
+  rotate: false
+  xy: 514, 27
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/wall_top_mid
+  rotate: false
+  xy: 532, 27
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/environment/wall_top_right
+  rotate: false
+  xy: 550, 27
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+
+pack2.png
+size: 1024, 128
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+game/sprites/big_demon_idle_anim
+  rotate: false
+  xy: 2, 90
+  size: 32, 36
+  orig: 32, 36
+  offset: 0, 0
+  index: 0
+game/sprites/big_demon_idle_anim
+  rotate: false
+  xy: 2, 52
+  size: 32, 36
+  orig: 32, 36
+  offset: 0, 0
+  index: 1
+game/sprites/big_demon_idle_anim
+  rotate: false
+  xy: 36, 90
+  size: 32, 36
+  orig: 32, 36
+  offset: 0, 0
+  index: 2
+game/sprites/big_demon_idle_anim
+  rotate: false
+  xy: 2, 14
+  size: 32, 36
+  orig: 32, 36
+  offset: 0, 0
+  index: 3
+game/sprites/big_demon_run_anim
+  rotate: false
+  xy: 36, 52
+  size: 32, 36
+  orig: 32, 36
+  offset: 0, 0
+  index: 0
+game/sprites/big_demon_run_anim
+  rotate: false
+  xy: 70, 90
+  size: 32, 36
+  orig: 32, 36
+  offset: 0, 0
+  index: 1
+game/sprites/big_demon_run_anim
+  rotate: false
+  xy: 36, 14
+  size: 32, 36
+  orig: 32, 36
+  offset: 0, 0
+  index: 2
+game/sprites/big_demon_run_anim
+  rotate: false
+  xy: 70, 52
+  size: 32, 36
+  orig: 32, 36
+  offset: 0, 0
+  index: 3
+game/sprites/big_zombie_idle_anim
+  rotate: false
+  xy: 104, 92
+  size: 32, 34
+  orig: 32, 34
+  offset: 0, 0
+  index: 0
+game/sprites/big_zombie_idle_anim
+  rotate: false
+  xy: 70, 16
+  size: 32, 34
+  orig: 32, 34
+  offset: 0, 0
+  index: 1
+game/sprites/big_zombie_idle_anim
+  rotate: false
+  xy: 104, 56
+  size: 32, 34
+  orig: 32, 34
+  offset: 0, 0
+  index: 2
+game/sprites/big_zombie_idle_anim
+  rotate: false
+  xy: 138, 92
+  size: 32, 34
+  orig: 32, 34
+  offset: 0, 0
+  index: 3
+game/sprites/big_zombie_run_anim
+  rotate: false
+  xy: 104, 20
+  size: 32, 34
+  orig: 32, 34
+  offset: 0, 0
+  index: 0
+game/sprites/big_zombie_run_anim
+  rotate: false
+  xy: 138, 56
+  size: 32, 34
+  orig: 32, 34
+  offset: 0, 0
+  index: 1
+game/sprites/big_zombie_run_anim
+  rotate: false
+  xy: 172, 92
+  size: 32, 34
+  orig: 32, 34
+  offset: 0, 0
+  index: 2
+game/sprites/big_zombie_run_anim
+  rotate: false
+  xy: 138, 20
+  size: 32, 34
+  orig: 32, 34
+  offset: 0, 0
+  index: 3
+game/sprites/chest_empty_open_anim
+  rotate: false
+  xy: 104, 2
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 0
+game/sprites/chest_full_open_anim
+  rotate: false
+  xy: 104, 2
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 0
+game/sprites/chest_mimic_open_anim
+  rotate: false
+  xy: 104, 2
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 0
+game/sprites/chest_empty_open_anim
+  rotate: false
+  xy: 122, 2
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 1
+game/sprites/chest_empty_open_anim
+  rotate: false
+  xy: 140, 2
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 2
+game/sprites/chest_full_open_anim
+  rotate: false
+  xy: 158, 2
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 1
+game/sprites/chest_full_open_anim
+  rotate: false
+  xy: 834, 54
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 2
+game/sprites/chest_mimic_open_anim
+  rotate: false
+  xy: 852, 54
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 1
+game/sprites/chest_mimic_open_anim
+  rotate: false
+  xy: 870, 54
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 2
+game/sprites/chort_idle_anim
+  rotate: false
+  xy: 796, 72
+  size: 16, 24
+  orig: 16, 24
+  offset: 0, 0
+  index: 0
+game/sprites/chort_idle_anim
+  rotate: false
+  xy: 814, 72
+  size: 16, 24
+  orig: 16, 24
+  offset: 0, 0
+  index: 1
+game/sprites/chort_idle_anim
+  rotate: false
+  xy: 832, 72
+  size: 16, 24
+  orig: 16, 24
+  offset: 0, 0
+  index: 2
+game/sprites/chort_idle_anim
+  rotate: false
+  xy: 850, 72
+  size: 16, 24
+  orig: 16, 24
+  offset: 0, 0
+  index: 3
+game/sprites/chort_run_anim
+  rotate: false
+  xy: 868, 72
+  size: 16, 24
+  orig: 16, 24
+  offset: 0, 0
+  index: 0
+game/sprites/chort_run_anim
+  rotate: false
+  xy: 886, 72
+  size: 16, 24
+  orig: 16, 24
+  offset: 0, 0
+  index: 1
+game/sprites/chort_run_anim
+  rotate: false
+  xy: 904, 72
+  size: 16, 24
+  orig: 16, 24
+  offset: 0, 0
+  index: 2
+game/sprites/chort_run_anim
+  rotate: false
+  xy: 922, 72
+  size: 16, 24
+  orig: 16, 24
+  offset: 0, 0
+  index: 3
+game/sprites/coin_anim
+  rotate: false
+  xy: 2, 4
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: 0
+game/sprites/coin_anim
+  rotate: false
+  xy: 230, 16
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: 1
+game/sprites/coin_anim
+  rotate: false
+  xy: 1010, 118
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: 2
+game/sprites/coin_anim
+  rotate: false
+  xy: 240, 20
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: 3
+game/sprites/elf_f_hit_anim
+  rotate: false
+  xy: 240, 30
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 0
+game/sprites/elf_f_idle_anim
+  rotate: false
+  xy: 274, 64
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 0
+game/sprites/elf_f_idle_anim
+  rotate: false
+  xy: 308, 98
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 1
+game/sprites/elf_f_idle_anim
+  rotate: false
+  xy: 326, 98
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 2
+game/sprites/elf_f_idle_anim
+  rotate: false
+  xy: 344, 98
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 3
+game/sprites/elf_f_run_anim
+  rotate: false
+  xy: 362, 98
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 0
+game/sprites/elf_f_run_anim
+  rotate: false
+  xy: 380, 98
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 1
+game/sprites/elf_f_run_anim
+  rotate: false
+  xy: 398, 98
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 2
+game/sprites/elf_f_run_anim
+  rotate: false
+  xy: 416, 98
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 3
+game/sprites/elf_m_hit_anim
+  rotate: false
+  xy: 434, 98
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 0
+game/sprites/elf_m_idle_anim
+  rotate: false
+  xy: 452, 98
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 0
+game/sprites/elf_m_idle_anim
+  rotate: false
+  xy: 470, 98
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 1
+game/sprites/elf_m_idle_anim
+  rotate: false
+  xy: 488, 98
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 2
+game/sprites/elf_m_idle_anim
+  rotate: false
+  xy: 506, 98
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 3
+game/sprites/elf_m_run_anim
+  rotate: false
+  xy: 524, 98
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 0
+game/sprites/elf_m_run_anim
+  rotate: false
+  xy: 542, 98
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 1
+game/sprites/elf_m_run_anim
+  rotate: false
+  xy: 560, 98
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 2
+game/sprites/elf_m_run_anim
+  rotate: false
+  xy: 578, 98
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 3
+game/sprites/goblin_idle_anim
+  rotate: false
+  xy: 888, 54
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 0
+game/sprites/goblin_idle_anim
+  rotate: false
+  xy: 906, 54
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 1
+game/sprites/goblin_idle_anim
+  rotate: false
+  xy: 906, 54
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 3
+game/sprites/goblin_idle_anim
+  rotate: false
+  xy: 924, 54
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 2
+game/sprites/goblin_run_anim
+  rotate: false
+  xy: 942, 58
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 0
+game/sprites/goblin_run_anim
+  rotate: false
+  xy: 960, 58
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 1
+game/sprites/goblin_run_anim
+  rotate: false
+  xy: 978, 58
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 2
+game/sprites/goblin_run_anim
+  rotate: false
+  xy: 996, 58
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 3
+game/sprites/ice_zombie_idle_anim
+  rotate: false
+  xy: 312, 28
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 0
+game/sprites/ice_zombie_run_anim
+  rotate: false
+  xy: 312, 28
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 0
+game/sprites/ice_zombie_idle_anim
+  rotate: false
+  xy: 330, 28
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 1
+game/sprites/ice_zombie_idle_anim
+  rotate: false
+  xy: 330, 28
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 3
+game/sprites/ice_zombie_run_anim
+  rotate: false
+  xy: 330, 28
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 1
+game/sprites/ice_zombie_run_anim
+  rotate: false
+  xy: 330, 28
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 3
+game/sprites/ice_zombie_idle_anim
+  rotate: false
+  xy: 348, 28
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 2
+game/sprites/ice_zombie_run_anim
+  rotate: false
+  xy: 348, 28
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 2
+game/sprites/imp_idle_anim
+  rotate: false
+  xy: 366, 28
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 0
+game/sprites/imp_idle_anim
+  rotate: false
+  xy: 384, 28
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 1
+game/sprites/imp_idle_anim
+  rotate: false
+  xy: 384, 28
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 3
+game/sprites/imp_idle_anim
+  rotate: false
+  xy: 402, 28
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 2
+game/sprites/imp_run_anim
+  rotate: false
+  xy: 420, 28
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 0
+game/sprites/imp_run_anim
+  rotate: false
+  xy: 438, 28
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 1
+game/sprites/imp_run_anim
+  rotate: false
+  xy: 456, 28
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 2
+game/sprites/imp_run_anim
+  rotate: false
+  xy: 474, 28
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 3
+game/sprites/knight_f_hit_anim
+  rotate: false
+  xy: 596, 98
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 0
+game/sprites/knight_f_idle_anim
+  rotate: false
+  xy: 614, 98
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 0
+game/sprites/knight_f_idle_anim
+  rotate: false
+  xy: 632, 98
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 1
+game/sprites/knight_f_idle_anim
+  rotate: false
+  xy: 650, 98
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 2
+game/sprites/knight_f_idle_anim
+  rotate: false
+  xy: 668, 98
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 3
+game/sprites/knight_f_run_anim
+  rotate: false
+  xy: 686, 98
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 0
+game/sprites/knight_f_run_anim
+  rotate: false
+  xy: 704, 98
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 1
+game/sprites/knight_f_run_anim
+  rotate: false
+  xy: 722, 98
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 2
+game/sprites/knight_f_run_anim
+  rotate: false
+  xy: 740, 98
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 3
+game/sprites/knight_m_hit_anim
+  rotate: false
+  xy: 758, 98
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 0
+game/sprites/knight_m_idle_anim
+  rotate: false
+  xy: 776, 98
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 0
+game/sprites/knight_m_idle_anim
+  rotate: false
+  xy: 794, 98
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 1
+game/sprites/knight_m_idle_anim
+  rotate: false
+  xy: 812, 98
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 2
+game/sprites/knight_m_idle_anim
+  rotate: false
+  xy: 830, 98
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 3
+game/sprites/knight_m_run_anim
+  rotate: false
+  xy: 848, 98
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 0
+game/sprites/knight_m_run_anim
+  rotate: false
+  xy: 866, 98
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 1
+game/sprites/knight_m_run_anim
+  rotate: false
+  xy: 884, 98
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 2
+game/sprites/knight_m_run_anim
+  rotate: false
+  xy: 902, 98
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 3
+game/sprites/lizard_f_hit_anim
+  rotate: false
+  xy: 920, 98
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 0
+game/sprites/lizard_f_idle_anim
+  rotate: false
+  xy: 938, 98
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 0
+game/sprites/lizard_f_idle_anim
+  rotate: false
+  xy: 956, 98
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 1
+game/sprites/lizard_f_idle_anim
+  rotate: false
+  xy: 974, 98
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 2
+game/sprites/lizard_f_idle_anim
+  rotate: false
+  xy: 992, 98
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 3
+game/sprites/lizard_f_run_anim
+  rotate: false
+  xy: 258, 30
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 0
+game/sprites/lizard_f_run_anim
+  rotate: false
+  xy: 292, 64
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 1
+game/sprites/lizard_f_run_anim
+  rotate: false
+  xy: 276, 34
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 2
+game/sprites/lizard_f_run_anim
+  rotate: false
+  xy: 294, 34
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 3
+game/sprites/lizard_m_hit_anim
+  rotate: false
+  xy: 310, 68
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 0
+game/sprites/lizard_m_idle_anim
+  rotate: false
+  xy: 328, 68
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 0
+game/sprites/lizard_m_idle_anim
+  rotate: false
+  xy: 346, 68
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 1
+game/sprites/lizard_m_idle_anim
+  rotate: false
+  xy: 364, 68
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 2
+game/sprites/lizard_m_idle_anim
+  rotate: false
+  xy: 382, 68
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 3
+game/sprites/lizard_m_run_anim
+  rotate: false
+  xy: 400, 68
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 0
+game/sprites/lizard_m_run_anim
+  rotate: false
+  xy: 418, 68
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 1
+game/sprites/lizard_m_run_anim
+  rotate: false
+  xy: 436, 68
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 2
+game/sprites/lizard_m_run_anim
+  rotate: false
+  xy: 454, 68
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 3
+game/sprites/masked_orc_idle_anim
+  rotate: false
+  xy: 176, 2
+  size: 16, 20
+  orig: 16, 20
+  offset: 0, 0
+  index: 0
+game/sprites/masked_orc_idle_anim
+  rotate: false
+  xy: 194, 2
+  size: 16, 20
+  orig: 16, 20
+  offset: 0, 0
+  index: 1
+game/sprites/masked_orc_idle_anim
+  rotate: false
+  xy: 940, 76
+  size: 16, 20
+  orig: 16, 20
+  offset: 0, 0
+  index: 2
+game/sprites/masked_orc_idle_anim
+  rotate: false
+  xy: 958, 76
+  size: 16, 20
+  orig: 16, 20
+  offset: 0, 0
+  index: 3
+game/sprites/masked_orc_run_anim
+  rotate: false
+  xy: 976, 76
+  size: 16, 20
+  orig: 16, 20
+  offset: 0, 0
+  index: 0
+game/sprites/masked_orc_run_anim
+  rotate: false
+  xy: 212, 4
+  size: 16, 20
+  orig: 16, 20
+  offset: 0, 0
+  index: 1
+game/sprites/masked_orc_run_anim
+  rotate: false
+  xy: 994, 76
+  size: 16, 20
+  orig: 16, 20
+  offset: 0, 0
+  index: 2
+game/sprites/masked_orc_run_anim
+  rotate: false
+  xy: 312, 46
+  size: 16, 20
+  orig: 16, 20
+  offset: 0, 0
+  index: 3
+game/sprites/muddy_idle_anim
+  rotate: false
+  xy: 492, 28
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 0
+game/sprites/muddy_run_anim
+  rotate: false
+  xy: 492, 28
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 0
+game/sprites/muddy_idle_anim
+  rotate: false
+  xy: 510, 28
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 1
+game/sprites/muddy_run_anim
+  rotate: false
+  xy: 510, 28
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 1
+game/sprites/muddy_idle_anim
+  rotate: false
+  xy: 528, 28
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 2
+game/sprites/muddy_run_anim
+  rotate: false
+  xy: 528, 28
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 2
+game/sprites/muddy_idle_anim
+  rotate: false
+  xy: 546, 28
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 3
+game/sprites/muddy_run_anim
+  rotate: false
+  xy: 546, 28
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 3
+game/sprites/necromancer_idle_anim
+  rotate: false
+  xy: 330, 46
+  size: 16, 20
+  orig: 16, 20
+  offset: 0, 0
+  index: 0
+game/sprites/necromancer_run_anim
+  rotate: false
+  xy: 330, 46
+  size: 16, 20
+  orig: 16, 20
+  offset: 0, 0
+  index: 0
+game/sprites/necromancer_idle_anim
+  rotate: false
+  xy: 348, 46
+  size: 16, 20
+  orig: 16, 20
+  offset: 0, 0
+  index: 1
+game/sprites/necromancer_run_anim
+  rotate: false
+  xy: 348, 46
+  size: 16, 20
+  orig: 16, 20
+  offset: 0, 0
+  index: 1
+game/sprites/necromancer_idle_anim
+  rotate: false
+  xy: 366, 46
+  size: 16, 20
+  orig: 16, 20
+  offset: 0, 0
+  index: 2
+game/sprites/necromancer_run_anim
+  rotate: false
+  xy: 366, 46
+  size: 16, 20
+  orig: 16, 20
+  offset: 0, 0
+  index: 2
+game/sprites/necromancer_idle_anim
+  rotate: false
+  xy: 384, 46
+  size: 16, 20
+  orig: 16, 20
+  offset: 0, 0
+  index: 3
+game/sprites/necromancer_run_anim
+  rotate: false
+  xy: 384, 46
+  size: 16, 20
+  orig: 16, 20
+  offset: 0, 0
+  index: 3
+game/sprites/ogre_idle_anim
+  rotate: false
+  xy: 172, 58
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 0
+game/sprites/ogre_idle_anim
+  rotate: false
+  xy: 206, 94
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 1
+game/sprites/ogre_idle_anim
+  rotate: false
+  xy: 172, 24
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 2
+game/sprites/ogre_idle_anim
+  rotate: false
+  xy: 206, 60
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 3
+game/sprites/ogre_run_anim
+  rotate: false
+  xy: 240, 94
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 0
+game/sprites/ogre_run_anim
+  rotate: false
+  xy: 206, 26
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 1
+game/sprites/ogre_run_anim
+  rotate: false
+  xy: 240, 60
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 2
+game/sprites/ogre_run_anim
+  rotate: false
+  xy: 274, 94
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 3
+game/sprites/orc_shaman_idle_anim
+  rotate: false
+  xy: 402, 46
+  size: 16, 20
+  orig: 16, 20
+  offset: 0, 0
+  index: 0
+game/sprites/orc_shaman_idle_anim
+  rotate: false
+  xy: 420, 46
+  size: 16, 20
+  orig: 16, 20
+  offset: 0, 0
+  index: 1
+game/sprites/orc_shaman_idle_anim
+  rotate: false
+  xy: 438, 46
+  size: 16, 20
+  orig: 16, 20
+  offset: 0, 0
+  index: 2
+game/sprites/orc_shaman_idle_anim
+  rotate: false
+  xy: 456, 46
+  size: 16, 20
+  orig: 16, 20
+  offset: 0, 0
+  index: 3
+game/sprites/orc_shaman_run_anim
+  rotate: false
+  xy: 474, 46
+  size: 16, 20
+  orig: 16, 20
+  offset: 0, 0
+  index: 0
+game/sprites/orc_shaman_run_anim
+  rotate: false
+  xy: 492, 46
+  size: 16, 20
+  orig: 16, 20
+  offset: 0, 0
+  index: 1
+game/sprites/orc_shaman_run_anim
+  rotate: false
+  xy: 510, 46
+  size: 16, 20
+  orig: 16, 20
+  offset: 0, 0
+  index: 2
+game/sprites/orc_shaman_run_anim
+  rotate: false
+  xy: 528, 46
+  size: 16, 20
+  orig: 16, 20
+  offset: 0, 0
+  index: 3
+game/sprites/orc_warrior_idle_anim
+  rotate: false
+  xy: 546, 46
+  size: 16, 20
+  orig: 16, 20
+  offset: 0, 0
+  index: 0
+game/sprites/orc_warrior_idle_anim
+  rotate: false
+  xy: 564, 46
+  size: 16, 20
+  orig: 16, 20
+  offset: 0, 0
+  index: 1
+game/sprites/orc_warrior_idle_anim
+  rotate: false
+  xy: 582, 46
+  size: 16, 20
+  orig: 16, 20
+  offset: 0, 0
+  index: 2
+game/sprites/orc_warrior_idle_anim
+  rotate: false
+  xy: 600, 46
+  size: 16, 20
+  orig: 16, 20
+  offset: 0, 0
+  index: 3
+game/sprites/orc_warrior_run_anim
+  rotate: false
+  xy: 618, 46
+  size: 16, 20
+  orig: 16, 20
+  offset: 0, 0
+  index: 0
+game/sprites/orc_warrior_run_anim
+  rotate: false
+  xy: 636, 46
+  size: 16, 20
+  orig: 16, 20
+  offset: 0, 0
+  index: 1
+game/sprites/orc_warrior_run_anim
+  rotate: false
+  xy: 654, 46
+  size: 16, 20
+  orig: 16, 20
+  offset: 0, 0
+  index: 2
+game/sprites/orc_warrior_run_anim
+  rotate: false
+  xy: 672, 46
+  size: 16, 20
+  orig: 16, 20
+  offset: 0, 0
+  index: 3
+game/sprites/skelet_idle_anim
+  rotate: false
+  xy: 564, 28
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 0
+game/sprites/skelet_idle_anim
+  rotate: false
+  xy: 582, 28
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 1
+game/sprites/skelet_idle_anim
+  rotate: false
+  xy: 600, 28
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 2
+game/sprites/skelet_idle_anim
+  rotate: false
+  xy: 618, 28
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 3
+game/sprites/skelet_run_anim
+  rotate: false
+  xy: 636, 28
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 0
+game/sprites/skelet_run_anim
+  rotate: false
+  xy: 654, 28
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 1
+game/sprites/skelet_run_anim
+  rotate: false
+  xy: 672, 28
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 2
+game/sprites/skelet_run_anim
+  rotate: false
+  xy: 690, 28
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 3
+game/sprites/swampy_idle_anim
+  rotate: false
+  xy: 708, 28
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 0
+game/sprites/swampy_run_anim
+  rotate: false
+  xy: 708, 28
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 0
+game/sprites/swampy_idle_anim
+  rotate: false
+  xy: 726, 28
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 1
+game/sprites/swampy_run_anim
+  rotate: false
+  xy: 726, 28
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 1
+game/sprites/swampy_idle_anim
+  rotate: false
+  xy: 744, 28
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 2
+game/sprites/swampy_run_anim
+  rotate: false
+  xy: 744, 28
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 2
+game/sprites/swampy_idle_anim
+  rotate: false
+  xy: 762, 28
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 3
+game/sprites/swampy_run_anim
+  rotate: false
+  xy: 762, 28
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 3
+game/sprites/tiny_zombie_idle_anim
+  rotate: false
+  xy: 780, 28
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 0
+game/sprites/tiny_zombie_idle_anim
+  rotate: false
+  xy: 798, 32
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 1
+game/sprites/tiny_zombie_idle_anim
+  rotate: false
+  xy: 798, 32
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 3
+game/sprites/tiny_zombie_idle_anim
+  rotate: false
+  xy: 816, 32
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 2
+game/sprites/tiny_zombie_run_anim
+  rotate: false
+  xy: 834, 36
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 0
+game/sprites/tiny_zombie_run_anim
+  rotate: false
+  xy: 852, 36
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 1
+game/sprites/tiny_zombie_run_anim
+  rotate: false
+  xy: 870, 36
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 2
+game/sprites/tiny_zombie_run_anim
+  rotate: false
+  xy: 888, 36
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 3
+game/sprites/wizzard_f_hit_anim
+  rotate: false
+  xy: 472, 68
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 0
+game/sprites/wizzard_f_idle_anim
+  rotate: false
+  xy: 490, 68
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 0
+game/sprites/wizzard_f_idle_anim
+  rotate: false
+  xy: 508, 68
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 1
+game/sprites/wizzard_f_idle_anim
+  rotate: false
+  xy: 526, 68
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 2
+game/sprites/wizzard_f_idle_anim
+  rotate: false
+  xy: 544, 68
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 3
+game/sprites/wizzard_f_run_anim
+  rotate: false
+  xy: 562, 68
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 0
+game/sprites/wizzard_f_run_anim
+  rotate: false
+  xy: 580, 68
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 1
+game/sprites/wizzard_f_run_anim
+  rotate: false
+  xy: 598, 68
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 2
+game/sprites/wizzard_f_run_anim
+  rotate: false
+  xy: 616, 68
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 3
+game/sprites/wizzard_m_hit_anim
+  rotate: false
+  xy: 634, 68
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 0
+game/sprites/wizzard_m_idle_anim
+  rotate: false
+  xy: 652, 68
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 0
+game/sprites/wizzard_m_idle_anim
+  rotate: false
+  xy: 670, 68
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 1
+game/sprites/wizzard_m_idle_anim
+  rotate: false
+  xy: 688, 68
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 2
+game/sprites/wizzard_m_idle_anim
+  rotate: false
+  xy: 706, 68
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 3
+game/sprites/wizzard_m_run_anim
+  rotate: false
+  xy: 724, 68
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 0
+game/sprites/wizzard_m_run_anim
+  rotate: false
+  xy: 742, 68
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 1
+game/sprites/wizzard_m_run_anim
+  rotate: false
+  xy: 760, 68
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 2
+game/sprites/wizzard_m_run_anim
+  rotate: false
+  xy: 778, 68
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: 3
+game/sprites/wogol_idle_anim
+  rotate: false
+  xy: 690, 46
+  size: 16, 20
+  orig: 16, 20
+  offset: 0, 0
+  index: 0
+game/sprites/wogol_idle_anim
+  rotate: false
+  xy: 708, 46
+  size: 16, 20
+  orig: 16, 20
+  offset: 0, 0
+  index: 1
+game/sprites/wogol_idle_anim
+  rotate: false
+  xy: 726, 46
+  size: 16, 20
+  orig: 16, 20
+  offset: 0, 0
+  index: 2
+game/sprites/wogol_idle_anim
+  rotate: false
+  xy: 744, 46
+  size: 16, 20
+  orig: 16, 20
+  offset: 0, 0
+  index: 3
+game/sprites/wogol_run_anim
+  rotate: false
+  xy: 762, 46
+  size: 16, 20
+  orig: 16, 20
+  offset: 0, 0
+  index: 0
+game/sprites/wogol_run_anim
+  rotate: false
+  xy: 780, 46
+  size: 16, 20
+  orig: 16, 20
+  offset: 0, 0
+  index: 1
+game/sprites/wogol_run_anim
+  rotate: false
+  xy: 798, 50
+  size: 16, 20
+  orig: 16, 20
+  offset: 0, 0
+  index: 2
+game/sprites/wogol_run_anim
+  rotate: false
+  xy: 816, 50
+  size: 16, 20
+  orig: 16, 20
+  offset: 0, 0
+  index: 3
+game/sprites/zombie_idle_anim
+  rotate: false
+  xy: 906, 36
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 0
+game/sprites/zombie_run_anim
+  rotate: false
+  xy: 906, 36
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 0
+game/sprites/zombie_idle_anim
+  rotate: false
+  xy: 924, 36
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 1
+game/sprites/zombie_idle_anim
+  rotate: false
+  xy: 924, 36
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 3
+game/sprites/zombie_run_anim
+  rotate: false
+  xy: 924, 36
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 1
+game/sprites/zombie_run_anim
+  rotate: false
+  xy: 924, 36
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 3
+game/sprites/zombie_idle_anim
+  rotate: false
+  xy: 942, 40
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 2
+game/sprites/zombie_run_anim
+  rotate: false
+  xy: 942, 40
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 2
+
+pack3.png
+size: 64, 32
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+game/ui/ui_heart_empty
+  rotate: false
+  xy: 2, 2
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/ui/ui_heart_full
+  rotate: false
+  xy: 20, 2
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+game/ui/ui_heart_half
+  rotate: false
+  xy: 38, 2
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+
+pack4.png
+size: 128, 64
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+game/weapons/weapon_anime_sword
+  rotate: false
+  xy: 14, 32
+  size: 12, 30
+  orig: 12, 30
+  offset: 0, 0
+  index: -1
+game/weapons/weapon_axe
+  rotate: false
+  xy: 81, 9
+  size: 9, 21
+  orig: 9, 21
+  offset: 0, 0
+  index: -1
+game/weapons/weapon_baton_with_spikes
+  rotate: false
+  xy: 111, 40
+  size: 10, 22
+  orig: 10, 22
+  offset: 0, 0
+  index: -1
+game/weapons/weapon_big_hammer
+  rotate: false
+  xy: 2, 25
+  size: 10, 37
+  orig: 10, 37
+  offset: 0, 0
+  index: -1
+game/weapons/weapon_cleaver
+  rotate: false
+  xy: 92, 12
+  size: 8, 19
+  orig: 8, 19
+  offset: 0, 0
+  index: -1
+game/weapons/weapon_duel_sword
+  rotate: false
+  xy: 40, 32
+  size: 9, 30
+  orig: 9, 30
+  offset: 0, 0
+  index: -1
+game/weapons/weapon_golden_sword
+  rotate: false
+  xy: 38, 8
+  size: 10, 22
+  orig: 10, 22
+  offset: 0, 0
+  index: -1
+game/weapons/weapon_green_magic_staff
+  rotate: false
+  xy: 63, 32
+  size: 8, 30
+  orig: 8, 30
+  offset: 0, 0
+  index: -1
+game/weapons/weapon_hammer
+  rotate: false
+  xy: 99, 38
+  size: 10, 24
+  orig: 10, 24
+  offset: 0, 0
+  index: -1
+game/weapons/weapon_katana
+  rotate: false
+  xy: 91, 33
+  size: 6, 29
+  orig: 6, 29
+  offset: 0, 0
+  index: -1
+game/weapons/weapon_knife
+  rotate: false
+  xy: 102, 23
+  size: 6, 13
+  orig: 6, 13
+  offset: 0, 0
+  index: -1
+game/weapons/weapon_knight_sword
+  rotate: false
+  xy: 51, 33
+  size: 10, 29
+  orig: 10, 29
+  offset: 0, 0
+  index: -1
+game/weapons/weapon_lavish_sword
+  rotate: false
+  xy: 28, 32
+  size: 10, 30
+  orig: 10, 30
+  offset: 0, 0
+  index: -1
+game/weapons/weapon_mace
+  rotate: false
+  xy: 26, 6
+  size: 10, 24
+  orig: 10, 24
+  offset: 0, 0
+  index: -1
+game/weapons/weapon_machete
+  rotate: false
+  xy: 50, 8
+  size: 5, 22
+  orig: 5, 22
+  offset: 0, 0
+  index: -1
+game/weapons/weapon_red_gem_sword
+  rotate: false
+  xy: 2, 2
+  size: 10, 21
+  orig: 10, 21
+  offset: 0, 0
+  index: -1
+game/weapons/weapon_red_magic_staff
+  rotate: false
+  xy: 73, 32
+  size: 8, 30
+  orig: 8, 30
+  offset: 0, 0
+  index: -1
+game/weapons/weapon_regular_sword
+  rotate: false
+  xy: 57, 9
+  size: 10, 21
+  orig: 10, 21
+  offset: 0, 0
+  index: -1
+game/weapons/weapon_rusty_sword
+  rotate: false
+  xy: 69, 9
+  size: 10, 21
+  orig: 10, 21
+  offset: 0, 0
+  index: -1
+game/weapons/weapon_saw_sword
+  rotate: false
+  xy: 14, 5
+  size: 10, 25
+  orig: 10, 25
+  offset: 0, 0
+  index: -1
+game/weapons/weapon_spear
+  rotate: false
+  xy: 83, 32
+  size: 6, 30
+  orig: 6, 30
+  offset: 0, 0
+  index: -1
+
+pack5.png
+size: 1024, 512
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+Menu/ButtonExit
+  rotate: false
+  xy: 2, 109
+  size: 405, 105
+  orig: 405, 105
+  offset: 0, 0
+  index: -1
+Menu/ButtonInventory
+  rotate: false
+  xy: 516, 313
+  size: 405, 105
+  orig: 405, 105
+  offset: 0, 0
+  index: -1
+Menu/ButtonLevelSelect
+  rotate: false
+  xy: 2, 2
+  size: 405, 105
+  orig: 405, 105
+  offset: 0, 0
+  index: -1
+Menu/ButtonMultiplayer
+  rotate: false
+  xy: 516, 206
+  size: 405, 105
+  orig: 405, 105
+  offset: 0, 0
+  index: -1
+Menu/ButtonOptions
+  rotate: false
+  xy: 409, 99
+  size: 405, 105
+  orig: 405, 105
+  offset: 0, 0
+  index: -1
+Menu/Title
+  rotate: false
+  xy: 2, 216
+  size: 512, 202
+  orig: 512, 202
+  offset: 0, 0
+  index: -1

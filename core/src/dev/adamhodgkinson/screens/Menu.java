@@ -21,11 +21,11 @@ public class Menu extends ScreenAdapter {
         this.client = app;
 
         Skin skin = new Skin(); // will store texture data
-        TextureAtlas texAtlas = client.assets.get("UI.atlas");
+        TextureAtlas texAtlas = client.assets.get("packed/pack.atlas");
         skin.addRegions(texAtlas);
 
-        float scaleFactor = (client.cam.viewportWidth / 4) / texAtlas.findRegion("ButtonLevelSelect").originalWidth; // desired width / current width
-        float scaledHeight = scaleFactor * texAtlas.findRegion("ButtonLevelSelect").originalHeight;
+        float scaleFactor = (client.cam.viewportWidth / 4) / texAtlas.findRegion("Menu/ButtonLevelSelect").originalWidth; // desired width / current width
+        float scaledHeight = scaleFactor * texAtlas.findRegion("Menu/ButtonLevelSelect").originalHeight;
         skin.setScale(scaleFactor); // to shrink the images to fit on viewport
 
 
@@ -46,7 +46,7 @@ public class Menu extends ScreenAdapter {
             ImageButton menuButton;
             ImageButton.ImageButtonStyle imageButtonStyle = new ImageButton.ImageButtonStyle(); // how the button is displayed
 
-            imageButtonStyle.up = skin.getDrawable(buttonNames[i]); // assigns texture to button
+            imageButtonStyle.up = skin.getDrawable("Menu/"+buttonNames[i]); // assigns texture to button
             menuButton = new ImageButton(imageButtonStyle); // creates button from styling
 
             // starts from top and lowers the height by and equal amount for each button

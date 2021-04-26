@@ -24,7 +24,7 @@ public class GDXClient extends Game {
     public void create() {
         batch = new SpriteBatch();
 
-		cam.setToOrtho(false, 60, 32); // ortho camera, 1 unit is one tile
+		cam.setToOrtho(false, Gdx.graphics.getWidth()/16, Gdx.graphics.getHeight()/16); // ortho camera, 1 unit is one tile
 		cam.position.set(0,0, 0);
 		cam.update();
 		batch.setProjectionMatrix(cam.combined); // batch draws through camera viewport
@@ -34,8 +34,9 @@ public class GDXClient extends Game {
         sprite.setPosition(0, 0);
 
 		assets = new AssetManager(); // manages loading of multiple assets asynchronously
-		assets.load("Game.atlas", TextureAtlas.class);
-		assets.load("UI.atlas", TextureAtlas.class);
+//		assets.load("Game.atlas", TextureAtlas.class);
+//		assets.load("UI.atlas", TextureAtlas.class);
+        assets.load("packed/pack.atlas", TextureAtlas.class);
 
 		font = new BitmapFont();
 		font.getData().setScale(1f,1f);
