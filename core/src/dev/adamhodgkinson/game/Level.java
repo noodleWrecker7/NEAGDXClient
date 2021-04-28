@@ -1,11 +1,9 @@
 package dev.adamhodgkinson.game;
 
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
@@ -46,5 +44,7 @@ public class Level {
 
             solids.addTile(Tile.createTileFromXml(attr)); // moved tile initialization to a static method in the tile class
         }
+        solids.build();
+        solids.setBodyType(GameBodyType.TILE_SOLID);
     }
 }

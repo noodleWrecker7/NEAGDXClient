@@ -4,10 +4,13 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
-public class Player extends Animated {
+public class Player extends Animated implements Physical {
     Body body;
+    GameBodyType type = GameBodyType.PLAYER;
+    float speed = 8f; // pixels per second
 
     public Player(World world, AssetManager assets) {
         BodyDef def = new BodyDef();
@@ -15,13 +18,27 @@ public class Player extends Animated {
         def.type = BodyDef.BodyType.DynamicBody;
         body = world.createBody(def);
 
+        body.setFixedRotation(true);
+
+        // main fixture
         FixtureDef fix = new FixtureDef();
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(.5f, .75f);
+        shape.setAsBox(1f, 1.5f);
         fix.shape = shape;
-        fix.density = 2;
-        fix.friction = .3f;
+        fix.density = 5;
+        fix.friction = 0f;
+        body.setLinearDamping(2f);
         body.createFixture(fix);
+
+        // sensor
+        FixtureDef sensorFixtureDef = new FixtureDef();
+        PolygonShape shape2 = new PolygonShape();
+        shape2.setAsBox(1,.2f, new Vector2(0, -1.5f), 0);
+        sensorFixtureDef.isSensor = true;
+        sensorFixtureDef.shape = shape2;
+        body.createFixture(sensorFixtureDef);
+
+        body.setUserData(this);
 
         // needs to dynamically figure out asset name
         // todo make interface Animated for animations to be managed by
@@ -33,27 +50,80 @@ public class Player extends Animated {
         this.addAnimation("hit", hitAnimation);
     }
 
-   /* public TextureRegion getFrame() { // figures out which animation should be used and gets the frame
-//        return idleAnimation.getKeyFrame(animTime);
-        if (isHitPlaying) {
-            return hitAnimation.getKeyFrame(animTime);
-        } else {
-            return idleAnimation.getKeyFrame(animTime);
-        }
-
-    }*/
+    public Vector2 getPos() {
+        return body.getPosition();
+    }
 
     boolean isRunning = false;
-    public void getHit(){playAnimation("hit");}
+
+    public void getHit() {
+        playAnimation("hit");
+    }
+
     @Override
     public void update(float dt) { // keeps track of time for animations
-        animTime += dt;
-        if(currentAnimation.equals("hit") && getAnimation().isAnimationFinished(animTime)){
-            if(isRunning) {
+        super.update(dt);
+        if (currentAnimation.equals("hit") && getAnimation().isAnimationFinished(animTime)) {
+            if (isRunning) {
                 playAnimation("run");
             } else {
                 playAnimation("idle");
             }
         }
+//        body.setLinearVelocity(movement.x * speed, movement.y * speed);
+        Vector2 mov = body.getLinearVelocity();
+        body.setLinearVelocity(movement.x != 0 ? movement.x * speed : mov.x, movement.y != 0 ? movement.y * speed : mov.y);
+    }
+
+    @Override
+    public void beginCollide(Fixture fixture) {
+
+    }
+
+    @Override
+    public void endCollide(Fixture fixture) {
+
+    }
+
+    Vector2 movement = new Vector2();
+
+    public void moveKeyUp(int keycode) {
+        int y = 0, x = 0;
+        switch (keycode) {
+            case 51: // w
+                y--;
+                break;
+            case 29: //a
+                x++;
+                break;
+            case 47: //s
+                y++;
+                break;
+            case 32: //d
+                x--;
+                break;
+        }
+
+        movement.add(x, y);
+
+    }
+
+    public void moveKeyDown(int keycode) {
+        int y = 0, x = 0;
+        switch (keycode) {
+            case 51: // w
+                y++;
+                break;
+            case 29: //a
+                x--;
+                break;
+            case 47: //s
+                y--;
+                break;
+            case 32: //d
+                x++;
+                break;
+        }
+        movement.add(x, y);
     }
 }

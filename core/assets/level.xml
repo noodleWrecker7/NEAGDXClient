@@ -8,6 +8,20 @@
         <solid x="0" y="0" texture="game/environment/floor" i="1"/>
         <solid x="1" y="0" texture="game/environment/floor" i="2"/>
         <solid x="2" y="0" texture="game/environment/floor" i="3"/>
+        <solid x="3" y="0" texture="game/environment/floor" i="1"/>
+        <solid x="4" y="0" texture="game/environment/floor" i="1"/>
+        <solid x="5" y="0" texture="game/environment/floor" i="1"/>
+        <solid x="6" y="0" texture="game/environment/floor" i="1"/>
+        <solid x="7" y="0" texture="game/environment/floor" i="1"/>
+        <solid x="8" y="0" texture="game/environment/floor" i="1"/>
+        <solid x="0" y="1" texture="game/environment/floor" i="1"/>
+        <solid x="-1" y="1" texture="game/environment/floor" i="1"/>
+        <solid x="-1" y="0" texture="game/environment/floor" i="1"/>
+        <solid x="-2" y="2" texture="game/environment/floor" i="1"/>
+        <solid x="-3" y="2" texture="game/environment/floor" i="1"/>
+        <solid x="-4" y="2" texture="game/environment/floor" i="1"/>
+        <solid x="-4" y="3" texture="game/environment/floor" i="1"/>
+        <solid x="-4" y="4" texture="game/environment/floor" i="1"/>
     </Tiles>
     <Enemies></Enemies>
     <Chests></Chests>

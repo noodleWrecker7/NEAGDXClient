@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import dev.adamhodgkinson.screens.Loading;
 
 public class GDXClient extends Game {
@@ -19,15 +20,20 @@ public class GDXClient extends Game {
     public AssetManager assets;
     public BitmapFont font;
 
+    public ShapeRenderer shapeRenderer;
+
 
     @Override
     public void create() {
         batch = new SpriteBatch();
+        shapeRenderer = new ShapeRenderer();
+        shapeRenderer.setAutoShapeType(true);
 
 		cam.setToOrtho(false, Gdx.graphics.getWidth()/16, Gdx.graphics.getHeight()/16); // ortho camera, 1 unit is one tile
 		cam.position.set(0,0, 0);
 		cam.update();
 		batch.setProjectionMatrix(cam.combined); // batch draws through camera viewport
+        shapeRenderer.setProjectionMatrix(cam.combined);
 
         TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("Game.atlas")); // loads gameplay textures
         sprite = atlas.createSprite("big_demon_idle_anim_f0"); // temporary sprite for testing display
