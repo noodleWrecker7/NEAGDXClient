@@ -10,6 +10,7 @@ public abstract class Animated {
     float animTime = 0f;
     HashMap<String, Animation<TextureRegion>> animations = new HashMap<>();
     String currentAnimation = "idle"; // default
+    boolean isXFlipped = false;
 
     void addAnimation(String name, Animation<TextureRegion> animation) {
         animations.put(name, animation);
@@ -27,7 +28,11 @@ public abstract class Animated {
     }
 
     public TextureRegion getFrame() {
-        return animations.get(currentAnimation).getKeyFrame(animTime);
+        TextureRegion r= animations.get(currentAnimation).getKeyFrame(animTime);
+        if(this.isXFlipped != r.isFlipX()) {
+            r.flip(true, false);
+        }
+        return r;
     }
 
 

@@ -42,7 +42,7 @@ public class Player extends Animated implements Physical {
 
         // needs to dynamically figure out asset name
         // todo make interface Animated for animations to be managed by
-        Animation<TextureRegion> runAnimation = new Animation<TextureRegion>(.25f, ((TextureAtlas) assets.get("packed/pack.atlas")).findRegions("game/sprites/elf_m_run_anim"), Animation.PlayMode.LOOP);
+        Animation<TextureRegion> runAnimation = new Animation<TextureRegion>(.15f, ((TextureAtlas) assets.get("packed/pack.atlas")).findRegions("game/sprites/elf_m_run_anim"), Animation.PlayMode.LOOP);
         Animation<TextureRegion> hitAnimation = new Animation<TextureRegion>(.5f, ((TextureAtlas) assets.get("packed/pack.atlas")).findRegions("game/sprites/elf_m_hit_anim"), Animation.PlayMode.NORMAL);
         Animation<TextureRegion> idleAnimation = new Animation<TextureRegion>(.25f, ((TextureAtlas) assets.get("packed/pack.atlas")).findRegions("game/sprites/elf_m_idle_anim"), Animation.PlayMode.LOOP);
         this.addAnimation("idle", idleAnimation);
@@ -73,6 +73,14 @@ public class Player extends Animated implements Physical {
 //        body.setLinearVelocity(movement.x * speed, movement.y * speed);
         Vector2 mov = body.getLinearVelocity();
         body.setLinearVelocity(movement.x != 0 ? movement.x * speed : mov.x, movement.y != 0 ? movement.y * speed : mov.y);
+        if(!this.isRunning && (body.getLinearVelocity().x >0.1 || body.getLinearVelocity().x < -0.1 )){
+            this.isRunning = true;
+            this.playAnimation("run");
+            System.out.println("run");
+        } else if (this.isRunning &&(body.getLinearVelocity().x < 0.1 && body.getLinearVelocity().x > -0.1)) {
+            this.isRunning = false;
+            this.playAnimation("idle");
+        }
     }
 
     @Override
@@ -106,6 +114,8 @@ public class Player extends Animated implements Physical {
 
         movement.add(x, y);
 
+        updateFlippage();
+
     }
 
     public void moveKeyDown(int keycode) {
@@ -125,5 +135,15 @@ public class Player extends Animated implements Physical {
                 break;
         }
         movement.add(x, y);
+        updateFlippage();
+
+    }
+
+    public void updateFlippage(){
+        if(movement.x < 0) {
+            this.isXFlipped = true;
+        } else if(movement.x > 0){
+            this.isXFlipped = false;
+        }
     }
 }

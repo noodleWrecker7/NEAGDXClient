@@ -28,8 +28,8 @@ public class GDXClient extends Game {
         batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
         shapeRenderer.setAutoShapeType(true);
-
-		cam.setToOrtho(false, Gdx.graphics.getWidth()/16, Gdx.graphics.getHeight()/16); // ortho camera, 1 unit is one tile
+        float zoom = 2;
+		cam.setToOrtho(false, (Gdx.graphics.getWidth()/16)/zoom, (Gdx.graphics.getHeight()/16)/zoom); // ortho camera, 1 unit is one tile
 		cam.position.set(0,0, 0);
 		cam.update();
 		batch.setProjectionMatrix(cam.combined); // batch draws through camera viewport

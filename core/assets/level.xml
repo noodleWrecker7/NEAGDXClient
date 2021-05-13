@@ -22,6 +22,13 @@
         <solid x="-4" y="2" texture="game/environment/floor" i="1"/>
         <solid x="-4" y="3" texture="game/environment/floor" i="1"/>
         <solid x="-4" y="4" texture="game/environment/floor" i="1"/>
+        <solid x="9" y="0" texture="game/environment/floor" i="1"/>
+        <solid x="10" y="0" texture="game/environment/floor" i="1"/>
+        <solid x="11" y="0" texture="game/environment/floor" i="1"/>
+        <solid x="12" y="0" texture="game/environment/floor" i="1"/>
+        <solid x="13" y="0" texture="game/environment/floor" i="1"/>
+        <solid x="14" y="0" texture="game/environment/floor" i="1"/>
+        <solid x="15" y="0" texture="game/environment/floor" i="1"/>
     </Tiles>
     <Enemies></Enemies>
     <Chests></Chests>
