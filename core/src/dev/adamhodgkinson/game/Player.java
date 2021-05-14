@@ -14,7 +14,7 @@ public class Player extends Animated implements Physical {
 
     public Player(World world, AssetManager assets) {
         BodyDef def = new BodyDef();
-        def.position.set(1, 1);
+        def.position.set(1, 3);
         def.type = BodyDef.BodyType.DynamicBody;
         body = world.createBody(def);
 

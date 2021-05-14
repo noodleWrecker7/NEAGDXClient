@@ -42,7 +42,7 @@ public class GameScreen extends ScreenAdapter {
 
             @Override
             public boolean keyDown(int keycode) {
-                System.out.println(keycode);
+//                System.out.println(keycode);
                 switch (keycode) {
                     case 51:
                     case 29:

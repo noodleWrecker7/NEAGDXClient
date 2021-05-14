@@ -9,13 +9,14 @@ import dev.adamhodgkinson.GDXClient;
 public class DesktopLauncher {
     public static void main(String[] arg) {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-        config.width = 960 *2;
-        config.height = 512*2;
+        int zoom = 1;
+        config.width = 960 *zoom;
+        config.height = 512*zoom;
         config.resizable = false;
 
         TexturePacker.Settings settings = new TexturePacker.Settings();
         TexturePacker.process("raw", "core/assets/packed", "pack");
 
-        new LwjglApplication(new GDXClient(), config);
+        new LwjglApplication(new GDXClient(zoom), config);
     }
 }

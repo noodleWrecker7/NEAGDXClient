@@ -21,14 +21,18 @@ public class GDXClient extends Game {
     public BitmapFont font;
 
     public ShapeRenderer shapeRenderer;
+    float zoom;
 
+    public GDXClient(float zoom){
+        super();
+        this.zoom = zoom;
+    }
 
     @Override
     public void create() {
         batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
         shapeRenderer.setAutoShapeType(true);
-        float zoom = 2;
 		cam.setToOrtho(false, (Gdx.graphics.getWidth()/16)/zoom, (Gdx.graphics.getHeight()/16)/zoom); // ortho camera, 1 unit is one tile
 		cam.position.set(0,0, 0);
 		cam.update();

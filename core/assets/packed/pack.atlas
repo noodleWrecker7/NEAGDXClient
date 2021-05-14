@@ -2123,14 +2123,14 @@ game/sprites/zombie_run_anim
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
-  index: 3
+  index: 1
 game/sprites/zombie_run_anim
   rotate: false
   xy: 924, 36
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
-  index: 1
+  index: 3
 game/sprites/zombie_idle_anim
   rotate: false
   xy: 942, 40
