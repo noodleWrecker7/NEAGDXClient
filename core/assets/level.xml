@@ -30,7 +30,11 @@
         <solid x="14" y="0" texture="game/environment/floor" i="1"/>
         <solid x="15" y="0" texture="game/environment/floor" i="1"/>
     </Tiles>
-    <Enemies></Enemies>
+    <Enemies>
+        <Runt>
+            <health>10</health>
+        </Runt>
+    </Enemies>
     <Chests></Chests>
     <LootTables></LootTables>
 </ShootyStabbyLevel>

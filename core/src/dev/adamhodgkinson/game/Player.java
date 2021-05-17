@@ -41,7 +41,6 @@ public class Player extends Animated implements Physical {
         body.setUserData(this);
 
         // needs to dynamically figure out asset name
-        // todo make interface Animated for animations to be managed by
         Animation<TextureRegion> runAnimation = new Animation<TextureRegion>(.15f, ((TextureAtlas) assets.get("packed/pack.atlas")).findRegions("game/sprites/elf_m_run_anim"), Animation.PlayMode.LOOP);
         Animation<TextureRegion> hitAnimation = new Animation<TextureRegion>(.5f, ((TextureAtlas) assets.get("packed/pack.atlas")).findRegions("game/sprites/elf_m_hit_anim"), Animation.PlayMode.NORMAL);
         Animation<TextureRegion> idleAnimation = new Animation<TextureRegion>(.25f, ((TextureAtlas) assets.get("packed/pack.atlas")).findRegions("game/sprites/elf_m_idle_anim"), Animation.PlayMode.LOOP);
