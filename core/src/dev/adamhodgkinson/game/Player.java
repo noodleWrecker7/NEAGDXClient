@@ -76,7 +76,7 @@ public class Player extends Animated implements Physical {
             this.isRunning = true;
             this.playAnimation("run");
             System.out.println("run");
-        } else if (this.isRunning &&(body.getLinearVelocity().x < 0.1 && body.getLinearVelocity().x > -0.1)) {
+        } else if (this.isRunning &&(body.getLinearVelocity().x < 0.2 && body.getLinearVelocity().x > -0.2)) {
             this.isRunning = false;
             this.playAnimation("idle");
         }
