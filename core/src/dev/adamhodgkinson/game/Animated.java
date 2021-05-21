@@ -12,7 +12,7 @@ public abstract class Animated {
     String currentAnimation = "idle"; // default
     boolean isXFlipped = false;
 
-    void addAnimation(String name, Animation<TextureRegion> animation) {
+    protected void addAnimation(String name, Animation<TextureRegion> animation) {
         animations.put(name, animation);
     }
 

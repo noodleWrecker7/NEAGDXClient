@@ -1,4 +1,4 @@
-package dev.adamhodgkinson.game;
+package dev.adamhodgkinson.game.enemies;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -10,8 +10,11 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
+import dev.adamhodgkinson.game.Animated;
+import dev.adamhodgkinson.game.Physical;
+import dev.adamhodgkinson.game.Sprite;
 
-public class Enemy extends Animated implements Physical{
+public class Enemy extends Sprite implements Physical {
     float health;
     Vector2 spawnPos; // where the enemy started
     int moveRange; // how far the enemy can move from its spawn point
@@ -21,15 +24,7 @@ public class Enemy extends Animated implements Physical{
 
     public Enemy(AssetManager assets, String textureName, World world, int x , int y){
         // creates animations, adds them to object
-        TextureAtlas atlas = assets.get("packed/pack.atlas");
-        String prefix = "game/sprites/"+textureName;
-        Animation<TextureRegion> runAnimation = new Animation<TextureRegion>(.15f, atlas.findRegions(prefix +"_run_anim"), Animation.PlayMode.LOOP);
-        Animation<TextureRegion> hitAnimation = new Animation<TextureRegion>(.5f, atlas.findRegions(prefix+"_hit_anim"), Animation.PlayMode.NORMAL);
-        Animation<TextureRegion> idleAnimation = new Animation<TextureRegion>(.25f, atlas.findRegions(prefix + "_idle_anim"), Animation.PlayMode.LOOP);
-        this.addAnimation("idle", idleAnimation);
-        this.addAnimation("run", runAnimation);
-        this.addAnimation("hit", hitAnimation);
-
+        this.setDefaultAnims(assets, textureName);
         BodyDef def = new BodyDef();
         def.position.x = x;
         def.position.y = y;
@@ -48,6 +43,7 @@ public class Enemy extends Animated implements Physical{
     }
 
     public void update(float dt){
+        super.update(dt);
 
     }
     public void render(SpriteBatch batch){

@@ -46,5 +46,10 @@ public class Level {
         }
         solids.build();
         solids.setBodyType(GameBodyType.TILE_SOLID);
+
+
+        // load enemies
+
+
     }
 }
