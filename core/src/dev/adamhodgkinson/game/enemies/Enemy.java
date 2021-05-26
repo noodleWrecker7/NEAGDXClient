@@ -13,12 +13,23 @@ import com.badlogic.gdx.physics.box2d.World;
 import dev.adamhodgkinson.game.Animated;
 import dev.adamhodgkinson.game.Physical;
 import dev.adamhodgkinson.game.Sprite;
+import org.w3c.dom.Node;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Enemy extends Sprite implements Physical {
     float health;
     Vector2 spawnPos; // where the enemy started
     int moveRange; // how far the enemy can move from its spawn point
     Body body;
+
+    HashMap<String,Class> map; // dynamically convert node name to class
+
+    static Enemy createFromNode(Node node){
+        String name = node.getNodeName();
+        return new Enemy();
+    }
 
     //Weapon weapon;
 
