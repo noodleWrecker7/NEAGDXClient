@@ -33,6 +33,8 @@
     <Enemies>
         <Runt>
             <health>10</health>
+            <x>1</x>
+            <y>1</y>
         </Runt>
     </Enemies>
     <Chests></Chests>

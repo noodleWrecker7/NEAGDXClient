@@ -13,7 +13,9 @@ import com.badlogic.gdx.physics.box2d.World;
 import dev.adamhodgkinson.game.Animated;
 import dev.adamhodgkinson.game.Physical;
 import dev.adamhodgkinson.game.Sprite;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,16 +26,20 @@ public class Enemy extends Sprite implements Physical {
     int moveRange; // how far the enemy can move from its spawn point
     Body body;
 
-    HashMap<String,Class> map; // dynamically convert node name to class
+    HashMap<String, Class> map; // dynamically convert node name to class
 
-    static Enemy createFromNode(Node node){
+    public static Enemy createFromNode(Node node, AssetManager assets, World world) {
         String name = node.getNodeName();
-        return new Enemy();
+        Element el = (Element) node;
+        float health = Float.parseFloat(el.getAttribute("health"));
+        int x = Integer.parseInt(el.getAttribute("x"));
+        int y = Integer.parseInt(el.getAttribute("y"));
+        return new Enemy(assets, name, world, x,y);
     }
 
     //Weapon weapon;
 
-    public Enemy(AssetManager assets, String textureName, World world, int x , int y){
+    public Enemy(AssetManager assets, String textureName, World world, int x, int y) {
         // creates animations, adds them to object
         this.setDefaultAnims(assets, textureName);
         BodyDef def = new BodyDef();
@@ -46,20 +52,22 @@ public class Enemy extends Sprite implements Physical {
 
     }
 
-    public void attack(){
+    public void attack() {
 
     }
 
-    public void die(){
+    public void die() {
     }
 
-    public void update(float dt){
+    public void update(float dt) {
         super.update(dt);
 
     }
-    public void render(SpriteBatch batch){
+
+    public void render(SpriteBatch batch) {
 
     }
+
     @Override
     public void beginCollide(Fixture fixture) {
 

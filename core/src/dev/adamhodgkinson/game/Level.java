@@ -1,7 +1,9 @@
 package dev.adamhodgkinson.game;
 
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.physics.box2d.World;
+import dev.adamhodgkinson.game.enemies.Enemy;
 import dev.adamhodgkinson.game.enemies.Runt;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
@@ -15,6 +17,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.HashMap;
 
+
 public class Level {
     TileGroup solids;
 
@@ -22,9 +25,9 @@ public class Level {
         return solids;
     }
 
-    public Level(FileHandle file, World world) {
+    public Level(FileHandle file, World world, AssetManager assets) {
         try {
-            initialize(file, world);
+            initialize(file, world, assets);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("failed reading level file");
@@ -32,7 +35,7 @@ public class Level {
         }
     }
 
-    public void initialize(FileHandle file, World world) throws ParserConfigurationException, IOException, SAXException {
+    public void initialize(FileHandle file, World world, AssetManager assets) throws ParserConfigurationException, IOException, SAXException {
         // Loads and parses xml file
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder db = dbf.newDocumentBuilder();
@@ -60,11 +63,8 @@ public class Level {
 
         for (int i = 0; i < enemiesTag.getLength() ; i++){
             Node node = enemiesTag.item(i);
-
+            Enemy e = Enemy.createFromNode(node, assets, world);
         }
-
     }
-
-
 }
 

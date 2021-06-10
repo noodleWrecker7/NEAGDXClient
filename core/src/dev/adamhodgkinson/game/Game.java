@@ -27,7 +27,7 @@ public class Game {
     public Game(PlayerData playerData, AssetManager assets) {
         this.playerData = playerData;
         this.world = new World(new Vector2(0, -30), true);
-        this.level = new Level(Gdx.files.internal("level.xml"), world);
+        this.level = new Level(Gdx.files.internal("level.xml"), world, assets);
         this.player = new Player(world, assets);
 
         world.setContactListener(new ContactListener() {
