@@ -14,6 +14,7 @@ import dev.adamhodgkinson.game.Animated;
 import dev.adamhodgkinson.game.Physical;
 import dev.adamhodgkinson.game.Sprite;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -24,28 +25,22 @@ public class Enemy extends Sprite implements Physical {
     float health;
     Vector2 spawnPos; // where the enemy started
     int moveRange; // how far the enemy can move from its spawn point
-    Body body;
 
 
     public static Enemy createFromNode(Node node, AssetManager assets, World world) {
-        String name = node.getNodeName();
-        Element el = (Element) node;
-        float health = Float.parseFloat(el.getAttribute("health"));
-        int x = Integer.parseInt(el.getAttribute("x"));
-        int y = Integer.parseInt(el.getAttribute("y"));
+        NamedNodeMap attr = node.getAttributes();
+        String name = attr.getNamedItem("name").getNodeValue();
+        float health = Float.parseFloat(attr.getNamedItem("health").getNodeValue());
+        int x = Integer.parseInt(attr.getNamedItem("x").getNodeValue());
+        int y = Integer.parseInt(attr.getNamedItem("y").getNodeValue());
         return new Enemy(assets, name, world, x,y);
     }
 
     //Weapon weapon;
     public Enemy(AssetManager assets, String textureName, World world, int x, int y) {
-        // creates animations, adds them to object
-        this.setDefaultAnims(assets, textureName);
-        BodyDef def = new BodyDef();
-        def.position.x = x;
-        def.position.y = y;
-        def.type = BodyDef.BodyType.DynamicBody;
-        Body body = world.createBody(def);
-        body.setFixedRotation(true);
+        super(world, x,y, textureName, assets);
+
+
     }
 
     public void attack() {

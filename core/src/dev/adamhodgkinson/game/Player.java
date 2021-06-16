@@ -11,19 +11,13 @@ public class Player extends Sprite implements Physical {
 
     GameBodyType type = GameBodyType.PLAYER;
 
-    public Player(World world, AssetManager assets, int x, int y) {
-        super(world, x, y);
+    public Player(World world, AssetManager assets, float x, float y) {
+        super(world, x ,y, "elf_m", assets);
 
         this.speed = 8f;
         float width = 2;
         float height = 3;
-        float density = 5;
-        float friction = 0;
-        float linearDamping = 2;
         float sensorHeight = .4f;
-
-
-
 
         // sensor
         FixtureDef sensorFixtureDef = new FixtureDef();
@@ -36,7 +30,7 @@ public class Player extends Sprite implements Physical {
         body.setUserData(this);
 
         // needs to dynamically figure out asset name
-        this.setDefaultAnims(assets, "elf_m");
+//        this.setDefaultAnims(assets, "elf_m");
     }
 
     public void defaultAnimations() {

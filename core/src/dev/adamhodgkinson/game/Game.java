@@ -28,7 +28,7 @@ public class Game {
         this.playerData = playerData;
         this.world = new World(new Vector2(0, -30), true);
         this.level = new Level(Gdx.files.internal("level.xml"), world, assets);
-        this.player = new Player(world, assets);
+        this.player = new Player(world, assets, level.playerSpawnPos.x, level.playerSpawnPos.y);
 
         world.setContactListener(new ContactListener() {
             @Override

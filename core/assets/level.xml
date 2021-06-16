@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <ShootyStabbyLevel height="10" width="20">
     <meta>
-        <spawnpos x="1" y="1"/>
+        <spawnpos x="1" y="3"/>
         <name>Test Level</name>
     </meta>
     <Tiles> <!--permanent-->
@@ -31,11 +31,7 @@
         <solid x="15" y="0" texture="game/environment/floor" i="1"/>
     </Tiles>
     <Enemies>
-        <goblin>
-            <health>10</health>
-            <x>1</x>
-            <y>1</y>
-        </goblin>
+        <enemy name="big_demon" x="3" y="5" health="10"/>
     </Enemies>
     <Chests></Chests>
     <LootTables></LootTables>

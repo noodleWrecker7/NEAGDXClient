@@ -13,18 +13,19 @@ public class Sprite extends Animated implements Physical {
     Body body;
     float speed;
     boolean isRunning = false;
+    float width;
+    float height;
 
-    public Sprite(World world) {
-        float width = 2;
-        float height = 3;
-        float density = 5;
-        float friction = 0;
-        float linearDamping = 2;
-        float sensorHeight = .4f;
-        this(world, 0,0, 2, 3, 5, 0, 2);
+    public Sprite(World world, float x, float y, String textureName, AssetManager assets) {
+        this(world, x,y, 5, 0, 2, textureName, assets);
     }
 
-    public Sprite(World world, int x, int y, float width, float height, float density, float friction, float linearDamping) {
+    public Sprite(World world, float x, float y, float density, float friction, float linearDamping, String textureName, AssetManager assets) {
+        TextureAtlas atlas = assets.get("packed/pack.atlas");
+        String prefix = "game/sprites/" + textureName;
+        width = (float)atlas.findRegions(prefix + "_idle_anim").get(0).originalWidth /8;
+        height = (float)atlas.findRegions(prefix + "_idle_anim").get(0).originalHeight /8;
+        setDefaultAnims(assets, textureName);
 
         BodyDef def = new BodyDef();
         def.position.set(x, y);
@@ -36,13 +37,12 @@ public class Sprite extends Animated implements Physical {
         // main fixture
         FixtureDef fix = new FixtureDef();
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(width / 2, height / 2);
+        shape.setAsBox(width / 2, (height / 2)-height/8); // height/8 accounts for whitespace in texture
         fix.shape = shape;
         fix.density = density;
         fix.friction = friction;
         body.setLinearDamping(linearDamping);
         body.createFixture(fix);
-
     }
 
     public void setDefaultAnims(AssetManager assets, String textureName) {
@@ -59,7 +59,7 @@ public class Sprite extends Animated implements Physical {
 
     public void draw(SpriteBatch batch) {
         Vector2 pos = this.getPos();
-        batch.draw(this.getFrame(), pos.x - 1, pos.y - 1.5f, 2, 3.5f); /* had to add coord offsets to account for being at center of object   */
+        batch.draw(this.getFrame(), pos.x - width/2, pos.y - height/2 + height/8, width, height); /* had to add coord offsets to account for being at center of object + weird height/8 offset accounts for extra whitespace in texture   */
     }
 
     public Vector2 getPos() {

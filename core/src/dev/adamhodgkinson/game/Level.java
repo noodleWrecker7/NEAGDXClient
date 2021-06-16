@@ -2,10 +2,9 @@ package dev.adamhodgkinson.game;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import dev.adamhodgkinson.game.enemies.Enemy;
-import dev.adamhodgkinson.game.enemies.Runt;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -17,12 +16,12 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 
 public class Level {
     TileGroup solids;
     ArrayList<Enemy> enemiesArray;
+    Vector2 playerSpawnPos;
 
     public TileGroup getSolids() {
         return solids;
@@ -45,6 +44,10 @@ public class Level {
         Document doc = db.parse(file.read());
         doc.getDocumentElement().normalize();
 
+        Node spawnpos = doc.getElementsByTagName("spawnpos").item(0);
+        playerSpawnPos = new Vector2(Integer.parseInt(spawnpos.getAttributes().getNamedItem("x").getNodeValue()), Integer.parseInt(spawnpos.getAttributes().getNamedItem("y").getNodeValue()));
+
+
         NodeList solidTiles = doc.getElementsByTagName("solid");
         solids = new TileGroup(world);
 
@@ -58,21 +61,17 @@ public class Level {
         // load enemies
 
 
-        NodeList enemies = doc.getElementsByTagName("Enemies");
-        if (enemies.getLength() > 1) {
-            System.out.println("Level Read Error: Multiple Enemies tags found. Only the first will be used");
-        }
-        NodeList enemiesTag = enemies.item(0).getChildNodes();
+        NodeList enemies = doc.getElementsByTagName("enemy");
 
         enemiesArray = new ArrayList<>();
-        for (int i = 0; i < enemiesTag.getLength() ; i++){
-            Node node = enemiesTag.item(i);
+        for (int i = 0; i < enemies.getLength(); i++) {
+            Node node = enemies.item(i);
             Enemy e = Enemy.createFromNode(node, assets, world);
             enemiesArray.add(e);
         }
     }
 
-    public ArrayList<Enemy> getEnemiesArray(){
+    public ArrayList<Enemy> getEnemiesArray() {
         return enemiesArray;
     }
 }
