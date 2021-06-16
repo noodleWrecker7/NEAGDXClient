@@ -11,29 +11,24 @@ public class Player extends Sprite implements Physical {
 
     GameBodyType type = GameBodyType.PLAYER;
 
-    public Player(World world, AssetManager assets) {
+    public Player(World world, AssetManager assets, int x, int y) {
+        super(world, x, y);
+
         this.speed = 8f;
-        BodyDef def = new BodyDef();
-        def.position.set(1, 3);
-        def.type = BodyDef.BodyType.DynamicBody;
-        body = world.createBody(def);
+        float width = 2;
+        float height = 3;
+        float density = 5;
+        float friction = 0;
+        float linearDamping = 2;
+        float sensorHeight = .4f;
 
-        body.setFixedRotation(true);
 
-        // main fixture
-        FixtureDef fix = new FixtureDef();
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox(1f, 1.5f);
-        fix.shape = shape;
-        fix.density = 5;
-        fix.friction = 0f;
-        body.setLinearDamping(2f);
-        body.createFixture(fix);
+
 
         // sensor
         FixtureDef sensorFixtureDef = new FixtureDef();
         PolygonShape shape2 = new PolygonShape();
-        shape2.setAsBox(1, .2f, new Vector2(0, -1.5f), 0);
+        shape2.setAsBox(width / 2, sensorHeight / 2, new Vector2(0, -height / 2), 0);
         sensorFixtureDef.isSensor = true;
         sensorFixtureDef.shape = shape2;
         body.createFixture(sensorFixtureDef);
@@ -44,30 +39,9 @@ public class Player extends Sprite implements Physical {
         this.setDefaultAnims(assets, "elf_m");
     }
 
-    public void defaultAnimations(){}
-
-
-    public Vector2 getPos() {
-        return body.getPosition();
+    public void defaultAnimations() {
     }
 
-
-
-
-    @Override
-    public void update(float dt) { // keeps track of time for animations
-        super.update(dt);
-    }
-
-    @Override
-    public void beginCollide(Fixture fixture) {
-
-    }
-
-    @Override
-    public void endCollide(Fixture fixture) {
-
-    }
 
     public void moveKeyUp(int keycode) {
         int y = 0, x = 0;

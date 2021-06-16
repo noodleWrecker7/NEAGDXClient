@@ -78,8 +78,11 @@ public class GameScreen extends ScreenAdapter {
             drawTile(t);
         }
 
-        Vector2 pos = game.getPlayer().getPos();
-        client.batch.draw(game.getPlayer().getFrame(), pos.x - 1, pos.y - 1.5f, 2, 3.5f); /* had to add coord offsets to account for being at center of object   */
+        game.getPlayer().draw(client.batch);
+        for (int i = 0; i < game.getLevel().getEnemiesArray().size() ; i++) {
+            game.getLevel().getEnemiesArray().get(i).draw(client.batch);
+        }
+
         client.batch.end();
     }
 

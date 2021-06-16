@@ -2,6 +2,7 @@ package dev.adamhodgkinson.game;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
 import dev.adamhodgkinson.game.enemies.Enemy;
 import dev.adamhodgkinson.game.enemies.Runt;
@@ -15,11 +16,13 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
 public class Level {
     TileGroup solids;
+    ArrayList<Enemy> enemiesArray;
 
     public TileGroup getSolids() {
         return solids;
@@ -61,10 +64,16 @@ public class Level {
         }
         NodeList enemiesTag = enemies.item(0).getChildNodes();
 
+        enemiesArray = new ArrayList<>();
         for (int i = 0; i < enemiesTag.getLength() ; i++){
             Node node = enemiesTag.item(i);
             Enemy e = Enemy.createFromNode(node, assets, world);
+            enemiesArray.add(e);
         }
+    }
+
+    public ArrayList<Enemy> getEnemiesArray(){
+        return enemiesArray;
     }
 }
 

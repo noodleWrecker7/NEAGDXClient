@@ -31,11 +31,11 @@
         <solid x="15" y="0" texture="game/environment/floor" i="1"/>
     </Tiles>
     <Enemies>
-        <Runt>
+        <goblin>
             <health>10</health>
             <x>1</x>
             <y>1</y>
-        </Runt>
+        </goblin>
     </Enemies>
     <Chests></Chests>
     <LootTables></LootTables>

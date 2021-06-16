@@ -26,7 +26,6 @@ public class Enemy extends Sprite implements Physical {
     int moveRange; // how far the enemy can move from its spawn point
     Body body;
 
-    HashMap<String, Class> map; // dynamically convert node name to class
 
     public static Enemy createFromNode(Node node, AssetManager assets, World world) {
         String name = node.getNodeName();
@@ -38,7 +37,6 @@ public class Enemy extends Sprite implements Physical {
     }
 
     //Weapon weapon;
-
     public Enemy(AssetManager assets, String textureName, World world, int x, int y) {
         // creates animations, adds them to object
         this.setDefaultAnims(assets, textureName);
@@ -48,8 +46,6 @@ public class Enemy extends Sprite implements Physical {
         def.type = BodyDef.BodyType.DynamicBody;
         Body body = world.createBody(def);
         body.setFixedRotation(true);
-
-
     }
 
     public void attack() {
