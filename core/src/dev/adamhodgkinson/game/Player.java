@@ -1,18 +1,17 @@
 package dev.adamhodgkinson.game;
 
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.World;
 
 public class Player extends Sprite implements Physical {
 
     GameBodyType type = GameBodyType.PLAYER;
 
     public Player(World world, AssetManager assets, float x, float y) {
-        super(world, x ,y, "elf_m", assets);
+        super(world, x, y, "elf_m", assets);
 
         this.speed = 8f;
         float width = 2;
@@ -28,57 +27,16 @@ public class Player extends Sprite implements Physical {
         body.createFixture(sensorFixtureDef);
 
         body.setUserData(this);
-
-        // needs to dynamically figure out asset name
-//        this.setDefaultAnims(assets, "elf_m");
-    }
-
-    public void defaultAnimations() {
     }
 
 
-    public void moveKeyUp(int keycode) {
-        int y = 0, x = 0;
-        switch (keycode) {
-            case 51: // w
-                y--;
-                break;
-            case 29: //a
-                x++;
-                break;
-            case 47: //s
-                y++;
-                break;
-            case 32: //d
-                x--;
-                break;
-        }
-
-        movement.add(x, y);
-
-        updateFlippage();
-
-    }
-
-    public void moveKeyDown(int keycode) {
-        int y = 0, x = 0;
-        switch (keycode) {
-            case 51: // w
-                y++;
-                break;
-            case 29: //a
-                x--;
-                break;
-            case 47: //s
-                y--;
-                break;
-            case 32: //d
-                x++;
-                break;
-        }
+    /**Takes a 2d direction vector and adds it to the current movement vector, this is only called once every time
+     * a key is pressed or released so the maximum total range for the movement vector is -1 to +1
+     * @param x the x direction
+     * @param y the y direction*/
+    public void addMoveDir(int x, int y) {
         movement.add(x, y);
         updateFlippage();
-
     }
 
 }

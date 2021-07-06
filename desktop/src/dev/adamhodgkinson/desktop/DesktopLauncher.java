@@ -14,7 +14,6 @@ public class DesktopLauncher {
         config.height = 512*zoom;
         config.resizable = false;
 
-        TexturePacker.Settings settings = new TexturePacker.Settings();
         TexturePacker.process("raw", "core/assets/packed", "pack");
 
         new LwjglApplication(new GDXClient(zoom), config);

@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import dev.adamhodgkinson.PlayerData;
 
+/**Contains all the logic of the game itself, should remain abstracted from any render logic*/
 public class Game {
     Level level;
     PlayerData playerData;
@@ -24,8 +25,14 @@ public class Game {
         return level;
     }
 
+    /**Initialises all game data
+     * @param playerData contains player's data eg equipped weapons and inventory etc
+     * @param assets assets manager of the client, should be passed in by the screen object*/
     public Game(PlayerData playerData, AssetManager assets) {
-        this.playerData = playerData;
+        /**Currently non functional*/
+        this.playerData = playerData; // will eventually be read from file/server
+
+        // The box2d physics world object which all physical bodies will be placed into
         this.world = new World(new Vector2(0, -30), true);
         this.level = new Level(Gdx.files.internal("level.xml"), world, assets);
         this.player = new Player(world, assets, level.playerSpawnPos.x, level.playerSpawnPos.y);

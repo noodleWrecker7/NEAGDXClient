@@ -27,12 +27,3 @@ public class Loading extends ScreenAdapter {
         // todo render loading screen & progress bar
     }
 }
-
-
-/*client.batch.begin();
-        client.font.draw(client.batch, "Loading...", 0f,0.f);
-
-
-        client.font.draw(client.batch, Double.toString(client.assets.getProgress()*100)+"%", 0.f,-10.f);
-        client.batch.end();*/
-

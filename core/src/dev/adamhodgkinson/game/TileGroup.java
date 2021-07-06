@@ -20,7 +20,6 @@ public class TileGroup implements Physical {
         tiles = new ArrayList<>();
         world = _world;
         createBody();
-
     }
 
     public void createBody() {

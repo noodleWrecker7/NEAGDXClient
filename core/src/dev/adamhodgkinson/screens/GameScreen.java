@@ -1,15 +1,14 @@
 package dev.adamhodgkinson.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 import dev.adamhodgkinson.GDXClient;
 import dev.adamhodgkinson.PlayerData;
 import dev.adamhodgkinson.game.Game;
 import dev.adamhodgkinson.game.Tile;
+import dev.adamhodgkinson.game.UserInputHandler;
 
 public class GameScreen extends ScreenAdapter {
 
@@ -28,43 +27,10 @@ public class GameScreen extends ScreenAdapter {
     }
 
     @Override
+    /**Called immediately as the screen is made visible*/
     public void show() {
         super.show();
-        System.out.println("We here");
-
-        Gdx.input.setInputProcessor(new InputAdapter() { // temporary
-            @Override
-            public boolean keyTyped(char character) {
-//                System.out.println(character);
-//                game.getPlayer().getHit(); // to test animation switching
-                return super.keyTyped(character);
-            }
-
-            @Override
-            public boolean keyDown(int keycode) {
-//                System.out.println(keycode);
-                switch (keycode) {
-                    case 51:
-                    case 29:
-                    case 47:
-                    case 32:
-                        game.getPlayer().moveKeyDown(keycode);
-                }
-                return super.keyDown(keycode);
-            }
-
-            @Override
-            public boolean keyUp(int keycode) {
-                switch (keycode) {
-                    case 51:
-                    case 29:
-                    case 47:
-                    case 32:
-                        game.getPlayer().moveKeyUp(keycode);
-                }
-                return super.keyDown(keycode);
-            }
-        });
+        Gdx.input.setInputProcessor(new UserInputHandler(this));
     }
 
     @Override
@@ -79,7 +45,7 @@ public class GameScreen extends ScreenAdapter {
         }
 
         game.getPlayer().draw(client.batch);
-        for (int i = 0; i < game.getLevel().getEnemiesArray().size() ; i++) {
+        for (int i = 0; i < game.getLevel().getEnemiesArray().size(); i++) {
             game.getLevel().getEnemiesArray().get(i).draw(client.batch);
         }
 
@@ -90,8 +56,14 @@ public class GameScreen extends ScreenAdapter {
         game.update(dt);
     }
 
+    /**Draws the given tile to the SpriteBatch created in the client class
+     * @param t The tile to be rendered*/
     public void drawTile(Tile t) {
         client.batch.draw(gameTextures.findRegion(t.getTextureName(), t.getTextureIndex()), t.getX() - .5f, t.getY() - .5f, 1, 1); // had to add .5f as forgot coords are at center
 
+    }
+
+    public Game getGame() {
+        return game;
     }
 }
