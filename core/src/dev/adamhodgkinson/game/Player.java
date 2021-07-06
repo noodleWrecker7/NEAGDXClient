@@ -35,7 +35,7 @@ public class Player extends Sprite implements Physical {
      * @param x the x direction
      * @param y the y direction*/
     public void addMoveDir(int x, int y) {
-        movement.add(x, y);
+        movement.add(x, y*2);
         updateFlippage();
     }
 
