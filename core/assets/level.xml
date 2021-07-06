@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <ShootyStabbyLevel height="10" width="20">
     <meta>
-        <spawnpos x="1" y="3"/>
+        <spawnpos x="10" y="3"/>
         <name>Test Level</name>
     </meta>
     <Tiles> <!--permanent-->
@@ -29,6 +29,17 @@
         <solid x="13" y="0" texture="game/environment/floor" i="1"/>
         <solid x="14" y="0" texture="game/environment/floor" i="1"/>
         <solid x="15" y="0" texture="game/environment/floor" i="1"/>
+        <solid x="15" y="1" texture="game/environment/floor" i="1"/>
+        <solid x="15" y="3" texture="game/environment/floor" i="1"/>
+        <solid x="15" y="2" texture="game/environment/floor" i="1"/>
+        <solid x="15" y="4" texture="game/environment/floor" i="1"/>
+        <solid x="14" y="4" texture="game/environment/floor" i="1"/>
+        <solid x="13" y="4" texture="game/environment/floor" i="1"/>
+        <solid x="12" y="4" texture="game/environment/floor" i="1"/>
+        <solid x="11" y="4" texture="game/environment/floor" i="1"/>
+        <solid x="11" y="3" texture="game/environment/floor" i="1"/>
+        <solid x="11" y="2" texture="game/environment/floor" i="1"/>
+        <solid x="11" y="1" texture="game/environment/floor" i="1"/>
     </Tiles>
     <Enemies>
         <enemy name="big_demon" x="3" y="5" health="10"/>

@@ -7,6 +7,9 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 
 import java.util.ArrayList;
 
+/**
+ * Takes a set of tiles and simplifies them into a single shape
+ */
 public class TileMapShapeBuilder {
 
     ArrayList<Edge> edges = new ArrayList<>();
@@ -16,10 +19,6 @@ public class TileMapShapeBuilder {
         Vector2 v2 = new Vector2(t.getX() - .5f, t.getY() + .5f);
         Vector2 v3 = new Vector2(t.getX() + .5f, t.getY() + .5f);
         Vector2 v4 = new Vector2(t.getX() + .5f, t.getY() - .5f);
-        System.out.println(v1);
-        System.out.println(v2);
-        System.out.println(v3);
-        System.out.println(v4);
 
         edges.add(new Edge(v1, v2));
         edges.add(new Edge(v2, v3));
@@ -29,10 +28,15 @@ public class TileMapShapeBuilder {
 
     public ArrayList<Fixture> build(Body b) {
         deleteCommonEdges();
-        deleteCollinearEdges();
+        combineCollinearEdges();
         System.out.println(edges.size());
+        System.out.println(edges);
+        for (int i = 0; i < edges.size(); i++) {
+            Edge e = edges.get(i);
+            System.out.println(e.p2);
+        }
         ArrayList<ArrayList<Edge>> fixtures = separateToFixtures();
-        System.out.println(fixtures.size());
+        System.out.println("fixtures" + fixtures.size());
 
         return createFixtures(b, fixtures);
     }
@@ -55,7 +59,7 @@ public class TileMapShapeBuilder {
             }
             ChainShape chainShape = new ChainShape();
             // creates the chain shape from the vectors
-            if(vectors.length < 2){
+            if (vectors.length < 2) {
                 continue;
             }
             chainShape.createChain(vectors);
@@ -79,7 +83,7 @@ public class TileMapShapeBuilder {
                 Edge e1 = edges.get(i);
                 Edge e2 = edges.get(j);
                 if (e1.equals(e2)) { // if edges are the same
-                    edges.remove(e1);
+                    edges.remove(e2);
                     edges.remove(e1);
                     j--; // must decrement the counters as the array has just shrunk
                     i--;
@@ -88,17 +92,17 @@ public class TileMapShapeBuilder {
                 }
             }
         }
-        System.out.println("Deleted: " + (initialCount - edges.size()));
+        System.out.println("Deleted common edges: " + (initialCount - edges.size()));
     }
 
     /**
      * Combines two collinear edges in to one single, longer edge
      */
-    public void deleteCollinearEdges() {
+    public void combineCollinearEdges() {
         for (int i = 0; i < edges.size(); i++) {
             for (int j = 0; j < edges.size(); j++) {
                 // for each edge
-                if(i==j){
+                if (i == j) {
                     continue;
                 }
                 Edge e1 = edges.get(i);
@@ -129,8 +133,8 @@ public class TileMapShapeBuilder {
         ArrayList<Edge> fixture = new ArrayList<>(); // will make one fixture, contains all the edges of a shape
         fixture.add(edges.remove(0)); // starts off the fixture
         while (edges.size() > 0) { // while there are still edges left
-            int nextIndex = indexOfNextEdge(fixture.get(fixture.size() - 1).p2); // gets the edge which immediately suceeds the edge at the end of the fixture ArrayList
-            if (nextIndex == -1 || fixture.get(fixture.size()-1).p2.equals(fixture.get(0).p1)) { // if no edge is found
+            int nextIndex = indexOfNextEdge(fixture.get(fixture.size() - 1).p2); // gets the edge which immediately succeeds the edge at the end of the fixture ArrayList
+            if (nextIndex == -1 || fixture.get(fixture.size() - 1).p2.equals(fixture.get(0).p1)) { // if no edge is found
                 fixtures.add(fixture); // save the fixture
                 fixture = new ArrayList<>(); // reset the ArrayList
                 fixture.add(edges.remove(0));  // starts off the fixture
@@ -141,6 +145,8 @@ public class TileMapShapeBuilder {
             fixture.add(nextEdge);
             edges.remove(nextEdge);
         }
+        // can assume that as the loop exits it has found the final point and a fixture and just needs to save it
+        fixtures.add(fixture); // save the fixture
 
         return fixtures;
     }
@@ -153,6 +159,9 @@ public class TileMapShapeBuilder {
         // Iterates each edge
         for (int i = 0; i < edges.size(); i++) {
             if (edges.get(i).p1.equals(p2)) {
+                return i;
+            } else if (edges.get(i).p2.equals(p2)) {
+                edges.get(i).reverse();
                 return i;
             }
         }
@@ -174,6 +183,15 @@ class Edge {
     public Edge(Vector2 _p1, Vector2 _p2) {
         this.p1 = _p1;
         this.p2 = _p2;
+    }
+
+    /**
+     * Swaps p1 & p2
+     */
+    public void reverse() {
+        Vector2 tempVec = p1.cpy();
+        p1 = p2.cpy();
+        p2 = tempVec;
     }
 
     /**
