@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<ShootyStabbyLevel height="10" width="20">
+<ShootyStabbyLevel height="10" width="50">
     <meta>
         <spawnpos x="10" y="3"/>
         <name>Test Level</name>
@@ -15,13 +15,6 @@
         <solid x="7" y="0" texture="game/environment/floor" i="1"/>
         <solid x="8" y="0" texture="game/environment/floor" i="1"/>
         <solid x="0" y="1" texture="game/environment/floor" i="1"/>
-        <solid x="-1" y="1" texture="game/environment/floor" i="1"/>
-        <solid x="-1" y="0" texture="game/environment/floor" i="1"/>
-        <solid x="-2" y="2" texture="game/environment/floor" i="1"/>
-        <solid x="-3" y="2" texture="game/environment/floor" i="1"/>
-        <solid x="-4" y="2" texture="game/environment/floor" i="1"/>
-        <solid x="-4" y="3" texture="game/environment/floor" i="1"/>
-        <solid x="-4" y="4" texture="game/environment/floor" i="1"/>
         <solid x="9" y="0" texture="game/environment/floor" i="1"/>
         <solid x="10" y="0" texture="game/environment/floor" i="1"/>
         <solid x="11" y="0" texture="game/environment/floor" i="1"/>
@@ -37,9 +30,15 @@
         <solid x="13" y="4" texture="game/environment/floor" i="1"/>
         <solid x="12" y="4" texture="game/environment/floor" i="1"/>
         <solid x="11" y="4" texture="game/environment/floor" i="1"/>
+        <solid x="13" y="1" texture="game/environment/floor" i="1"/>
         <solid x="11" y="3" texture="game/environment/floor" i="1"/>
-        <solid x="11" y="2" texture="game/environment/floor" i="1"/>
-        <solid x="11" y="1" texture="game/environment/floor" i="1"/>
+
+        <solid x="11" y="7" texture="game/environment/floor" i="1"/>
+        <solid x="12" y="7" texture="game/environment/floor" i="1"/>
+        <solid x="10" y="7" texture="game/environment/floor" i="1"/>
+        <solid x="13" y="7" texture="game/environment/floor" i="1"/>
+        <solid x="14" y="7" texture="game/environment/floor" i="1"/>
+
     </Tiles>
     <Enemies>
         <enemy name="big_demon" x="3" y="5" health="10"/>

@@ -1,6 +1,5 @@
 package dev.adamhodgkinson.desktop;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.tools.texturepacker.TexturePacker;
@@ -10,11 +9,15 @@ public class DesktopLauncher {
     public static void main(String[] arg) {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         int zoom = 1;
-        config.width = 960 *zoom;
-        config.height = 512*zoom;
+        config.width = 960 * zoom;
+        config.height = 512 * zoom;
         config.resizable = false;
 
-        TexturePacker.process("raw", "core/assets/packed", "pack");
+
+        TexturePacker.Settings settings = new TexturePacker.Settings();
+        settings.stripWhitespaceX = true; // needed to ensure hitboxes and visuals match
+        settings.stripWhitespaceY = true;
+        TexturePacker.process(settings, "raw", "core/assets/packed", "pack");
 
         new LwjglApplication(new GDXClient(zoom), config);
     }

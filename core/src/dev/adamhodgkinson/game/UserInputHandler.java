@@ -3,7 +3,9 @@ package dev.adamhodgkinson.game;
 import com.badlogic.gdx.InputAdapter;
 import dev.adamhodgkinson.screens.GameScreen;
 
-/**Handles all user input eg key presses etc, and passes them to the relevant parts of the program*/
+/**
+ * Handles all user input eg key presses etc, and passes them to the relevant parts of the program
+ */
 public class UserInputHandler extends InputAdapter { // temporary
     GameScreen screen;
 
@@ -17,9 +19,12 @@ public class UserInputHandler extends InputAdapter { // temporary
         return super.keyDown(keycode);
     }
 
-    /**Parses the keycode and wether it is pressed or not to communicate the movement direction to the player
+    /**
+     * Parses the keycode and wether it is pressed or not to communicate the movement direction to the player
+     *
      * @param keycode the numerical id of the key being pressed
-     * @param isKeyUp wether or not the key has been pushed down or released up*/
+     * @param isKeyUp wether or not the key has been pushed down or released up
+     */
     public void moveByKeyCode(int keycode, boolean isKeyUp) {
         Player player = screen.getGame().getPlayer();
         // m is used as a multiplier to invert the direction dependant on if the key has come up or down

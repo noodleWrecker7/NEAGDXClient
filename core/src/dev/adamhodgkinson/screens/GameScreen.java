@@ -9,6 +9,8 @@ import dev.adamhodgkinson.PlayerData;
 import dev.adamhodgkinson.game.Game;
 import dev.adamhodgkinson.game.Tile;
 import dev.adamhodgkinson.game.UserInputHandler;
+import dev.adamhodgkinson.game.navigation.NavGraph;
+import dev.adamhodgkinson.game.navigation.Vertex;
 
 public class GameScreen extends ScreenAdapter {
 
@@ -50,14 +52,41 @@ public class GameScreen extends ScreenAdapter {
         }
 
         client.batch.end();
+        if (client.debug) {
+            renderNavGraph();
+        }
+    }
+
+    public void renderNavGraph() {
+        NavGraph ng = game.getLevel().getNavGraph();
+        Vertex[] vertices = ng.getNodesArray();
+        client.shapeRenderer.begin();
+        for (int i = 0; i < vertices.length; i++) {
+            Vertex v = vertices[i];
+            client.shapeRenderer.setColor(255, 255, 255, 255);
+            client.shapeRenderer.circle(v.x, v.y, .3f);
+            client.shapeRenderer.setColor(0, 255, 0, 255);
+            byte[] edges = ng.getAdjacencyMatrix()[i];
+            for (int j = 0; j < edges.length; j++) {
+                if (edges[j] > 0) {
+                    Vertex v2 = ng.getNodesArray()[j];
+                    client.shapeRenderer.line(v.x, v.y, v2.x, v2.y);
+                }
+            }
+
+        }
+        client.shapeRenderer.end();
     }
 
     public void update(float dt) {
         game.update(dt);
     }
 
-    /**Draws the given tile to the SpriteBatch created in the client class
-     * @param t The tile to be rendered*/
+    /**
+     * Draws the given tile to the SpriteBatch created in the client class
+     *
+     * @param t The tile to be rendered
+     */
     public void drawTile(Tile t) {
         client.batch.draw(gameTextures.findRegion(t.getTextureName(), t.getTextureIndex()), t.getX() - .5f, t.getY() - .5f, 1, 1); // had to add .5f as forgot coords are at center
 

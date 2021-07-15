@@ -22,6 +22,7 @@ public class GDXClient extends Game {
     public ShapeRenderer shapeRenderer;
     float zoom;
 
+    public boolean debug = true;
     public GDXClient(float zoom) {
         super();
         this.zoom = zoom;
@@ -35,8 +36,9 @@ public class GDXClient extends Game {
 
         // Creates camera and sets correct sizing and positioning
         cam = new OrthographicCamera();
-        cam.setToOrtho(false, (Gdx.graphics.getWidth() / 16) / zoom, (Gdx.graphics.getHeight() / 16) / zoom); // ortho camera, 1 unit is one tile
-        cam.position.set(0, 0, 0);
+        int pixelsPerUnit = 32;
+        cam.setToOrtho(false, (Gdx.graphics.getWidth() / pixelsPerUnit) / zoom, (Gdx.graphics.getHeight() / pixelsPerUnit) / zoom); // ortho camera, 1 unit is one tile
+        cam.position.set(5, 3, 0);
         cam.update();
 
         // Sets correct camera viewports for renderers

@@ -1,0 +1,93 @@
+package dev.adamhodgkinson.game.navigation;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
+public class NavGraph {
+    Vertex[] nodesArray;
+    ArrayList<Vertex> initalNodes = new ArrayList();
+    /**
+     * To save time accessing finding a nodes index
+     */
+    final int[][] coordToIndexMap;
+    byte[][] adjacencyMatrix;
+    boolean compiled = false;
+
+    public byte[][] getAdjacencyMatrix() {
+        return adjacencyMatrix;
+    }
+
+    public NavGraph(int mapWidth, int mapHeight) {
+        coordToIndexMap = new int[mapWidth][mapHeight];
+        // fills with default, invalid values
+        for (int i = 0; i < mapWidth; i++) {
+            Arrays.fill(coordToIndexMap[i], -1);
+        }
+
+    }
+
+    public int addVertex(short x, short y) {
+        return addVertex(new Vertex(x, y));
+    }
+
+    public Vertex[] getNodesArray() {
+        return nodesArray;
+    }
+
+    /**
+     * Registers a vertex to the graph, does nothing if compile() has already been called
+     *
+     * @return index of node
+     */
+    public int addVertex(Vertex v) {
+        if (compiled) {
+            return -1;
+        }
+        initalNodes.add(v);
+        int index = initalNodes.size() - 1;
+        if (index == Integer.MAX_VALUE - 1) { // shouldn't ever actually be able to happen
+            return -1;
+        }
+        coordToIndexMap[v.x][v.y] = index;
+        System.out.println(index);
+        return index;
+    }
+
+    /**
+     * Finalizes node list and creates empty adjacency matrix
+     */
+    public void compile() {
+        nodesArray = new Vertex[initalNodes.size()];
+        initalNodes.toArray(nodesArray);
+        initalNodes.clear();
+        initalNodes = null;
+        adjacencyMatrix = new byte[nodesArray.length][nodesArray.length];
+        System.out.println("adj matrix");
+    }
+
+    /**
+     * Directional from 1 to 2
+     */
+    public void addEdge(short x1, short y1, short x2, short y2, byte weight) {
+        int index1 = coordToIndexMap[x1][y1];
+        int index2 = coordToIndexMap[x2][y2];
+        adjacencyMatrix[index1][index2] = weight;
+    }
+
+    public void addBiDirEdge(short x1, short y1, short x2, short y2, byte weight) {
+        addEdge(x1, y1, x2, y2, weight);
+        addEdge(x2, y2, x1, y1, weight);
+    }
+
+    public Vertex getVertexByCoords(short x, short y) {
+        if (x < 0 || y < 0) {
+            return null;
+        }
+        int index = coordToIndexMap[x][y];
+        if (index < 0) {
+            return null;
+        }
+        return nodesArray[index];
+
+    }
+}

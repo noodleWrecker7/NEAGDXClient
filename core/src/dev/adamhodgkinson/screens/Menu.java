@@ -37,7 +37,7 @@ public class Menu extends ScreenAdapter {
         String[] buttonNames = {"ButtonLevelSelect", "ButtonMultiplayer", "ButtonInventory", "ButtonOptions", "ButtonExit"};
 
 
-        float topMargin = 10f;
+        float topMargin = 5f; // needs to be tied to viewport scale
         float verticalSpacePerButton = (client.cam.viewportHeight - topMargin) / buttonNames.length;
 
 

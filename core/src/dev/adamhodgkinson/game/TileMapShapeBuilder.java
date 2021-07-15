@@ -67,7 +67,7 @@ public class TileMapShapeBuilder {
             if (vectors.length < 2) {
                 continue;
             }
-            chainShape.createChain(vectors);
+            chainShape.createLoop(vectors); // should be loop to ensure shape is complete
             physicsFixtures.add(b.createFixture(chainShape, 1));
             System.out.println("Made a shape");
         }

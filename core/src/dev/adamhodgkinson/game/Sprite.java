@@ -23,8 +23,8 @@ public class Sprite extends Animated implements Physical {
     public Sprite(World world, float x, float y, float density, float speed, float friction, float linearDamping, String textureName, AssetManager assets) {
         TextureAtlas atlas = assets.get("packed/pack.atlas");
         String prefix = "game/sprites/" + textureName;
-        width = (float) atlas.findRegions(prefix + "_idle_anim").get(0).originalWidth / 8;
-        height = (float) atlas.findRegions(prefix + "_idle_anim").get(0).originalHeight / 8;
+        width = (float) atlas.findRegions(prefix + "_idle_anim").get(0).packedWidth / 16;
+        height = (float) atlas.findRegions(prefix + "_idle_anim").get(0).packedHeight / 16;
         setDefaultAnims(assets, textureName);
 
         BodyDef def = new BodyDef();
@@ -37,7 +37,7 @@ public class Sprite extends Animated implements Physical {
         // main fixture
         FixtureDef fix = new FixtureDef();
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(width / 2, (height / 2) - height / 8); // height/8 accounts for whitespace in texture
+        shape.setAsBox(width / 2, (height / 2)); // height/8 accounts for whitespace in texture
         fix.shape = shape;
         fix.density = density;
         fix.friction = friction;
@@ -59,7 +59,9 @@ public class Sprite extends Animated implements Physical {
 
     public void draw(SpriteBatch batch) {
         Vector2 pos = this.getPos();
-        batch.draw(this.getFrame(), pos.x - width / 2, pos.y - height / 2 + height / 8, width, height); /* had to add coord offsets to account for being at center of object + weird height/8 offset accounts for extra whitespace in texture   */
+        TextureRegion frame = this.getFrame();
+        // gets width each frame as it can change
+        batch.draw(frame, pos.x - width / 2, pos.y - height / 2, frame.getRegionWidth() / 16.f, frame.getRegionHeight() / 16.f); /* had to add coord offsets to account for being at center of object + weird height/8 offset accounts for extra whitespace in texture   */
     }
 
     public Vector2 getPos() {

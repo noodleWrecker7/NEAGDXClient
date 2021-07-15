@@ -1,16 +1,17 @@
 package dev.adamhodgkinson.game;
 
-import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.World;
 
 import java.util.ArrayList;
 
 public class TileGroup implements Physical {
     GameBodyType type;
-    private ArrayList<Tile> tiles;
+    private final ArrayList<Tile> tiles;
     Body body;
-    Fixture fixture;
     World world;
-    ChainShape chainShape;
 
     public ArrayList<Tile> getTiles() {
         return tiles;
@@ -22,6 +23,15 @@ public class TileGroup implements Physical {
         createBody();
     }
 
+    public Tile findTileByCoords(int x, int y) {
+        for (int i = 0; i < tiles.size(); i++) {
+            if (tiles.get(i).getX() == x && tiles.get(i).getY() == y) {
+                return tiles.get(i);
+            }
+        }
+        return null;
+    }
+
     public void createBody() {
         if (body != null) {
             world.destroyBody(body);
@@ -31,16 +41,15 @@ public class TileGroup implements Physical {
         body = world.createBody(def);
 
         body.setUserData(this);
-        fixtures = new ArrayList<>();
+        fixtures = null;
     }
 
-    ArrayList<Fixture> fixtures = new ArrayList<>();
+    ArrayList<Fixture> fixtures;
 
     protected void build() {
         createBody();
         TileMapShapeBuilder builder = new TileMapShapeBuilder();
-        for (int i = 0; i < tiles.size(); i++) {
-            Tile t = tiles.get(i);
+        for (Tile t : tiles) {
             builder.addTile(t);
         }
         fixtures = builder.build(body);
@@ -52,6 +61,7 @@ public class TileGroup implements Physical {
         tiles.add(t);
 
     }
+
     public void setBodyType(GameBodyType type) {
         this.type = type;
     }

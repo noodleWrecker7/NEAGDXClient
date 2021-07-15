@@ -6,7 +6,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import dev.adamhodgkinson.PlayerData;
 
-/**Contains all the logic of the game itself, should remain abstracted from any render logic*/
+/**
+ * Contains all the logic of the game itself, should remain abstracted from any render logic
+ */
 public class Game {
     Level level;
     PlayerData playerData;
@@ -25,9 +27,12 @@ public class Game {
         return level;
     }
 
-    /**Initialises all game data
+    /**
+     * Initialises all game data
+     *
      * @param playerData contains player's data eg equipped weapons and inventory etc
-     * @param assets assets manager of the client, should be passed in by the screen object*/
+     * @param assets     assets manager of the client, should be passed in by the screen object
+     */
     public Game(PlayerData playerData, AssetManager assets) {
         /**Currently non functional*/
         this.playerData = playerData; // will eventually be read from file/server
@@ -66,6 +71,9 @@ public class Game {
         //
         world.step(dt, 10, 10);
         player.update(dt);
+        for (int i = 0; i < level.getEnemiesArray().size(); i++) {
+            level.getEnemiesArray().get(i).update(dt);
+        }
     }
 }
 
