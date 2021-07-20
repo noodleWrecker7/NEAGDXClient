@@ -22,7 +22,7 @@ public class GDXClient extends Game {
     public ShapeRenderer shapeRenderer;
     float zoom;
 
-    public boolean debug = true;
+    public boolean debug = false;
     public GDXClient(float zoom) {
         super();
         this.zoom = zoom;

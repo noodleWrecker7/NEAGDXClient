@@ -5,7 +5,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.tools.texturepacker.TexturePacker;
 import dev.adamhodgkinson.GDXClient;
 
-public class DesktopLauncher {
+public class DevLauncher {
     public static void main(String[] arg) {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         int zoom = 1;
@@ -14,11 +14,13 @@ public class DesktopLauncher {
         config.resizable = false;
 
 
-//        TexturePacker.Settings settings = new TexturePacker.Settings();
-//        settings.stripWhitespaceX = true; // needed to ensure hitboxes and visuals match
-//        settings.stripWhitespaceY = true;
-//        TexturePacker.process(settings, "raw", "packed", "pack");
+        TexturePacker.Settings settings = new TexturePacker.Settings();
+        settings.stripWhitespaceX = true; // needed to ensure hitboxes and visuals match
+        settings.stripWhitespaceY = true;
+        TexturePacker.process(settings, "../../raw", "packed", "pack");
 
-        new LwjglApplication(new GDXClient(zoom), config);
+        GDXClient client = new GDXClient(zoom);
+        client.debug = true;
+        new LwjglApplication(client, config);
     }
 }
