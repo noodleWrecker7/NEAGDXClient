@@ -17,10 +17,11 @@ public class Sprite extends Animated implements Physical {
     float height;
 
     public Sprite(World world, float x, float y, String textureName, AssetManager assets) {
-        this(world, x, y, 5, 8f, .6f, 0, textureName, assets);
+        this(world, x, y, 5, 8f, 4f, 0, textureName, assets);
     }
 
     public Sprite(World world, float x, float y, float density, float speed, float friction, float linearDamping, String textureName, AssetManager assets) {
+        this.speed = speed;
         TextureAtlas atlas = assets.get("packed/pack.atlas");
         String prefix = "game/sprites/" + textureName;
         width = (float) atlas.findRegions(prefix + "_idle_anim").get(0).packedWidth / 16;

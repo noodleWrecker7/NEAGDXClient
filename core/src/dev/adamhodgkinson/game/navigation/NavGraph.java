@@ -10,10 +10,10 @@ public class NavGraph {
      * To save time accessing finding a nodes index
      */
     final int[][] coordToIndexMap;
-    byte[][] adjacencyMatrix;
+    Arc[][] adjacencyMatrix;
     boolean compiled = false;
 
-    public byte[][] getAdjacencyMatrix() {
+    public Arc[][] getAdjacencyMatrix() {
         return adjacencyMatrix;
     }
 
@@ -61,22 +61,31 @@ public class NavGraph {
         initalNodes.toArray(nodesArray);
         initalNodes.clear();
         initalNodes = null;
-        adjacencyMatrix = new byte[nodesArray.length][nodesArray.length];
+        adjacencyMatrix = new Arc[nodesArray.length][nodesArray.length];
         System.out.println("adj matrix");
     }
 
     /**
      * Directional from 1 to 2
      */
-    public void addEdge(short x1, short y1, short x2, short y2, byte weight) {
+    public Arc addLinearEdge(short x1, short y1, short x2, short y2, byte weight) {
         int index1 = coordToIndexMap[x1][y1];
         int index2 = coordToIndexMap[x2][y2];
-        adjacencyMatrix[index1][index2] = weight;
+        adjacencyMatrix[index1][index2] = new Arc(weight);
+        return adjacencyMatrix[index1][index2];
     }
 
-    public void addBiDirEdge(short x1, short y1, short x2, short y2, byte weight) {
-        addEdge(x1, y1, x2, y2, weight);
-        addEdge(x2, y2, x1, y1, weight);
+    public JumpArc addJumpEdge(short x1, short y1, short x2, short y2, byte weight, double xSpeed, double jumpSpeed) {
+        int index1 = coordToIndexMap[x1][y1];
+        int index2 = coordToIndexMap[x2][y2];
+        JumpArc arc = new JumpArc(weight, xSpeed, jumpSpeed);
+        adjacencyMatrix[index1][index2] = arc;
+        return arc;
+    }
+
+    public void addBiDirEdge(short x1, short y1, short x2, short y2, byte weight, boolean isJump) {
+        addLinearEdge(x1, y1, x2, y2, weight);
+        addLinearEdge(x2, y2, x1, y1, weight);
     }
 
     public Vertex getVertexByCoords(short x, short y) {
