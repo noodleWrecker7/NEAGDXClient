@@ -50,13 +50,14 @@ public class NavGraphBuilder {
 					continue;
 				}
 				// the calculated jump speed to jump from the start to the destination node
-				final double speed = findHorizontalSpeedForJump(dx, dy, jumpSpeed);
+				final double[] speed = findHorizontalSpeedForJump(dx, dy, jumpSpeed);
 				// if the jump cannot be made
-				if (speed == 0) {
+				if (speed == null) {
 					dx++;
 					dy = 0;
 					continue;
 				}
+				isValid
 				// calculates the weight by the horizontal distance, multiplied by the ratio of
 				// the maxXSpeed to the calculated xSpeed
 				// which means that for any pair of nodes in a jumpArc, the weight is inversely
@@ -82,9 +83,10 @@ public class NavGraphBuilder {
 			sign = -1;
 		}
 		float x, y;
-		for (float xOffset = -0.5f; xOffset <= 0.5f; xOffset += 1.f) {
-			for (float yOffset = -0.5f; yOffset <= 1.5f; yOffset += 2.f) {
-				for (float interpolate = 0; interpolate <= totalInterpolates; interpolate++) {
+
+		for (float interpolate = 0; interpolate <= totalInterpolates; interpolate++) {
+			for (float xOffset = -0.5f; xOffset <= 0.5f; xOffset += 1.f) {
+				for (float yOffset = -0.5f; yOffset <= 1.5f; yOffset += 2.f) {
 					x = startX + 1 / interpolatesPerTile * interpolate * sign + xOffset;
 
 					y = f(x - startX - xOffset, horizSpeed, jumpSpeed) + startY + yOffset;
@@ -146,17 +148,15 @@ public class NavGraphBuilder {
 
 	}
 
-	public double findHorizontalSpeedForJump(int x, int y, float jumpSpeed) { // returns the horizontal speed to make a
+	public double[] findHorizontalSpeedForJump(int x, int y, float jumpSpeed) { // returns the horizontal speed to make
+																				// a
 																				// jump the specified distances
 		final double discriminant = jumpSpeed * jumpSpeed * x * x + 2 * y * gravity * x * x;
 		if (discriminant < 0)
-			return 0;
+			return null;
 		final double speed1 = (jumpSpeed * x + Math.sqrt(discriminant)) / (2 * y);
 		final double speed2 = (jumpSpeed * x - Math.sqrt(discriminant)) / (2 * y);
-		if (Math.abs(speed1) < Math.abs(speed2))
-			return speed1;
-		else
-			return speed2;
+		return new double[] { speed1, speed2 };
 
 	}
 
