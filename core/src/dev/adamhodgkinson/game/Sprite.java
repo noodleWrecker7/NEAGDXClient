@@ -21,6 +21,7 @@ public class Sprite extends Animated implements Physical {
 	boolean isRunning = false;
 	float width;
 	float height;
+	Weapon weapon;
 
 	public Sprite(World world, float x, float y, String textureName, AssetManager assets) {
 		this(world, x, y, 5, 8f, 4f, 0, textureName, assets);

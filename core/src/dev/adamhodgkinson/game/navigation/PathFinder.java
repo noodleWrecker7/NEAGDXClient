@@ -11,6 +11,6 @@ class PathFinder {
 	}
 
 	Vertex[] search() {
-
+		return null;
 	}
 }
