@@ -48,7 +48,7 @@ public class GDXClient extends Game {
         assets = new AssetManager(); // manages loading of multiple assets asynchronously
 
         // todo important, remember to mention in design that there used to be multiple atlases
-        assets.load("packed/pack.atlas", TextureAtlas.class);
+        assets.load("core/assets/packed/pack.atlas", TextureAtlas.class);
 
         // Standard font for use throughout the game
         font = new BitmapFont();

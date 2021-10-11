@@ -21,7 +21,7 @@ public class Sprite extends Animated implements Physical {
     }
 
     public Sprite(World world, float x, float y, float density, float speed, float friction, float linearDamping, String textureName, AssetManager assets) {
-        TextureAtlas atlas = assets.get("packed/pack.atlas");
+        TextureAtlas atlas = assets.get("core/assets/packed/pack.atlas");
         String prefix = "game/sprites/" + textureName;
         width = (float) atlas.findRegions(prefix + "_idle_anim").get(0).packedWidth / 16;
         height = (float) atlas.findRegions(prefix + "_idle_anim").get(0).packedHeight / 16;
@@ -46,7 +46,7 @@ public class Sprite extends Animated implements Physical {
     }
 
     public void setDefaultAnims(AssetManager assets, String textureName) {
-        TextureAtlas atlas = assets.get("packed/pack.atlas");
+        TextureAtlas atlas = assets.get("core/assets/packed/pack.atlas");
         String prefix = "game/sprites/" + textureName;
         Animation<TextureRegion> runAnimation = new Animation<TextureRegion>(.15f, atlas.findRegions(prefix + "_run_anim"), Animation.PlayMode.LOOP);
         Animation<TextureRegion> hitAnimation = new Animation<TextureRegion>(.5f, atlas.findRegions(prefix + "_hit_anim"), Animation.PlayMode.NORMAL);

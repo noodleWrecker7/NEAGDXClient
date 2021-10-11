@@ -21,7 +21,7 @@ public class Menu extends ScreenAdapter {
         this.client = app;
 
         Skin skin = new Skin(); // will store texture data
-        TextureAtlas texAtlas = client.assets.get("packed/pack.atlas");
+        TextureAtlas texAtlas = client.assets.get("core/assets/packed/pack.atlas");
         skin.addRegions(texAtlas);
 
         float scaleFactor = (client.cam.viewportWidth / 4) / texAtlas.findRegion("Menu/ButtonLevelSelect").originalWidth; // desired width / current width
