@@ -9,6 +9,7 @@ import dev.adamhodgkinson.PlayerData;
 import dev.adamhodgkinson.game.Game;
 import dev.adamhodgkinson.game.Tile;
 import dev.adamhodgkinson.game.UserInputHandler;
+import dev.adamhodgkinson.game.navigation.Arc;
 import dev.adamhodgkinson.game.navigation.NavGraph;
 import dev.adamhodgkinson.game.navigation.Vertex;
 
@@ -66,9 +67,9 @@ public class GameScreen extends ScreenAdapter {
             client.shapeRenderer.setColor(255, 255, 255, 255);
             client.shapeRenderer.circle(v.x, v.y, .3f);
             client.shapeRenderer.setColor(0, 255, 0, 255);
-            byte[] edges = ng.getAdjacencyMatrix()[i];
+            Arc[] edges = ng.getAdjacencyMatrix()[i];
             for (int j = 0; j < edges.length; j++) {
-                if (edges[j] > 0) {
+                if (edges[j] != null) {
                     Vertex v2 = ng.getNodesArray()[j];
                     client.shapeRenderer.line(v.x, v.y, v2.x, v2.y);
                 }

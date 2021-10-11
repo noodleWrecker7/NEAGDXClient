@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import dev.adamhodgkinson.game.enemies.Enemy;
 import dev.adamhodgkinson.game.navigation.NavGraph;
+import dev.adamhodgkinson.game.navigation.NavGraphBuilder;
 import dev.adamhodgkinson.game.navigation.Vertex;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
@@ -74,29 +75,9 @@ public class Level {
         }
         solids.build();
         solids.setBodyType(GameBodyType.TILE_SOLID);
-        ArrayList<Tile> tiles = solids.getTiles();
-        navGraph = new NavGraph(width, height);
-        for (int i = 0; i < tiles.size(); i++) {
-            Tile t = tiles.get(i);
-            boolean valid = true;
-            for (int j = 1; j <= 2; j++) {
-                if (solids.findTileByCoords(t.getX(), t.getY() + j) != null) {
-                    valid = false;
-                    break;
-                }
-            }
-            if (valid) {
-                navGraph.addVertex(t.getX(), (short) (t.getY() + 1));
-            }
-        }
-        navGraph.compile();
-        // add edges
-        for (int i = 0; i < navGraph.getNodesArray().length; i++) {
-            Vertex v = navGraph.getNodesArray()[i];
-            if (navGraph.getVertexByCoords((short) (v.x - 1), v.y) != null) {
-                navGraph.addBiDirEdge(v.x, v.y, (short) (v.x - 1), v.y, (byte) 1);
-            }
-        }
+        NavGraphBuilder navGraphBuilder = new NavGraphBuilder(width, height, solids, 10, 16, world.getGravity().y);
+        navGraph = navGraphBuilder.finish();
+
 
         // load enemies
         NodeList enemies = doc.getElementsByTagName("enemy");
