@@ -1,14 +1,14 @@
 package dev.adamhodgkinson.game;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-
 import dev.adamhodgkinson.game.UserInputHandler.Action;
 
-public class Player extends Sprite implements Physical {
+public class Player extends GameSprite {
 
     GameBodyType type = GameBodyType.PLAYER;
     State _state = State.IDLE;
@@ -22,18 +22,17 @@ public class Player extends Sprite implements Physical {
         final float sensorHeight = .4f;
 
         // sensor
-        final FixtureDef sensorFixtureDef = new FixtureDef();
+        final FixtureDef sensorFixtureDef = new FixtureDef(); // for jumps / detecting if on ground
         final PolygonShape shape2 = new PolygonShape();
         shape2.setAsBox(width / 2, sensorHeight / 2, new Vector2(0, -height / 2), 0);
         sensorFixtureDef.isSensor = true;
         sensorFixtureDef.shape = shape2;
         body.createFixture(sensorFixtureDef);
 
-        body.setUserData(this);
-
         //fixme temporary
         //todo rename all weapons to remove weapon_ prefix
-        this.weapon = new MeleeWeapon(10, 3, 1000, "game/weapons/weapon_anime_sword");
+        TextureAtlas atlas = assets.get("core/assets/packed/pack.atlas");
+        this.weapon = new MeleeWeapon(10, 3, 1000, atlas.findRegion("game/weapons/weapon_anime_sword"), body);
     }
 
     public void handleInput(Action input) {

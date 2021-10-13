@@ -1,27 +1,16 @@
 package dev.adamhodgkinson.game.enemies;
 
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
-import dev.adamhodgkinson.game.Animated;
 import dev.adamhodgkinson.game.Physical;
-import dev.adamhodgkinson.game.Sprite;
-import org.w3c.dom.Element;
+import dev.adamhodgkinson.game.GameSprite;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class Enemy extends Sprite implements Physical {
+public class Enemy extends GameSprite {
     float health;
     Vector2 spawnPos; // where the enemy started
     int moveRange; // how far the enemy can move from its spawn point
