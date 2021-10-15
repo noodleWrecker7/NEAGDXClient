@@ -47,6 +47,12 @@ public class Enemy extends GameSprite {
     public void render(SpriteBatch batch) {
 
     }
+    /**Sets the target to the supplied gamesprite
+     * @param target - the object to target
+     * @return boolean representing wether the action succeeded*/
+    public boolean setTarget(GameSprite target){
+        return false;
+    }
 
     @Override
     public void beginCollide(Fixture fixture) {

@@ -32,12 +32,13 @@ public class Player extends GameSprite {
         //fixme temporary
         //todo rename all weapons to remove weapon_ prefix
         TextureAtlas atlas = assets.get("core/assets/packed/pack.atlas");
-        this.weapon = new MeleeWeapon(10, 3, 1000, atlas.findRegion("game/weapons/weapon_anime_sword"), body);
+        this.weapon = new MeleeWeapon(10, 3, 1000, atlas.findRegion("game/weapons/weapon_hammer"), this);
     }
 
     public void handleInput(Action input) {
         switch (_state) {
             case RUNNING:
+            case IDLE:
                 if (input == Action.JUMP) {
                     jump();
                 }
@@ -47,12 +48,9 @@ public class Player extends GameSprite {
                 handleLeftRightMovement(input);
                 _state = State.JUMPING;
                 break;
-            case IDLE:
-                if (input == Action.JUMP) {
-                    jump();
-                }
-                handleLeftRightMovement(input);
-                break;
+        }
+        if (input == Action.ATTACK) {
+            this.weapon.attack();
         }
     }
 
@@ -62,16 +60,12 @@ public class Player extends GameSprite {
     public void handleLeftRightMovement(Action input) {
         switch (input) {
             case MOVE_LEFT_END:
+            case MOVE_RIGHT_START:
                 addMoveDir(1, 0);
                 break;
             case MOVE_LEFT_START:
-                addMoveDir(-1, 0);
-                break;
             case MOVE_RIGHT_END:
                 addMoveDir(-1, 0);
-                break;
-            case MOVE_RIGHT_START:
-                addMoveDir(1, 0);
                 break;
         }
     }

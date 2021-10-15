@@ -35,6 +35,11 @@ abstract public class Weapon extends Sprite {
         this.setRotation(absoluteRotation * rotationfFlip);
     }
 
+    abstract public void update(float dt);
+
+    /**
+     * Performs an attack
+     */
     abstract public void attack();
 
 }

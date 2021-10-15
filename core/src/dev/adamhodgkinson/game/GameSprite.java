@@ -21,7 +21,7 @@ public class GameSprite extends Animated implements Physical {
 
     public void takeDamage(float amt) {
         this.health -= amt;
-        System.out.println("damaged");
+        System.out.println("damaged: " + amt);
     }
 
     public GameSprite(World world, float x, float y, String textureName, AssetManager assets) {
@@ -130,6 +130,9 @@ public class GameSprite extends Animated implements Physical {
         } else if (isRunning && body.getLinearVelocity().x < 0.2 && body.getLinearVelocity().x > -0.2) {
             isRunning = false;
             playAnimation("idle");
+        }
+        if (this.weapon != null) {
+            this.weapon.update(dt);
         }
     }
 
