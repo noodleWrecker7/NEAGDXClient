@@ -34,14 +34,10 @@ public class TileMapShapeBuilder {
     public ArrayList<Fixture> build(Body b) {
         deleteCommonEdges();
         combineCollinearEdges();
-        System.out.println(edges.size());
-        System.out.println(edges);
         for (int i = 0; i < edges.size(); i++) {
             Edge e = edges.get(i);
-            System.out.println(e.p2);
         }
         ArrayList<ArrayList<Edge>> polygons = separateToPolygons();
-        System.out.println("polygons" + polygons.size());
 
         return createFixtures(b, polygons);
     }
@@ -53,14 +49,12 @@ public class TileMapShapeBuilder {
         // Array of box2d fixtures to be returned
         ArrayList<Fixture> physicsFixtures = new ArrayList<>();
         // for each set of data
-        System.out.println(fixtures.size());
         for (int i = 0; i < fixtures.size(); i++) {
             ArrayList<Edge> fixture = fixtures.get(i);
             Vector2[] vectors = new Vector2[fixture.size()];
             // Gets the first point on each edge, and adds to an ArrayList of vectors
             for (int j = 0; j < fixture.size(); j++) {
                 vectors[j] = fixture.get(j).p1;
-                System.out.println(vectors[j]);
             }
             ChainShape chainShape = new ChainShape();
             // creates the chain shape from the vectors
@@ -69,9 +63,7 @@ public class TileMapShapeBuilder {
             }
             chainShape.createLoop(vectors); // should be loop to ensure shape is complete
             physicsFixtures.add(b.createFixture(chainShape, 1));
-            System.out.println("Made a shape");
         }
-        System.out.println("finished making shapes");
         return physicsFixtures;
     }
 

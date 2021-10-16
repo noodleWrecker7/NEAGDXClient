@@ -47,14 +47,13 @@ public class TileGroup implements Physical {
     ArrayList<Fixture> fixtures;
 
     protected void build() {
+        System.out.println("Building tile group");
         createBody();
         TileMapShapeBuilder builder = new TileMapShapeBuilder();
         for (Tile t : tiles) {
             builder.addTile(t);
         }
         fixtures = builder.build(body);
-
-        System.out.println("Built");
     }
 
     protected void addTile(Tile t) {

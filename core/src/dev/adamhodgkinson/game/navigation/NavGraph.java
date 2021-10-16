@@ -49,7 +49,6 @@ public class NavGraph {
 		if (index == Integer.MAX_VALUE - 1)
 			return -1;
 		coordToIndexMap[v.x][v.y] = index;
-		System.out.println(index);
 		return index;
 	}
 
@@ -62,7 +61,6 @@ public class NavGraph {
 		initalNodes.clear();
 		initalNodes = null;
 		adjacencyMatrix = new Arc[nodesArray.length][nodesArray.length];
-		System.out.println("adj matrix");
 	}
 
 	/**

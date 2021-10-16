@@ -63,7 +63,6 @@ public class Menu extends ScreenAdapter {
                     // handle input here
                     // change screen etc
                     goToButtonTarget(event.getListenerActor().getName());
-                    System.out.println("hello");
                 }
             });
         }
