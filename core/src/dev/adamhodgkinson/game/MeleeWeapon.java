@@ -56,10 +56,13 @@ public class MeleeWeapon extends Weapon implements Physical {
         this.setRotation((absoluteRotation + animationRotation) * rotationfFlip);
     }
 
+    @Override
     public void destroy() {
         World world = body.getWorld();
         world.destroyJoint(joint);
         world.destroyBody(body);
+        collidingBodies = null;
+        parentSprite = null;
     }
 
     @Override

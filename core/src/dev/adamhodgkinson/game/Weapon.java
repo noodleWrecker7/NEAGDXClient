@@ -15,6 +15,8 @@ abstract public class Weapon extends Sprite {
     // negative is facing right
     int rotationfFlip = -1;
 
+    abstract public void destroy();
+
     public Weapon(int _damage, int _range, int _attackspeed, TextureRegion _texture) {
         super(_texture);
         damage = _damage;

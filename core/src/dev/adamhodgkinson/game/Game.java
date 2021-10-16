@@ -5,6 +5,8 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import dev.adamhodgkinson.PlayerData;
+import dev.adamhodgkinson.game.enemies.Enemy;
+import dev.adamhodgkinson.game.navigation.PathFinder;
 
 /**
  * Contains all the logic of the game itself, should remain abstracted from any
@@ -15,6 +17,7 @@ public class Game {
     PlayerData playerData;
     Player player;
     World world;
+    PathFinder pathFinder;
 
     public Player getPlayer() {
         return player;
@@ -42,8 +45,11 @@ public class Game {
 
         // The box2d physics world object which all physical bodies will be placed into
         world = new World(new Vector2(0, -30), true); // Given vector is gravity
-        level = new Level(Gdx.files.internal("core/assets/level.xml"), world, assets);
-        player = new Player(world, assets, level.playerSpawnPos.x, level.playerSpawnPos.y);
+        level = new Level(Gdx.files.internal("core/assets/level.xml"), world, assets, this);
+        player = new Player(world, assets, level.playerSpawnPos.x, level.playerSpawnPos.y, level);
+        for (Enemy e : level.getEnemiesArray()) {
+            e.setTarget(player);
+        }
 
         world.setContactListener(new ContactListener() {
             @Override
@@ -73,16 +79,24 @@ public class Game {
 
             }
         });
+        pathFinder = new PathFinder(level.navGraph);
+        Enemy.pathFinder = pathFinder;
     }
 
     public void update(float dt) {
         // processes the physics simulation
         world.step(dt, 10, 10);
         player.update(dt);
-        // iterates through each enemy to update them
-        for (int i = 0; i < level.getEnemiesArray().size(); i++) {
-            level.getEnemiesArray().get(i).update(dt);
-        }
+
+        level.update(dt);
+        /*int len = level.navGraph.getNodesArray().length - 1;
+        int n1 = (int) Math.round(Math.random() * len);
+        int n2 = (int) Math.round(Math.random() * len);
+        System.out.println("pathfind : " + n1 + ", " + n2);
+        long startTime = System.nanoTime();
+        pathFinder.search(n1, n2);
+        long endTime = System.nanoTime();
+        System.out.println("Time to pathfind: " + (float) (endTime - startTime) / 1000000f);*/
     }
 }
 

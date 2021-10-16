@@ -1,9 +1,9 @@
 package dev.adamhodgkinson.game.navigation;
 
 public class Arc {
-    final public byte weight;
+    final public short weight;
 
-    public Arc(byte weight) {
+    public Arc(short weight) {
         this.weight = weight;
     }
 

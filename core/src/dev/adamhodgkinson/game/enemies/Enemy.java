@@ -2,10 +2,14 @@ package dev.adamhodgkinson.game.enemies;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 import dev.adamhodgkinson.game.GameSprite;
+import dev.adamhodgkinson.game.Player;
+import dev.adamhodgkinson.game.navigation.PathFinder;
+import dev.adamhodgkinson.game.navigation.Vertex;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
@@ -14,7 +18,12 @@ public class Enemy extends GameSprite {
     Vector2 spawnPos; // where the enemy started
     int moveRange; // how far the enemy can move from its spawn point
     static final float healthBarHeight = 0.2f;
-
+    int targetRange = 20; // what range a target must be within to target it
+    Player target;
+    long timeOfLastPathFind = System.currentTimeMillis();
+    static final long timeBetweenPathFinds = 5000;
+    public static PathFinder pathFinder;
+    int[] path;
 
     public static Enemy createFromNode(Node node, AssetManager assets, World world) {
         NamedNodeMap attr = node.getAttributes();
@@ -29,7 +38,6 @@ public class Enemy extends GameSprite {
         return e;
     }
 
-    //Weapon weapon;
     public Enemy(AssetManager assets, String textureName, World world, int x, int y) {
         super(world, x, y, textureName, assets);
 
@@ -43,9 +51,22 @@ public class Enemy extends GameSprite {
     public void die() {
     }
 
+    @Override
     public void update(float dt) {
         super.update(dt);
+        if (target == null) {
+            return;
+        }
+        if (System.currentTimeMillis() - timeOfLastPathFind > timeBetweenPathFinds) {
+            if (target.getLastValidPosition().dst(Math.round(getPos().x), Math.round(getPos().y)) < targetRange) {
+                Vertex[] path = pathFinder.search(new GridPoint2(Math.round(getPos().x), Math.round(getPos().y)), target.getLastValidPosition());
+                if (path == null) {
+                    return;
+                }
+                timeOfLastPathFind = System.currentTimeMillis();
 
+            }
+        }
     }
 
 
@@ -62,11 +83,10 @@ public class Enemy extends GameSprite {
     /**
      * Sets the target to the supplied gamesprite
      *
-     * @param target - the object to target
-     * @return boolean representing wether the action succeeded
+     * @param _target - the object to target
      */
-    public boolean setTarget(GameSprite target) {
-        return false;
+    public void setTarget(Player _target) {
+        target = _target;
     }
 
     @Override

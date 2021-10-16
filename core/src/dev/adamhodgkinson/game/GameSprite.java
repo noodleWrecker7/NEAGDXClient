@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
-public class GameSprite extends Animated implements Physical {
+abstract public class GameSprite extends Animated implements Physical {
     Vector2 movement = new Vector2();
     Body body;
     float speed;
@@ -19,6 +19,14 @@ public class GameSprite extends Animated implements Physical {
     Weapon weapon;
     protected float health;
     protected float maxHealth;
+    boolean jumpAvailable = true;
+
+    public void destroy(World world) {
+        world.destroyBody(body);
+        if (weapon != null) {
+            weapon.destroy();
+        }
+    }
 
     public void takeDamage(float amt, float knockback, GameSprite from) {
         this.health -= amt;
@@ -67,6 +75,19 @@ public class GameSprite extends Animated implements Physical {
         this.health = this.maxHealth = 10;
 
     }
+
+    public void jump() {
+        jump(jumpSpeed);
+    }
+
+    public boolean jump(float _jumpSpeed) {
+        if (_jumpSpeed > jumpSpeed) {
+            return false;
+        }
+        body.setLinearVelocity(body.getLinearVelocity().x, _jumpSpeed);
+        return true;
+    }
+
 
     public void setDefaultAnims(AssetManager assets, String textureName) {
         final TextureAtlas atlas = assets.get("core/assets/packed/pack.atlas");
@@ -153,9 +174,20 @@ public class GameSprite extends Animated implements Physical {
         System.out.println("dead");
     }
 
+
+    public boolean isDead() {
+        return health <= 0;
+    }
+
+    public void onGround() {
+        jumpAvailable = true;
+    }
+
     @Override
     public void beginCollide(Fixture fixture) {
+        if (fixture.getBody().getUserData() instanceof TileGroup) {
 
+        }
     }
 
     @Override

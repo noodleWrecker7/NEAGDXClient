@@ -4,7 +4,7 @@ public class JumpArc extends Arc {
     final double xSpeed;
     final double jumpSpeed;
 
-    public JumpArc(byte weight, double xSpeed, double jumpSpeed) {
+    public JumpArc(short weight, double xSpeed, double jumpSpeed) {
         super(weight);
         this.xSpeed = xSpeed;
         this.jumpSpeed = jumpSpeed;

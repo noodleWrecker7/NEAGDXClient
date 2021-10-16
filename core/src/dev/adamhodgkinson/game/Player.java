@@ -2,6 +2,7 @@ package dev.adamhodgkinson.game;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -12,10 +13,17 @@ public class Player extends GameSprite {
 
     GameBodyType type = GameBodyType.PLAYER;
     State _state = State.IDLE;
+    GridPoint2 lastValidPosition; // the last time the player was a valid pathfind-able position
+    Level level;
 
-    public Player(World world, AssetManager assets, float x, float y) {
+    public GridPoint2 getLastValidPosition() {
+        return lastValidPosition;
+    }
+
+
+    public Player(World world, AssetManager assets, float x, float y, Level _level) {
         super(world, x, y, "elf_m", assets);
-
+        level = _level;
         speed = 8f;
         final float width = 2;
         final float height = 3;
@@ -32,7 +40,7 @@ public class Player extends GameSprite {
         //fixme temporary
         //todo rename all weapons to remove weapon_ prefix
         TextureAtlas atlas = assets.get("core/assets/packed/pack.atlas");
-        this.weapon = new MeleeWeapon(1, 6, 1000, atlas.findRegion("game/weapons/weapon_axe"), this);
+        this.weapon = new MeleeWeapon(1, 2, 300, atlas.findRegion("game/weapons/weapon_axe"), this);
     }
 
     public void handleInput(Action input) {
@@ -70,9 +78,6 @@ public class Player extends GameSprite {
         }
     }
 
-    public void jump() {
-        body.setLinearVelocity(body.getLinearVelocity().x, jumpSpeed);
-    }
 
     /**
      * Takes a 2d direction vector and adds it to the current movement vector, this
@@ -90,6 +95,24 @@ public class Player extends GameSprite {
             _state = State.RUNNING;
         }
         updateFlippage();
+    }
+
+    @Override
+    public void update(float dt) {
+        super.update(dt);
+
+        GridPoint2 pathFindingCoords = getPathFindingCoords();
+        if (level.navGraph.getVertexByCoords((short) pathFindingCoords.x, (short) pathFindingCoords.y) != null) {
+            this.lastValidPosition = pathFindingCoords;
+        }
+
+    }
+
+    protected GridPoint2 getPathFindingCoords() {
+        float x, y;
+        y = getPos().y - height / 2 + 0.5f;
+        x = getPos().x;
+        return new GridPoint2(Math.round(x), Math.round(y));
     }
 
 }

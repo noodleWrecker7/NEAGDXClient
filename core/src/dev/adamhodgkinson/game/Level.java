@@ -7,7 +7,6 @@ import com.badlogic.gdx.physics.box2d.World;
 import dev.adamhodgkinson.game.enemies.Enemy;
 import dev.adamhodgkinson.game.navigation.NavGraph;
 import dev.adamhodgkinson.game.navigation.NavGraphBuilder;
-import dev.adamhodgkinson.game.navigation.Vertex;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -28,12 +27,15 @@ public class Level {
     NavGraph navGraph;
     int width;
     int height;
+    //    GridPoint2 playerLastNavPos;
+    Game game;
 
     public TileGroup getSolids() {
         return solids;
     }
 
-    public Level(FileHandle file, World world, AssetManager assets) {
+    public Level(FileHandle file, World world, AssetManager assets, Game _game) {
+        game = _game;
         try {
             initialize(file, world, assets);
         } catch (Exception e) {
@@ -45,6 +47,18 @@ public class Level {
 
     public NavGraph getNavGraph() {
         return navGraph;
+    }
+
+    public void update(float dt) {
+        // iterates through each enemy to update them
+        for (int i = 0; i < enemiesArray.size(); i++) {
+            enemiesArray.get(i).update(dt);
+            if (enemiesArray.get(i).isDead()) {
+                enemiesArray.get(i).destroy(game.world);
+                enemiesArray.remove(i);
+                i--;
+            }
+        }
     }
 
     public void initialize(FileHandle file, World world, AssetManager assets) throws ParserConfigurationException, IOException, SAXException {
