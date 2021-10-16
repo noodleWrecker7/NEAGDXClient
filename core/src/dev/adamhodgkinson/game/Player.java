@@ -32,7 +32,7 @@ public class Player extends GameSprite {
         //fixme temporary
         //todo rename all weapons to remove weapon_ prefix
         TextureAtlas atlas = assets.get("core/assets/packed/pack.atlas");
-        this.weapon = new MeleeWeapon(1, 6, 1000, atlas.findRegion("game/weapons/weapon_hammer"), this);
+        this.weapon = new MeleeWeapon(1, 6, 1000, atlas.findRegion("game/weapons/weapon_axe"), this);
     }
 
     public void handleInput(Action input) {

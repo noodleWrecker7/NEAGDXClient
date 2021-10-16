@@ -11,6 +11,8 @@ public class MeleeWeapon extends Weapon implements Physical {
     Body body;
     Joint joint;
     ArrayList<GameSprite> collidingBodies;
+    float animationRotation = 0;
+    boolean attackOnCooldown = false;
 
     public MeleeWeapon(int damage, int range, int attackspeed, TextureRegion _texture, GameSprite sprite) {
         super(damage, range, attackspeed, _texture);
@@ -31,10 +33,26 @@ public class MeleeWeapon extends Weapon implements Physical {
         shape.setRadius(this.range);
         fix.shape = shape;
         body.createFixture(fix);
+
+
     }
 
     public void update(float dt) {
         this.body.setTransform(parentSprite.getPos(), 0);
+        if (attackOnCooldown) {
+            float timeSinceHit = System.currentTimeMillis() - this.timeOfLastHit;
+            if (timeSinceHit >= this.attackspeed) {
+                attackOnCooldown = false;
+                return;
+            }
+            float fractionOfCooldownLeft = (timeSinceHit / this.attackspeed);
+            animationRotation = 90 * fractionOfCooldownLeft * 2;
+            if (animationRotation >= 90) {
+//                animationRotation = 90 - (animationRotation - 90)
+                animationRotation = 180 - animationRotation; // equivalent to above line
+            }
+        }
+        this.setRotation((absoluteRotation + animationRotation) * rotationfFlip);
     }
 
     public void destroy() {
@@ -45,9 +63,10 @@ public class MeleeWeapon extends Weapon implements Physical {
 
     @Override
     public void attack() {
-        if (System.currentTimeMillis() - this.timeOfLastHit < this.attackspeed) {
+        if (attackOnCooldown) {
             return;
         }
+        this.attackOnCooldown = true;
         this.timeOfLastHit = System.currentTimeMillis();
         for (GameSprite s : collidingBodies) {
             if (rotationfFlip == -1) {

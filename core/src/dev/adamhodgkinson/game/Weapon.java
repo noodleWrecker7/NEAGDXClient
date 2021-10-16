@@ -9,8 +9,8 @@ abstract public class Weapon extends Sprite {
     int range;
     int attackspeed; // time in ms between hits, higher value is slower
     long timeOfLastHit;
-    float xOffset = .5f;
-    float yOffset = .7f;
+    float xOffset = .25f;
+    float yOffset = -.25f;
     float absoluteRotation = 20;
     // negative is facing right
     int rotationfFlip = -1;
@@ -22,10 +22,11 @@ abstract public class Weapon extends Sprite {
         attackspeed = _attackspeed;
         this.setScale(1 / 16.f);
         this.setRotation(absoluteRotation * rotationfFlip);
+        this.setOrigin(_texture.getRegionWidth() / 2f, 0); // makes it rotate about the center of the bottom edge
     }
 
     public void draw(SpriteBatch batch, float x, float y) {
-        setCenter(x + xOffset, y + yOffset);
+        setCenter(x + xOffset, y + yOffset + this.getHeight() / 2); // because of the way the origin is set, the drawing of the weapon has to be offset in the y axis
         super.draw(batch);
     }
 
