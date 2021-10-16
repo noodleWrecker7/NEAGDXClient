@@ -14,10 +14,11 @@ public class GameSprite extends Animated implements Physical {
     float speed;
     float jumpSpeed;
     boolean isRunning = false;
-    float width;
-    float height;
+    protected float width;
+    protected float height;
     Weapon weapon;
-    float health = 10;
+    protected float health;
+    protected float maxHealth;
 
     public void takeDamage(float amt) {
         this.health -= amt;
@@ -56,6 +57,9 @@ public class GameSprite extends Animated implements Physical {
         body.createFixture(fix);
 
         body.setUserData(this);
+
+        this.health = this.maxHealth = 10;
+
     }
 
     public void setDefaultAnims(AssetManager assets, String textureName) {
@@ -134,6 +138,14 @@ public class GameSprite extends Animated implements Physical {
         if (this.weapon != null) {
             this.weapon.update(dt);
         }
+
+        if (this.health <= 0) {
+            this.die();
+        }
+    }
+
+    public void die() {
+        System.out.println("dead");
     }
 
     @Override

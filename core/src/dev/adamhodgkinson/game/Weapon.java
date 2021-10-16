@@ -12,6 +12,7 @@ abstract public class Weapon extends Sprite {
     float xOffset = .5f;
     float yOffset = .7f;
     float absoluteRotation = 20;
+    // negative is facing right
     int rotationfFlip = -1;
 
     public Weapon(int _damage, int _range, int _attackspeed, TextureRegion _texture) {

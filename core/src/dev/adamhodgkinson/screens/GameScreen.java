@@ -3,6 +3,7 @@ package dev.adamhodgkinson.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 import dev.adamhodgkinson.GDXClient;
 import dev.adamhodgkinson.PlayerData;
@@ -38,6 +39,9 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
+        client.cam.update();
+        client.batch.setProjectionMatrix(client.cam.combined);
+        client.shapeRenderer.setProjectionMatrix(client.cam.combined);
         update(delta);
         ScreenUtils.clear(0, 0, 0, 1);
         client.batch.begin();
@@ -48,14 +52,21 @@ public class GameScreen extends ScreenAdapter {
         }
 
         game.getPlayer().draw(client.batch);
+
         for (int i = 0; i < game.getLevel().getEnemiesArray().size(); i++) {
             game.getLevel().getEnemiesArray().get(i).draw(client.batch);
         }
-
         client.batch.end();
+
+        client.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        for (int i = 0; i < game.getLevel().getEnemiesArray().size(); i++) {
+            game.getLevel().getEnemiesArray().get(i).renderHealth(client.shapeRenderer);
+        }
+        client.shapeRenderer.end();
         if (client.debug) {
             renderNavGraph();
         }
+
     }
 
     public void renderNavGraph() {

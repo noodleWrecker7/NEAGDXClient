@@ -28,7 +28,7 @@ public class MeleeWeapon extends Weapon implements Physical {
         final FixtureDef fix = new FixtureDef();
         final CircleShape shape = new CircleShape();
         fix.isSensor = true;
-        shape.setRadius(1);
+        shape.setRadius(this.range);
         fix.shape = shape;
         body.createFixture(fix);
     }
@@ -50,6 +50,17 @@ public class MeleeWeapon extends Weapon implements Physical {
         }
         this.timeOfLastHit = System.currentTimeMillis();
         for (GameSprite s : collidingBodies) {
+            if (rotationfFlip == -1) {
+                if (s.getPos().x < parentSprite.getPos().x) {
+                    return;
+                }
+
+            }
+            if (rotationfFlip == 1) {
+                if (s.getPos().x > parentSprite.getPos().x) {
+                    return;
+                }
+            }
             s.takeDamage(this.damage);
         }
     }
