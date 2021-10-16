@@ -20,9 +20,15 @@ public class GameSprite extends Animated implements Physical {
     protected float health;
     protected float maxHealth;
 
-    public void takeDamage(float amt) {
+    public void takeDamage(float amt, float knockback, GameSprite from) {
         this.health -= amt;
-        System.out.println("damaged: " + amt);
+        playAnimation("hit");
+        // target(from)
+        if (this.getPos().x <= from.getPos().x) {
+            this.body.applyLinearImpulse(new Vector2(-knockback, knockback), this.body.getPosition(), true);
+        } else if (this.getPos().x >= from.getPos().x) {
+            this.body.applyLinearImpulse(new Vector2(knockback, knockback), this.body.getPosition(), true);
+        }
     }
 
     public GameSprite(World world, float x, float y, String textureName, AssetManager assets) {
@@ -130,7 +136,6 @@ public class GameSprite extends Animated implements Physical {
         if (!isRunning && (body.getLinearVelocity().x > 0.1 || body.getLinearVelocity().x < -0.1)) {
             isRunning = true;
             playAnimation("run");
-            System.out.println("run");
         } else if (isRunning && body.getLinearVelocity().x < 0.2 && body.getLinearVelocity().x > -0.2) {
             isRunning = false;
             playAnimation("idle");
