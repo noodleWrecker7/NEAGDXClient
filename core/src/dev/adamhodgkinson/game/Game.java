@@ -56,6 +56,9 @@ public class Game {
             public void beginContact(Contact contact) {
                 final Physical B = (Physical) contact.getFixtureB().getBody().getUserData();
                 final Physical A = (Physical) contact.getFixtureA().getBody().getUserData();
+                if (A == null || B == null) {
+                    return;
+                }
                 A.beginCollide(contact.getFixtureB());
                 B.beginCollide(contact.getFixtureA());
 
@@ -65,8 +68,12 @@ public class Game {
             public void endContact(Contact contact) {
                 final Physical B = (Physical) contact.getFixtureB().getBody().getUserData();
                 final Physical A = (Physical) contact.getFixtureA().getBody().getUserData();
+                if (A == null || B == null) {
+                    return;
+                }
                 A.endCollide(contact.getFixtureB());
                 B.endCollide(contact.getFixtureA());
+
             }
 
             @Override

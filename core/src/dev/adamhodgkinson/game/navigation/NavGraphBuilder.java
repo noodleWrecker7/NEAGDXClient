@@ -36,11 +36,18 @@ public class NavGraphBuilder {
                 dy++; // moves the destination node 1 higher each time
                 if (node.y + dy >= height) { // if out of bounds
                     dx++;
-                    dy = 0;
+                    dy = (short) -node.y;
                     continue;
                 }
                 if (node.x + dx >= width) { // if out of bounds
                     break;
+                }
+                if (node.x == 8 && node.y == 1 && dx == 3 && dy == 4) {
+                    System.out.println("we here");
+                }
+
+                if (dx == 0 && dy == 0) {
+                    continue;
                 }
 
                 // gets the destination node object
@@ -61,11 +68,17 @@ public class NavGraphBuilder {
                 float finalSpeed = 0;
                 if (isValidArc(node.x, node.y, node.x + dx, node.y + dy, jumpSpeed, speed[0])) {
                     finalSpeed = speed[0];
+                    if (Float.isInfinite(finalSpeed) || Float.isNaN(finalSpeed) || Math.abs(finalSpeed)<=0.5f || Math.abs(finalSpeed)>maxXSpeed*1.5f) {
+                        finalSpeed = 0;
+                    }
                 }
                 if (isValidArc(node.x, node.y, node.x + dx, node.y + dy, jumpSpeed, speed[1])) {
-                    if (Math.abs(speed[1]) < Math.abs(finalSpeed)) {
+                    if ((Math.abs(speed[1]) < Math.abs(finalSpeed) || finalSpeed == 0) && speed[1] != 0) {
                         finalSpeed = speed[1];
                     }
+                }
+                if (Float.isInfinite(finalSpeed) || Float.isNaN(finalSpeed) || Math.abs(finalSpeed)<=0.5f || Math.abs(finalSpeed)>maxXSpeed*1.5f) {
+                    finalSpeed = 0;
                 }
                 if (finalSpeed == 0) {
                     continue;
@@ -98,12 +111,15 @@ public class NavGraphBuilder {
         float x, y;
 
         for (float interpolate = 0; interpolate <= totalInterpolates; interpolate++) {
-            for (float xOffset = -0.5f; xOffset <= 0.5f; xOffset += 1.f) {
-                for (float yOffset = -0.5f; yOffset <= 1.5f; yOffset += 2.f) {
-                    x = startX + 1 / interpolatesPerTile * interpolate * sign + xOffset;
 
-                    y = f(x - startX - xOffset, horizSpeed, jumpSpeed) + startY + yOffset;
-                    final Tile t = solids.findTileByCoords(Math.round(x), Math.round(y));
+            x = (1 / (float) interpolatesPerTile) * interpolate * sign;
+
+            y = f(x, horizSpeed, jumpSpeed);
+
+            for (float xOffset = -0.55f; xOffset <= 0.55f; xOffset += 1.1f) {
+                for (float yOffset = -0.5f; yOffset <= 1.5f; yOffset += 2f) {
+
+                    final Tile t = solids.findTileByCoords(Math.round(x + startX + xOffset), Math.round(y + startY + yOffset));
                     if (t != null)
                         return false;
                 }
@@ -162,8 +178,14 @@ public class NavGraphBuilder {
         final double discriminant = jumpSpeed * jumpSpeed * x * x + 2 * y * gravity * x * x;
         if (discriminant < 0)
             return null;
-        final float speed1 = (float) (jumpSpeed * x + Math.sqrt(discriminant)) / (2 * y);
-        final float speed2 = (float) (jumpSpeed * x - Math.sqrt(discriminant)) / (2 * y);
+
+        // values of y==0 need to be changed to just be really small otherwise some valid values can get lost
+        float correctedY = y;
+        if (y == 0) {
+            correctedY = 0.1f;
+        }
+        final float speed1 = (float) (jumpSpeed * x + Math.sqrt(discriminant)) / (float) (2 * correctedY);
+        final float speed2 = (float) (jumpSpeed * x - Math.sqrt(discriminant)) / (float) (2 * correctedY);
         return new float[]{speed1, speed2};
 
     }
@@ -198,7 +220,9 @@ public class NavGraphBuilder {
         navGraph = new NavGraph(width, height);
         addValidNodes();
         navGraph.compile();
-        addJumpsEdges(maxJumpSpeed);
+        for (float i = 1; i < maxJumpSpeed; i += 1f) {
+            addJumpsEdges(maxJumpSpeed / i);
+        }
         addAdjacentEdges();
 
         return navGraph;

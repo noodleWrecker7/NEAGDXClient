@@ -3,7 +3,7 @@ package dev.adamhodgkinson.game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.*;
 import dev.adamhodgkinson.game.enemies.Enemy;
 import dev.adamhodgkinson.game.navigation.NavGraph;
 import dev.adamhodgkinson.game.navigation.NavGraphBuilder;
@@ -25,8 +25,8 @@ public class Level {
     ArrayList<Enemy> enemiesArray;
     Vector2 playerSpawnPos;
     NavGraph navGraph;
-    int width;
-    int height;
+    int worldWidth;
+    int worldHeight;
     //    GridPoint2 playerLastNavPos;
     Game game;
 
@@ -69,8 +69,8 @@ public class Level {
         doc.getDocumentElement().normalize();
 
         Node level = doc.getElementsByTagName("ShootyStabbyLevel").item(0);
-        width = Integer.parseInt(level.getAttributes().getNamedItem("width").getNodeValue());
-        height = Integer.parseInt(level.getAttributes().getNamedItem("height").getNodeValue());
+        worldWidth = Integer.parseInt(level.getAttributes().getNamedItem("width").getNodeValue());
+        worldHeight = Integer.parseInt(level.getAttributes().getNamedItem("height").getNodeValue());
         Node spawnpos = doc.getElementsByTagName("spawnpos").item(0);
         playerSpawnPos = new Vector2(Integer.parseInt(spawnpos.getAttributes().getNamedItem("x").getNodeValue()), Integer.parseInt(spawnpos.getAttributes().getNamedItem("y").getNodeValue()));
 
@@ -81,7 +81,7 @@ public class Level {
         for (int i = 0; i < solidTiles.getLength(); i++) {
             NamedNodeMap attr = solidTiles.item(i).getAttributes();
             Tile t = Tile.createTileFromXml(attr);
-            if (t.getX() >= width || t.getY() >= height || t.getX() < 0 || t.getY() < 0) {
+            if (t.getX() >= worldWidth || t.getY() >= worldHeight || t.getX() < 0 || t.getY() < 0) {
                 System.out.println("Tile outside level bounds at ( " + t.getX() + " , " + t.getY() + " )");
                 continue;
             }
@@ -89,7 +89,7 @@ public class Level {
         }
         solids.build();
         solids.setBodyType(GameBodyType.TILE_SOLID);
-        NavGraphBuilder navGraphBuilder = new NavGraphBuilder(width, height, solids, 10, 16, world.getGravity().y);
+        NavGraphBuilder navGraphBuilder = new NavGraphBuilder(worldWidth, worldHeight + 2, solids, 10, 16, world.getGravity().y);
         navGraph = navGraphBuilder.finish();
 
 
@@ -102,6 +102,32 @@ public class Level {
             Enemy e = Enemy.createFromNode(node, assets, world);
             enemiesArray.add(e);
         }
+
+        BodyDef worldEdgeDef = new BodyDef();
+        worldEdgeDef.type = BodyDef.BodyType.StaticBody;
+        worldEdgeDef.allowSleep = true;
+        worldEdgeDef.position.x = 0;
+        worldEdgeDef.position.y = 0;
+        Body worldEdge = world.createBody(worldEdgeDef);
+
+        FixtureDef fixDef = new FixtureDef();
+        PolygonShape shape = new PolygonShape();
+        fixDef.density = 1;
+        shape.setAsBox(.1f, worldHeight / 2f, new Vector2(-.6f, worldHeight / 2f), 0);
+        fixDef.shape = shape;
+        worldEdge.createFixture(fixDef);
+        shape.setAsBox(.1f, worldHeight / 2f, new Vector2(worldWidth + .6f, worldHeight / 2f), 0);
+        fixDef.shape = shape;
+        worldEdge.createFixture(fixDef);
+
+        shape.setAsBox(worldWidth / 2f, .1f, new Vector2(worldWidth / 2f, -.6f), 0);
+        fixDef.shape = shape;
+        worldEdge.createFixture(fixDef);
+        shape.setAsBox(worldWidth / 2f, .1f, new Vector2(worldWidth / 2f, worldHeight + .6f), 0);
+        fixDef.shape = shape;
+        worldEdge.createFixture(fixDef);
+
+
     }
 
     public ArrayList<Enemy> getEnemiesArray() {

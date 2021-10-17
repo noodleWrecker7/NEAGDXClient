@@ -10,8 +10,8 @@ import com.badlogic.gdx.physics.box2d.*;
 
 abstract public class GameSprite extends Animated implements Physical {
     Vector2 movement = new Vector2();
-    Body body;
-    float speed;
+    protected Body body;
+    protected float speed;
     float jumpSpeed;
     boolean isRunning = false;
     protected float width;
@@ -19,7 +19,9 @@ abstract public class GameSprite extends Animated implements Physical {
     Weapon weapon;
     protected float health;
     protected float maxHealth;
-    boolean jumpAvailable = true;
+    protected boolean jumpAvailable = true;
+
+    protected int maxJumps = 1, jumpsAvailable = 1;
 
     public void destroy(World world) {
         world.destroyBody(body);
@@ -40,7 +42,7 @@ abstract public class GameSprite extends Animated implements Physical {
     }
 
     public GameSprite(World world, float x, float y, String textureName, AssetManager assets) {
-        this(world, x, y, 5, 8f, 4f, 0, textureName, assets);
+        this(world, x, y, 5, 4f, .5f, 0, textureName, assets);
     }
 
     public GameSprite(World world, float x, float y, float density, float speed, float friction, float linearDamping,
@@ -63,7 +65,14 @@ abstract public class GameSprite extends Animated implements Physical {
         // main fixture
         final FixtureDef fix = new FixtureDef();
         final PolygonShape shape = new PolygonShape();
-        shape.setAsBox(width / 2, height / 2); // height/8 accounts for whitespace in texture
+
+      /*  if (width > 1) {
+            width = 1;
+        }
+        if (height > 2) {
+            height = 2;
+        }*/
+        shape.setAsBox(width / 2, height / 2);
         fix.shape = shape;
         fix.density = density;
         fix.friction = friction;
@@ -81,10 +90,12 @@ abstract public class GameSprite extends Animated implements Physical {
     }
 
     public boolean jump(float _jumpSpeed) {
-        if (_jumpSpeed > jumpSpeed) {
+        if (jumpsAvailable <= 0) {
             return false;
         }
         body.setLinearVelocity(body.getLinearVelocity().x, _jumpSpeed);
+        body.setTransform(body.getPosition().x, body.getPosition().y + .1f, 0);
+        jumpsAvailable--;
         return true;
     }
 
@@ -180,13 +191,13 @@ abstract public class GameSprite extends Animated implements Physical {
     }
 
     public void onGround() {
-        jumpAvailable = true;
+        jumpsAvailable = maxJumps;
     }
 
     @Override
     public void beginCollide(Fixture fixture) {
         if (fixture.getBody().getUserData() instanceof TileGroup) {
-
+            onGround();
         }
     }
 
