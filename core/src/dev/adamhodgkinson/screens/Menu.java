@@ -24,21 +24,21 @@ public class Menu extends ScreenAdapter {
         TextureAtlas texAtlas = client.assets.get("core/assets/packed/pack.atlas");
         skin.addRegions(texAtlas);
 
-        float scaleFactor = (client.cam.viewportWidth / 4) / texAtlas.findRegion("Menu/ButtonLevelSelect").originalWidth; // desired width / current width
+        float scaleFactor = (client.worldCam.viewportWidth / 4) / texAtlas.findRegion("Menu/ButtonLevelSelect").originalWidth; // desired width / current width
         float scaledHeight = scaleFactor * texAtlas.findRegion("Menu/ButtonLevelSelect").originalHeight;
         skin.setScale(scaleFactor); // to shrink the images to fit on viewport
 
 
         stage = new Stage(); // to hold the buttons
         stage.getCamera().position.set(0, 0, 0);
-        stage.getCamera().viewportWidth = client.cam.viewportWidth;
-        stage.getCamera().viewportHeight = client.cam.viewportHeight;
+        stage.getCamera().viewportWidth = client.worldCam.viewportWidth;
+        stage.getCamera().viewportHeight = client.worldCam.viewportHeight;
 
         String[] buttonNames = {"ButtonLevelSelect", "ButtonMultiplayer", "ButtonInventory", "ButtonOptions", "ButtonExit"};
 
 
         float topMargin = 5f; // needs to be tied to viewport scale
-        float verticalSpacePerButton = (client.cam.viewportHeight - topMargin) / buttonNames.length;
+        float verticalSpacePerButton = (client.worldCam.viewportHeight - topMargin) / buttonNames.length;
 
 
 
@@ -50,7 +50,7 @@ public class Menu extends ScreenAdapter {
             menuButton = new ImageButton(imageButtonStyle); // creates button from styling
 
             // starts from top and lowers the height by and equal amount for each button
-            float yPos = -topMargin + client.cam.viewportHeight / 2 - verticalSpacePerButton * i - scaledHeight / 2;
+            float yPos = -topMargin + client.worldCam.viewportHeight / 2 - verticalSpacePerButton * i - scaledHeight / 2;
             menuButton.setPosition(0, yPos, Align.center);
 
             stage.addActor(menuButton); // adds button to stage

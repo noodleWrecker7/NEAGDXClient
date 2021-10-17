@@ -3,26 +3,28 @@ package dev.adamhodgkinson;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.FileHandleResolver;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
+import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import dev.adamhodgkinson.screens.Loading;
 
 public class GDXClient extends Game {
     public AssetManager assets;
 
-    public SpriteBatch batch;
+    public OrthographicCamera worldCam;
+    public OrthographicCamera uiCam;
 
-    public OrthographicCamera cam;
+//    public BitmapFont font;
 
-    public BitmapFont font;
-
-    public ShapeRenderer shapeRenderer;
     float zoom;
 
     public boolean debug = false;
+
     public GDXClient(float zoom) {
         super();
         this.zoom = zoom;
@@ -30,36 +32,72 @@ public class GDXClient extends Game {
 
     @Override
     public void create() {
-        batch = new SpriteBatch();
-        shapeRenderer = new ShapeRenderer();
-        shapeRenderer.setAutoShapeType(true);
-
         // Creates camera and sets correct sizing and positioning
-        cam = new OrthographicCamera();
+        worldCam = new OrthographicCamera();
+        uiCam = new OrthographicCamera();
         int pixelsPerUnit = 32;
-        cam.setToOrtho(false, (Gdx.graphics.getWidth() / pixelsPerUnit) / zoom, (Gdx.graphics.getHeight() / pixelsPerUnit) / zoom); // ortho camera, 1 unit is one tile
-        cam.position.set(5, 3, 0);
-        cam.update();
+        // camera for rendering objects in a world that move
+        // could probably be moved to game screen
+        worldCam.setToOrtho(false, (Gdx.graphics.getWidth() / pixelsPerUnit) / zoom, (Gdx.graphics.getHeight() / pixelsPerUnit) / zoom); // ortho camera, 1 unit is one tile
+        worldCam.position.set(5, 3, 0);
+        worldCam.update();
 
-        // Sets correct camera viewports for renderers
-        batch.setProjectionMatrix(cam.combined);
-        shapeRenderer.setProjectionMatrix(cam.combined);
+        // ui camera, static position in window
+        uiCam.setToOrtho(false, (Gdx.graphics.getWidth()) / zoom, (Gdx.graphics.getHeight()) / zoom);
+        uiCam.position.set(0, 0, 0);
+        uiCam.update();
 
         assets = new AssetManager(); // manages loading of multiple assets asynchronously
 
-        // todo important, remember to mention in design that there used to be multiple atlases
-        assets.load("core/assets/packed/pack.atlas", TextureAtlas.class);
-
-        // Standard font for use throughout the game
-        font = new BitmapFont();
-        font.getData().setScale(1f, 1f);
+        loadAssets();
 
         // Starts the loading screen while the assets are loading
         setScreen(new Loading(this)); // changes screen to the loading screen
     }
 
+    public void loadAssets() {
+// todo important, remember to mention in design that there used to be multiple atlases
+        assets.load("core/assets/packed/pack.atlas", TextureAtlas.class);
+
+
+        // set the loaders for the generator and the fonts themselves
+        // freetype font gen takes a vectorised ttf format and creates a bitmap font to be used by the renderer
+
+        // the resolver loads the files from disk
+        FileHandleResolver resolver = new InternalFileHandleResolver();
+        // sets a the loader for the freetypefontgenerator, the loader comes bundled with the package
+        assets.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
+        // sets the loader for font files, will pick up any .ttf files loaded
+        assets.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
+
+        loadFont("fonts/NotoSansMono-Regular.ttf", 10, "noto10");
+    }
+
+    /**
+     * Loads a font using freetypefontgen
+     *
+     * @param fileName   - the name/location of the .ttf file on disk
+     * @param bitmapSize - the size in pixels of the bitmap font to be generated
+     * @param identifier - the id to get the font from asset manager, will be suffixed with .ttf
+     */
+    public void loadFont(String fileName, int bitmapSize, String identifier) {
+        // params are used to store data about the font being loaded
+        FreetypeFontLoader.FreeTypeFontLoaderParameter size1Params = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
+        // the file actually loaded from disk
+        size1Params.fontFileName = fileName;
+        // bitmap size of the font to generate
+        size1Params.fontParameters.size = bitmapSize;
+
+        size1Params.fontParameters.genMipMaps = true;
+        size1Params.fontParameters.mono = true;
+        // loads the file, the name given here is only used as an arbitrary identifer - size1Params contains the actual disk location
+        // the .ttf extension must be there to trigger the correct loader to be used
+        assets.load(identifier + ".ttf", BitmapFont.class, size1Params);
+    }
+
+
     @Override
     public void dispose() {
-        batch.dispose();
+        assets.dispose();
     }
 }

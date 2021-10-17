@@ -2,6 +2,7 @@ package dev.adamhodgkinson.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -10,6 +11,7 @@ import dev.adamhodgkinson.PlayerData;
 import dev.adamhodgkinson.game.Game;
 import dev.adamhodgkinson.game.Tile;
 import dev.adamhodgkinson.game.UserInputHandler;
+import dev.adamhodgkinson.game.UserInterfaceRenderer;
 import dev.adamhodgkinson.game.navigation.Arc;
 import dev.adamhodgkinson.game.navigation.NavGraph;
 import dev.adamhodgkinson.game.navigation.Vertex;
@@ -19,6 +21,9 @@ public class GameScreen extends ScreenAdapter {
     GDXClient client;
     Game game;
     TextureAtlas gameTextures;
+    UserInterfaceRenderer uirender;
+    SpriteBatch batch;
+    ShapeRenderer shapeRenderer;
 
     public GameScreen(GDXClient client) {
         this.client = client;
@@ -27,7 +32,10 @@ public class GameScreen extends ScreenAdapter {
         this.game = new Game(new PlayerData(), client.assets); // this should get players data from somewhere, eg be initialised earlier get from server etc
         gameTextures = client.assets.get("core/assets/packed/pack.atlas"); // keep this in the class to be used often
 
-
+        uirender = new UserInterfaceRenderer(this.client, this.game);
+        batch = new SpriteBatch();
+        shapeRenderer = new ShapeRenderer();
+        shapeRenderer.setAutoShapeType(true);
     }
 
     @Override
@@ -39,56 +47,61 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
-        client.cam.update();
-        client.batch.setProjectionMatrix(client.cam.combined);
-        client.shapeRenderer.setProjectionMatrix(client.cam.combined);
+        client.worldCam.update();
+        // Sets correct camera viewports for renderers
+        batch.setProjectionMatrix(client.worldCam.combined);
+        shapeRenderer.setProjectionMatrix(client.worldCam.combined);
         update(delta);
         ScreenUtils.clear(0, 0, 0, 1);
-        client.batch.begin();
+        batch.begin();
         // actually render
 
         for (Tile t : game.getLevel().getSolids().getTiles()) {
             drawTile(t);
         }
 
-        game.getPlayer().draw(client.batch);
+        game.getPlayer().draw(batch);
 
         for (int i = 0; i < game.getLevel().getEnemiesArray().size(); i++) {
-            game.getLevel().getEnemiesArray().get(i).draw(client.batch);
+            game.getLevel().getEnemiesArray().get(i).draw(batch);
         }
-        client.batch.end();
+        batch.end();
 
-        client.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         for (int i = 0; i < game.getLevel().getEnemiesArray().size(); i++) {
-            game.getLevel().getEnemiesArray().get(i).renderHealth(client.shapeRenderer);
+            game.getLevel().getEnemiesArray().get(i).renderHealth(shapeRenderer);
         }
-        client.shapeRenderer.end();
+        shapeRenderer.end();
         if (client.debug) {
             renderNavGraph();
         }
-
+        uirender.render();
     }
 
     public void renderNavGraph() {
         NavGraph ng = game.getLevel().getNavGraph();
         Vertex[] vertices = ng.getNodesArray();
-        client.shapeRenderer.begin();
+        shapeRenderer.begin();
         for (int i = 0; i < vertices.length; i++) {
             Vertex v = vertices[i];
-            client.shapeRenderer.setColor(255, 255, 255, 255);
-            client.shapeRenderer.circle(v.x, v.y, .3f);
-            client.shapeRenderer.setColor(0, 255, 0, 255);
+            shapeRenderer.setColor(255, 255, 255, 255);
+            shapeRenderer.circle(v.x, v.y, .3f);
+            shapeRenderer.setColor(0, 255, 0, 255);
             Arc[] edges = ng.getAdjacencyMatrix()[i];
             for (int j = 0; j < edges.length; j++) {
                 if (edges[j] != null) {
                     Vertex v2 = ng.getNodesArray()[j];
-                    client.shapeRenderer.line(v.x, v.y, v2.x, v2.y);
+                    if(ng.getAdjacencyMatrix()[j][i] != null){
+                        shapeRenderer.setColor(255, 0, 0, 255);
+                    }
+                    shapeRenderer.line(v.x, v.y, v2.x, v2.y);
                 }
             }
 
         }
-        client.shapeRenderer.end();
+        shapeRenderer.end();
     }
+
 
     public void update(float dt) {
         game.update(dt);
@@ -100,7 +113,7 @@ public class GameScreen extends ScreenAdapter {
      * @param t The tile to be rendered
      */
     public void drawTile(Tile t) {
-        client.batch.draw(gameTextures.findRegion(t.getTextureName(), t.getTextureIndex()), t.getX() - .5f, t.getY() - .5f, 1, 1); // had to add .5f as forgot coords are at center
+        batch.draw(gameTextures.findRegion(t.getTextureName(), t.getTextureIndex()), t.getX() - .5f, t.getY() - .5f, 1, 1); // had to add .5f as forgot coords are at center
 
     }
 

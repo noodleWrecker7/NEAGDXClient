@@ -8,9 +8,9 @@ import dev.adamhodgkinson.GDXClient;
 public class DevLauncher {
     public static void main(String[] arg) {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-        int zoom = 1;
-        config.width = 960 * zoom;
-        config.height = 512 * zoom;
+        float zoom = 1;
+        config.width = Math.round(960 * zoom);
+        config.height = Math.round(512 * zoom);
         config.resizable = false;
 
 
