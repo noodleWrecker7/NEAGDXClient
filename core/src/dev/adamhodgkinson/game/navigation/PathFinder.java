@@ -129,15 +129,3 @@ public class PathFinder {
         return result;
     }
 }
-
-class PathNode {
-    int nodeIndex;
-    short weight;
-    int previousIndex;
-
-    public PathNode(int index, short _weight, int previous) {
-        nodeIndex = index;
-        weight = _weight;
-        previousIndex = previous;
-    }
-}
