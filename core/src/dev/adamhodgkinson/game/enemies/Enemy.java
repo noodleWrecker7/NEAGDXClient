@@ -78,9 +78,7 @@ public class Enemy extends GameSprite {
                 findNewPath();
             }
         }
-        if (path != null) {
-            followPath();
-        }
+        followPath();
     }
 
     public void findNewPath() {
@@ -109,12 +107,16 @@ public class Enemy extends GameSprite {
     long timeUntilGiveUpOnArc = 5000;
 
     public void followPath() {
-        if (invalidPathCount > 5) { // if ai gets stuck then it should just walk until a new path is found
-            if (invalidPathCount % 10 < 5) { // so it swaps direction occaisonally
+        if (invalidPathCount > maxInvalidPaths) { // if ai gets stuck then it should just walk until a new path is found
+            if (invalidPathCount % maxInvalidPaths * 2 < maxInvalidPaths) { // so it swaps direction occaisonally
                 body.setLinearVelocity(speed, body.getLinearVelocity().y);
             } else {
                 body.setLinearVelocity(-speed, body.getLinearVelocity().y);
             }
+            return;
+        }
+
+        if (path == null) {
             return;
         }
 //        System.out.println("follow path");
