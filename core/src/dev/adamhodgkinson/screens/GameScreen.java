@@ -47,6 +47,8 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
+        client.worldCam.position.x = game.getPlayer().getPos().x;
+        client.worldCam.position.y = game.getPlayer().getPos().y;
         client.worldCam.update();
         // Sets correct camera viewports for renderers
         batch.setProjectionMatrix(client.worldCam.combined);
@@ -91,7 +93,7 @@ public class GameScreen extends ScreenAdapter {
             for (int j = 0; j < edges.length; j++) {
                 if (edges[j] != null) {
                     Vertex v2 = ng.getNodesArray()[j];
-                    if(ng.getAdjacencyMatrix()[j][i] != null){
+                    if (ng.getAdjacencyMatrix()[j][i] != null) {
                         shapeRenderer.setColor(255, 0, 0, 255);
                     }
                     shapeRenderer.line(v.x, v.y, v2.x, v2.y);
