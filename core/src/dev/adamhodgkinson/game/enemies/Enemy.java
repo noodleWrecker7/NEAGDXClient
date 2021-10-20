@@ -158,31 +158,29 @@ public class Enemy extends GameSprite {
 
         // if is a jump arc
         if (currentArc.isJump() && !alreadyJumpedThisArc) {
-            GridPoint2 pos = getGridPoint();
-            System.out.println("jumping");
-            System.out.println(((JumpArc) currentArc).jumpSpeed);
-            System.out.println(((JumpArc) currentArc).xSpeed);
-            body.setTransform(pos.x, pos.y + height / 2 - 0.4f, 0);
-            // perform the jump
-            if (!jump(((JumpArc) currentArc).jumpSpeed)) { // if jump impossible
-                return;
-            }
-            alreadyJumpedThisArc = true;
-            body.setLinearVelocity(((JumpArc) currentArc).xSpeed, body.getLinearVelocity().y);
+            doJumpArc();
             return;
         } else if (currentArc.isJump()) {
             return;
         }
 
-        System.out.println("walking");
         // walk to destination point
         if (currentPoint.x > getPos().x) {
             body.setLinearVelocity(speed, body.getLinearVelocity().y);
         } else {
             body.setLinearVelocity(-speed, body.getLinearVelocity().y);
         }
+    }
 
-
+    public void doJumpArc() {
+        GridPoint2 pos = getGridPoint();
+        body.setTransform(pos.x, pos.y + height / 2 - 0.4f, 0);
+        // perform the jump
+        if (!jump(((JumpArc) currentArc).jumpSpeed)) { // if jump impossible
+            return;
+        }
+        alreadyJumpedThisArc = true;
+        body.setLinearVelocity(((JumpArc) currentArc).xSpeed, body.getLinearVelocity().y);
     }
 
 
