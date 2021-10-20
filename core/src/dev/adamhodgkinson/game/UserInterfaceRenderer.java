@@ -39,7 +39,9 @@ public class UserInterfaceRenderer {
         BitmapFont font = client.assets.get("noto10.ttf");
         font.draw(batch, "Debug=true", -client.uiCam.viewportWidth / 2 + 5, 15 - client.uiCam.viewportHeight / 2, 10, Align.left, false);
         font.draw(batch, "Player X/Y: ( " + df.format(game.player.getPos().x) + " , " + df.format(game.player.getPos().y) + " )\n" +
-                        "       dX/dY: (" + df.format(game.player.body.getLinearVelocity().x) + "," + df.format(game.player.body.getLinearVelocity().y) + ")"
+                        "       dX/dY: (" + df.format(game.player.body.getLinearVelocity().x) + "," + df.format(game.player.body.getLinearVelocity().y) + ")\n" +
+                        "       Enemies: " + game.level.enemiesArray.size() + "\n" +
+                        "       PlayerWeaponFlip: " + game.player.weapon.rotationfFlip
                 , -client.uiCam.viewportWidth / 2 + 5, client.uiCam.viewportHeight / 2 - 15, 10, Align.left, false);
     }
 

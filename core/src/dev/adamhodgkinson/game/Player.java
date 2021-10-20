@@ -41,7 +41,7 @@ public class Player extends GameSprite {
         //fixme temporary
         //todo rename all weapons to remove weapon_ prefix
         TextureAtlas atlas = assets.get("core/assets/packed/pack.atlas");
-        this.weapon = new MeleeWeapon(1, 2, 300, atlas.findRegion("game/weapons/weapon_axe"), this);
+        this.weapon = new MeleeWeapon(1, 6, 100, atlas.findRegion("game/weapons/weapon_axe"), this);
     }
 
     @Override
