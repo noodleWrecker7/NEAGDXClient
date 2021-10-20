@@ -46,14 +46,28 @@
         <solid x="12" y="11" texture="game/environment/floor" i="1"/>
         <solid x="10" y="11" texture="game/environment/floor" i="1"/>
         <solid x="13" y="11" texture="game/environment/floor" i="1"/>
-        <solid x="14" y="11" texture="game/environment/floor" i="1"/>
+        <solid x="17" y="9" texture="game/environment/floor" i="1"/>
+
+        <solid x="14" y="5" texture="game/environment/floor" i="1"/>
+        <solid x="15" y="6" texture="game/environment/floor" i="1"/>
+        <solid x="16" y="6" texture="game/environment/floor" i="1"/>
+        <solid x="17" y="6" texture="game/environment/floor" i="1"/>
+        <solid x="18" y="6" texture="game/environment/floor" i="1"/>
+        <solid x="19" y="6" texture="game/environment/floor" i="1"/>
+        <solid x="20" y="6" texture="game/environment/floor" i="1"/>
+        <solid x="21" y="6" texture="game/environment/floor" i="1"/>
+        <solid x="22" y="6" texture="game/environment/floor" i="1"/>
+        <solid x="23" y="6" texture="game/environment/floor" i="1"/>
+        <solid x="24" y="6" texture="game/environment/floor" i="1"/>
+        <solid x="25" y="6" texture="game/environment/floor" i="1"/>
+        <solid x="26" y="6" texture="game/environment/floor" i="1"/>
 
 <!--        <solid x="7" y="5" texture="game/environment/floor" i="1"/>-->
 
     </Tiles>
     <Enemies>
         <enemy name="big_demon" x="3" y="5" health="10"/>
-<!--        <enemy name="chort" x="6" y="5" health="10"/>-->
+        <enemy name="chort" x="6" y="5" health="10"/>
     </Enemies>
     <Chests></Chests>
     <LootTables></LootTables>
