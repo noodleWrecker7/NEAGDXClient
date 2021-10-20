@@ -19,7 +19,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Enemy extends GameSprite {
-    float maxHealth;
     Vector2 spawnPos; // where the enemy started
     int moveRange; // how far the enemy can move from its spawn point
     static final float healthBarHeight = 0.2f;

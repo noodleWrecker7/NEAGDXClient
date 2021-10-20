@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import dev.adamhodgkinson.game.enemies.Enemy;
 import dev.adamhodgkinson.game.navigation.NavGraph;
 import dev.adamhodgkinson.game.navigation.NavGraphBuilder;
+import dev.adamhodgkinson.game.navigation.PathFinder;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -90,7 +91,8 @@ public class Level {
         solids.build();
         solids.setBodyType(GameBodyType.TILE_SOLID);
         NavGraphBuilder navGraphBuilder = new NavGraphBuilder(worldWidth, worldHeight + 2, solids, 10, 16, world.getGravity().y);
-        navGraph = navGraphBuilder.finish();
+        navGraph = navGraphBuilder.generateNavGraph();
+        Enemy.pathFinder = new PathFinder(navGraph);
 
 
         // load enemies
@@ -100,6 +102,16 @@ public class Level {
         for (int i = 0; i < enemies.getLength(); i++) {
             Node node = enemies.item(i);
             Enemy e = Enemy.createFromNode(node, assets, world);
+            enemiesArray.add(e);
+        }
+
+        //todo temp
+        for (int i = 0; i < 256*2; i++) {
+            int x = (int) Math.floor(Math.random() * worldWidth);
+            int y = (int) Math.floor(Math.random() * worldHeight);
+            Enemy e = new Enemy(assets, "chort", world, x, y);
+            e.health = 5;
+            e.maxHealth = 5;
             enemiesArray.add(e);
         }
 

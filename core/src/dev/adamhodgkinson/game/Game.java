@@ -17,7 +17,6 @@ public class Game {
     PlayerData playerData;
     Player player;
     World world;
-    PathFinder pathFinder;
 
     public Player getPlayer() {
         return player;
@@ -86,8 +85,7 @@ public class Game {
 
             }
         });
-        pathFinder = new PathFinder(level.navGraph);
-        Enemy.pathFinder = pathFinder;
+
     }
 
     public void update(float dt) {
