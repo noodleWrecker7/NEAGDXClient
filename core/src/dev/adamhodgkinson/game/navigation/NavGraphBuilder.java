@@ -42,11 +42,13 @@ public class NavGraphBuilder {
                 if (node.x + dx >= width) { // if out of bounds
                     break;
                 }
-                if (node.x == 8 && node.y == 1 && dx == 3 && dy == 4) {
-                    System.out.println("we here");
+
+                if (dx == 0 && dy == 0) { // cant jump to itself
+                    continue;
                 }
 
-                if (dx == 0 && dy == 0) {
+                Arc arc = navGraph.getArc(node.x, node.y, (short) (node.x + dx), (short) (node.y + dy));
+                if (arc != null && !arc.isJump()) { // if the arc already exists and is a walk
                     continue;
                 }
 
@@ -68,7 +70,7 @@ public class NavGraphBuilder {
                 float finalSpeed = 0;
                 if (isValidArc(node.x, node.y, node.x + dx, node.y + dy, jumpSpeed, speed[0])) {
                     finalSpeed = speed[0];
-                    if (Float.isInfinite(finalSpeed) || Float.isNaN(finalSpeed) || Math.abs(finalSpeed)<=0.5f || Math.abs(finalSpeed)>maxXSpeed*1.5f) {
+                    if (Float.isInfinite(finalSpeed) || Float.isNaN(finalSpeed) || Math.abs(finalSpeed) <= 0.5f || Math.abs(finalSpeed) > maxXSpeed * 1.5f) {
                         finalSpeed = 0;
                     }
                 }
@@ -77,7 +79,7 @@ public class NavGraphBuilder {
                         finalSpeed = speed[1];
                     }
                 }
-                if (Float.isInfinite(finalSpeed) || Float.isNaN(finalSpeed) || Math.abs(finalSpeed)<=0.5f || Math.abs(finalSpeed)>maxXSpeed*1.5f) {
+                if (Float.isInfinite(finalSpeed) || Float.isNaN(finalSpeed) || Math.abs(finalSpeed) <= 0.5f || Math.abs(finalSpeed) > maxXSpeed * 1.5f) {
                     finalSpeed = 0;
                 }
                 if (finalSpeed == 0) {
@@ -116,7 +118,7 @@ public class NavGraphBuilder {
 
             y = f(x, horizSpeed, jumpSpeed);
 
-            for (float xOffset = -0.55f; xOffset <= 0.55f; xOffset += 1.1f) {
+            for (float xOffset = -0.52f; xOffset <= 0.52f; xOffset += 1.04f) {
                 for (float yOffset = -0.5f; yOffset <= 1.5f; yOffset += 2f) {
 
                     final Tile t = solids.findTileByCoords(Math.round(x + startX + xOffset), Math.round(y + startY + yOffset));
@@ -216,14 +218,14 @@ public class NavGraphBuilder {
         }
     }
 
-    public NavGraph finish() {
+    public NavGraph generateNavGraph() {
         navGraph = new NavGraph(width, height);
         addValidNodes();
         navGraph.compile();
-        for (float i = 1; i < maxJumpSpeed; i += 1f) {
-            addJumpsEdges(maxJumpSpeed / i);
-        }
         addAdjacentEdges();
+        for (float i = maxJumpSpeed; i > 0; i-=.5f) {
+            addJumpsEdges(i);
+        }
 
         return navGraph;
     }
