@@ -7,10 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import dev.adamhodgkinson.game.GameSprite;
 import dev.adamhodgkinson.game.Player;
-import dev.adamhodgkinson.game.navigation.Arc;
-import dev.adamhodgkinson.game.navigation.JumpArc;
-import dev.adamhodgkinson.game.navigation.PathFinder;
-import dev.adamhodgkinson.game.navigation.Vertex;
+import dev.adamhodgkinson.game.navigation.*;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
@@ -28,6 +25,7 @@ public class Enemy extends GameSprite {
     static final long timeBetweenPathFinds = 3000;
     public static PathFinder pathFinder;
     List<Vertex> path;
+    PathFinderThread thread;
 
 
     public static Enemy createFromNode(Node node, AssetManager assets, World world) {
@@ -45,15 +43,12 @@ public class Enemy extends GameSprite {
 
     public Enemy(AssetManager assets, String textureName, World world, int x, int y) {
         super(world, x, y, textureName, assets);
-
-
+        thread = new PathFinderThread(this);
+        thread.start();
     }
 
     public void attack() {
 
-    }
-
-    public void die() {
     }
 
     public GridPoint2 getGridPoint() {
@@ -70,17 +65,28 @@ public class Enemy extends GameSprite {
             return;
         }
         if (System.currentTimeMillis() - timeOfLastPathFind > timeBetweenPathFinds && (currentArc == null || System.currentTimeMillis() - timeOfArcAttempt > timeUntilGiveUpOnArc)) {
-            System.out.println("path finding available");
-            timeOfLastPathFind = System.currentTimeMillis();
-
             if (target.getLastValidPosition().dst(Math.round(getPos().x), Math.round(getPos().y)) < targetRange) {
-                findNewPath();
+                thread.requestPath(getGridPoint(), target.getLastValidPosition());
+                timeOfLastPathFind = System.currentTimeMillis();
+//                findNewPath();
             }
         }
         followPath();
     }
 
+    public synchronized void receivePath(Vertex[] _path) {
+        if (_path == null) {
+            invalidPathCount++;
+            return;
+        }
+        path = new ArrayList<>(Arrays.asList(_path));
+        currentArc = null;
+        currentPoint = null;
+        timeOfArcAttempt = System.currentTimeMillis();
+    }
+
     public void findNewPath() {
+        timeOfLastPathFind = System.currentTimeMillis();
         System.out.println("Calculating new route to player");
         System.out.println(getGridPoint().toString() + ", " + target.getLastValidPosition().toString());
         Vertex[] _path = pathFinder.search(getGridPoint(), target.getLastValidPosition());
@@ -126,8 +132,8 @@ public class Enemy extends GameSprite {
             if (path.size() == 0) { // if path empty
                 System.out.println("path empty");
                 currentArc = null;
-                if (invalidPathCount == 0) {
-                    findNewPath();
+                if (invalidPathCount == 0 && System.currentTimeMillis() - timeOfLastPathFind > timeBetweenPathFinds / 6) {
+//                    findNewPath();
                 }
                 return;
             }

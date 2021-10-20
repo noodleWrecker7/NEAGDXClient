@@ -1,6 +1,7 @@
 package dev.adamhodgkinson.game.navigation;
 
 import com.badlogic.gdx.math.GridPoint2;
+import dev.adamhodgkinson.game.enemies.Enemy;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,6 +21,10 @@ public class PathFinder {
 
     public PathFinder(NavGraph nav) {
         this.nav = nav;
+
+    }
+
+    public void requestPath() {
 
     }
 
@@ -46,18 +51,15 @@ public class PathFinder {
         }
         int startIndex = nav.coordToIndexMap[start.x][start.y];
         if (startIndex == -1) {
-            System.out.println("pfs: start not found");
 
             return null;
         }
         int endIndex = nav.coordToIndexMap[end.x][end.y];
         if (endIndex == -1) {
-            System.out.println("pfs: end not found");
             return null;
         }
         int[] path = search(startIndex, endIndex);
         if (path == null) {
-            System.out.println("pfs: path failed");
             return null;
         }
         Vertex[] result = new Vertex[path.length];
@@ -80,19 +82,15 @@ public class PathFinder {
         queue.add(start);
         while (queue.size() != 0) { // whilst queue not empty
             int checking = queue.get(0); // gets first node in quque
-            System.out.println("path search: " + checking);
             queue.remove(0); // pops it off queue
             visited.add(checking); // node marked as visited
             Arc[] connections = nav.adjacencyMatrix[checking]; // all possible routes from current node
             for (int i = 0; i < connections.length; i++) { // for each connected node
-                System.out.println("checking connection " + i);
                 Arc connection = connections[i]; // conenction to neighbour
                 if (connection == null) { // if connection is empty
-                    System.out.println("no connection");
                     continue;
                 }
                 if (visited.contains(i)) { // if already visited
-                    System.out.println("already visited");
                     continue;
                 }
                 addToQueue(i, (short) (weightToNode[checking] + connection.weight)); // adds found node to queue
@@ -110,13 +108,11 @@ public class PathFinder {
     }
 
     public int[] generatePath(int start, int end) {
-        System.out.println("gen path");
         // creates array such that the start of backwards is the end node and the end of backwards is the start node
         // and all the nodes in between are the steps in the path, in order
         ArrayList<Integer> backwards = new ArrayList<>();
         backwards.add(end);
         do {
-            System.out.println(backwards.size());
             backwards.add(previousNode[backwards.get(backwards.size() - 1)]); // gets previous node and adds it to the end
         } while (backwards.get(backwards.size() - 1) != start);
 
@@ -129,3 +125,4 @@ public class PathFinder {
         return result;
     }
 }
+
