@@ -1,7 +1,6 @@
 package dev.adamhodgkinson.game.navigation;
 
 import com.badlogic.gdx.math.GridPoint2;
-import dev.adamhodgkinson.game.enemies.Enemy;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,14 +20,13 @@ public class PathFinder {
 
     public PathFinder(NavGraph nav) {
         this.nav = nav;
-
     }
 
     public void requestPath() {
 
     }
 
-    public void addToQueue(int node, short weight) {
+    private void addToQueue(int node, short weight) {
         if (queue.size() == 0) {
             queue.add(node);
             return;
@@ -76,6 +74,7 @@ public class PathFinder {
         previousNode = new int[nav.nodesArray.length];
         weightToNode = new short[nav.nodesArray.length];
         Arrays.fill(weightToNode, (short) -1);
+        weightToNode[start] = 0;
         queue = new ArrayList<>();
         visited = new ArrayList<>();
 //        addToQueue(new PathNode(null, null, start));
@@ -107,7 +106,7 @@ public class PathFinder {
         return null;
     }
 
-    public int[] generatePath(int start, int end) {
+    private int[] generatePath(int start, int end) {
         // creates array such that the start of backwards is the end node and the end of backwards is the start node
         // and all the nodes in between are the steps in the path, in order
         ArrayList<Integer> backwards = new ArrayList<>();
