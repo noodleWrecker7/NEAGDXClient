@@ -196,7 +196,7 @@ abstract public class GameSprite extends Animated implements Physical {
 
     @Override
     public void beginCollide(Fixture fixture) {
-        if (fixture.getBody().getUserData() instanceof TileGroup) {
+        if (fixture.getBody().getUserData() instanceof TileGroup || fixture.getBody().getUserData() instanceof GameSprite) {
             onGround();
         }
     }
