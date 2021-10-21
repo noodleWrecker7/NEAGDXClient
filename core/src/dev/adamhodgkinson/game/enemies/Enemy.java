@@ -3,7 +3,6 @@ package dev.adamhodgkinson.game.enemies;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.GridPoint2;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import dev.adamhodgkinson.game.GameSprite;
 import dev.adamhodgkinson.game.Player;
@@ -16,16 +15,26 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Enemy extends GameSprite {
-    Vector2 spawnPos; // where the enemy started
-    int moveRange; // how far the enemy can move from its spawn point
-    static final float healthBarHeight = 0.2f;
-    int targetRange = 20; // what range a target must be within to target it
+    // Constants
+    static final float HEALTH_BAR_HEIGHT = 0.2f;
+    public static final int MAX_INVALID_PATHS = 3;
+    public static final long TIME_UNTIL_GIVE_UP_ON_ARC = 3500;
+    static final long TIME_BETWEEN_PATH_FINDS = 2000;
+
+    // Pathfinding
     Player target;
-    long timeOfLastPathFind = System.currentTimeMillis();
-    static final long timeBetweenPathFinds = 3000;
+    PathFinderThread thread;
     public static PathFinder pathFinder;
     List<Vertex> path;
-    PathFinderThread thread;
+
+    Vertex currentPoint;
+    Arc currentArc;
+
+    boolean alreadyJumpedThisArc = false;
+    long timeOfArcAttempt;
+    int invalidPathCount = 0;
+    long timeOfLastPathFind = System.currentTimeMillis();
+    int targetRange = 20; // what range a target must be within to target it
 
 
     public static Enemy createFromNode(Node node, AssetManager assets, World world) {
@@ -55,16 +64,13 @@ public class Enemy extends GameSprite {
         return new GridPoint2(Math.round(getPos().x), Math.round(getPos().y));
     }
 
-    int invalidPathCount = 0;
-    int maxInvalidPaths = 5;
-
     @Override
     public void update(float dt) {
         super.update(dt);
         if (target == null) {
             return;
         }
-        if (System.currentTimeMillis() - timeOfLastPathFind > timeBetweenPathFinds && (currentArc == null || System.currentTimeMillis() - timeOfArcAttempt > timeUntilGiveUpOnArc)) {
+        if (System.currentTimeMillis() - timeOfLastPathFind > TIME_BETWEEN_PATH_FINDS && (currentArc == null || System.currentTimeMillis() - timeOfArcAttempt > TIME_UNTIL_GIVE_UP_ON_ARC)) {
             if (target.getLastValidPosition().dst(Math.round(getPos().x), Math.round(getPos().y)) < targetRange) {
                 thread.requestPath(getGridPoint(), target.getLastValidPosition());
                 timeOfLastPathFind = System.currentTimeMillis();
@@ -104,16 +110,9 @@ public class Enemy extends GameSprite {
 
     }
 
-
-    Vertex currentPoint;
-    Arc currentArc;
-    boolean alreadyJumpedThisArc = false;
-    long timeOfArcAttempt;
-    long timeUntilGiveUpOnArc = 5000;
-
     public void followPath() {
-        if (invalidPathCount > maxInvalidPaths) { // if ai gets stuck then it should just walk until a new path is found
-            if (invalidPathCount % maxInvalidPaths * 2 < maxInvalidPaths) { // so it swaps direction occaisonally
+        if (invalidPathCount > MAX_INVALID_PATHS) { // if ai gets stuck then it should just walk until a new path is found
+            if (invalidPathCount % MAX_INVALID_PATHS * 2 < MAX_INVALID_PATHS) { // so it swaps direction occaisonally
                 body.setLinearVelocity(speed, body.getLinearVelocity().y);
             } else {
                 body.setLinearVelocity(-speed, body.getLinearVelocity().y);
@@ -132,7 +131,7 @@ public class Enemy extends GameSprite {
             if (path.size() == 0) { // if path empty
                 System.out.println("path empty");
                 currentArc = null;
-                if (invalidPathCount == 0 && System.currentTimeMillis() - timeOfLastPathFind > timeBetweenPathFinds / 6) {
+                if (invalidPathCount == 0 && System.currentTimeMillis() - timeOfLastPathFind > TIME_BETWEEN_PATH_FINDS / 6) {
                     pathFinder.requestPath();
                 }
                 return;
@@ -188,16 +187,14 @@ public class Enemy extends GameSprite {
         body.setLinearVelocity(((JumpArc) currentArc).xSpeed, body.getLinearVelocity().y);
     }
 
-
     public void renderHealth(ShapeRenderer renderer) {
         renderer.setColor(1, 0, 0, 1);
-        renderer.rect(this.getPos().x - width / 2f, this.getPos().y + height / 2.f + healthBarHeight, width, healthBarHeight);
+        renderer.rect(this.getPos().x - width / 2f, this.getPos().y + height / 2.f + HEALTH_BAR_HEIGHT, width, HEALTH_BAR_HEIGHT);
 
         renderer.setColor(0, 1, 0, 1);
         float greenWidth = width * (this.health / this.maxHealth);
-        renderer.rect(this.getPos().x - width / 2f, this.getPos().y + height / 2.f + healthBarHeight, greenWidth, healthBarHeight);
+        renderer.rect(this.getPos().x - width / 2f, this.getPos().y + height / 2.f + HEALTH_BAR_HEIGHT, greenWidth, HEALTH_BAR_HEIGHT);
     }
-
 
     /**
      * Sets the target to the supplied gamesprite
@@ -207,6 +204,4 @@ public class Enemy extends GameSprite {
     public void setTarget(Player _target) {
         target = _target;
     }
-
-
 }

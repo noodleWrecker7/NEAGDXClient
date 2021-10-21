@@ -16,21 +16,27 @@ public class Player extends GameSprite {
     GridPoint2 lastValidPosition; // the last time the player was a valid pathfind-able position
     Level level;
 
+    static final float DENSITY = 50;
+    static final float SPEED = 6;
+    static final float FRICTION = 4;
+    static final int MAX_JUMPS = 2;
+    static final float JUMP_SPEED = 14f;
+
     public GridPoint2 getLastValidPosition() {
         return lastValidPosition;
     }
 
 
     public Player(World world, AssetManager assets, float x, float y, Level _level) {
-        super(world, x, y, 50, 6, 4, 0, "ogre", assets);
+        super(world, x, y, DENSITY, SPEED, FRICTION, "knight_f", assets);
         level = _level;
-        speed = 6f;
-        jumpSpeed = 14f;
-        final float width = 2;
-        final float height = 3;
+
+        this.jumpSpeed = JUMP_SPEED;
+        this.maxJumps = MAX_JUMPS;
+
         final float sensorHeight = .4f;
 
-        // sensor
+        // sensor creation
         final FixtureDef sensorFixtureDef = new FixtureDef(); // for jumps / detecting if on ground
         final PolygonShape shape2 = new PolygonShape();
         shape2.setAsBox(width / 2, sensorHeight / 2, new Vector2(0, -height / 2), 0);

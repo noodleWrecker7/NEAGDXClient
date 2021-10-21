@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import dev.adamhodgkinson.PlayerData;
 import dev.adamhodgkinson.game.enemies.Enemy;
-import dev.adamhodgkinson.game.navigation.PathFinder;
 
 /**
  * Contains all the logic of the game itself, should remain abstracted from any
