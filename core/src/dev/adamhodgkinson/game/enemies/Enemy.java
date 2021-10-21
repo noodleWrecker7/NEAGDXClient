@@ -133,7 +133,7 @@ public class Enemy extends GameSprite {
                 System.out.println("path empty");
                 currentArc = null;
                 if (invalidPathCount == 0 && System.currentTimeMillis() - timeOfLastPathFind > timeBetweenPathFinds / 6) {
-//                    findNewPath();
+                    pathFinder.requestPath();
                 }
                 return;
             }

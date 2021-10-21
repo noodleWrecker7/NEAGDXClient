@@ -22,7 +22,7 @@ public class Player extends GameSprite {
 
 
     public Player(World world, AssetManager assets, float x, float y, Level _level) {
-        super(world, x, y, 50, 6, 4, 0, "elf_m", assets);
+        super(world, x, y, 50, 6, 4, 0, "ogre", assets);
         level = _level;
         speed = 6f;
         jumpSpeed = 14f;
@@ -41,7 +41,7 @@ public class Player extends GameSprite {
         //fixme temporary
         //todo rename all weapons to remove weapon_ prefix
         TextureAtlas atlas = assets.get("core/assets/packed/pack.atlas");
-        this.weapon = new MeleeWeapon(1, 6, 100, atlas.findRegion("game/weapons/weapon_axe"), this);
+        this.weapon = new MeleeWeapon(1, 6, 100, atlas.findRegion("game/weapons/weapon_anime_sword"), this);
     }
 
     @Override

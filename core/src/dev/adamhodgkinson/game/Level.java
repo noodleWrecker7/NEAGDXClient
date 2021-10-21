@@ -105,7 +105,7 @@ public class Level {
             enemiesArray.add(e);
         }
 
-        //todo temp
+/*        //todo temp
         for (int i = 0; i < 256*2; i++) {
             int x = (int) Math.floor(Math.random() * worldWidth);
             int y = (int) Math.floor(Math.random() * worldHeight);
@@ -113,7 +113,7 @@ public class Level {
             e.health = 5;
             e.maxHealth = 5;
             enemiesArray.add(e);
-        }
+        }*/
 
         BodyDef worldEdgeDef = new BodyDef();
         worldEdgeDef.type = BodyDef.BodyType.StaticBody;

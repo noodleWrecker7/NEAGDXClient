@@ -118,7 +118,7 @@ public class NavGraphBuilder {
 
             y = f(x, horizSpeed, jumpSpeed);
 
-            for (float xOffset = -0.52f; xOffset <= 0.52f; xOffset += 1.04f) {
+            for (float xOffset = -0.54f; xOffset <= 0.54f; xOffset += 1.08f) {
                 for (float yOffset = -0.5f; yOffset <= 1.5f; yOffset += 2f) {
 
                     final Tile t = solids.findTileByCoords(Math.round(x + startX + xOffset), Math.round(y + startY + yOffset));
@@ -223,7 +223,7 @@ public class NavGraphBuilder {
         addValidNodes();
         navGraph.compile();
         addAdjacentEdges();
-        for (float i = maxJumpSpeed; i > 0; i-=.5f) {
+        for (float i = maxJumpSpeed; i > 0f; i-=.5f) {
             addJumpsEdges(i);
         }
 

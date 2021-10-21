@@ -67,7 +67,7 @@
     </Tiles>
     <Enemies>
         <enemy name="big_demon" x="3" y="5" health="10"/>
-        <enemy name="chort" x="6" y="5" health="10"/>
+<!--        <enemy name="chort" x="6" y="5" health="10"/>-->
     </Enemies>
     <Chests></Chests>
     <LootTables></LootTables>
