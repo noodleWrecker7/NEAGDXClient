@@ -1,5 +1,6 @@
 package dev.adamhodgkinson.game.navigation;
 
+import dev.adamhodgkinson.game.GameSprite;
 import dev.adamhodgkinson.game.Tile;
 import dev.adamhodgkinson.game.TileGroup;
 
@@ -39,6 +40,11 @@ public class NavGraphBuilder {
                     dy = (short) -node.y;
                     continue;
                 }
+                Arc arc = navGraph.getArc(node.x, node.y, (short) (node.x + dx), (short) (node.y + dy));
+                if (arc != null) { // if the arc already exists
+                    continue;
+                }
+
                 if (node.x + dx >= width) { // if out of bounds
                     break;
                 }
@@ -47,10 +53,7 @@ public class NavGraphBuilder {
                     continue;
                 }
 
-                Arc arc = navGraph.getArc(node.x, node.y, (short) (node.x + dx), (short) (node.y + dy));
-                if (arc != null && !arc.isJump()) { // if the arc already exists and is a walk
-                    continue;
-                }
+
 
                 // gets the destination node object
                 final Vertex destinationNode = navGraph.getVertexByCoords((short) (node.x + dx), (short) (node.y + dy));
@@ -118,13 +121,18 @@ public class NavGraphBuilder {
 
             y = f(x, horizSpeed, jumpSpeed);
 
-            for (float xOffset = -0.54f; xOffset <= 0.54f; xOffset += 1.08f) {
-                for (float yOffset = -0.5f; yOffset <= 1.5f; yOffset += 2f) {
+            for (float xOffset = -GameSprite.MAX_PHYSICAL_WIDTH / 2; xOffset <= GameSprite.MAX_PHYSICAL_WIDTH / 2; xOffset += GameSprite.MAX_PHYSICAL_WIDTH) {
 
-                    final Tile t = solids.findTileByCoords(Math.round(x + startX + xOffset), Math.round(y + startY + yOffset));
-                    if (t != null)
-                        return false;
-                }
+                float yOffset = -GameSprite.MAX_PHYSICAL_HEIGHT / 4;
+
+                Tile t = solids.findTileByCoords(Math.round(x + startX + xOffset), Math.round(y + startY + yOffset));
+                if (t != null)
+                    return false;
+
+                yOffset = GameSprite.MAX_PHYSICAL_HEIGHT - yOffset;
+                t = solids.findTileByCoords(Math.round(x + startX + xOffset), Math.round(y + startY + yOffset));
+                if (t != null)
+                    return false;
             }
         }
         return true;
@@ -223,7 +231,8 @@ public class NavGraphBuilder {
         addValidNodes();
         navGraph.compile();
         addAdjacentEdges();
-        for (float i = maxJumpSpeed; i > 0f; i-=.5f) {
+
+        for (float i = 0; i <= maxJumpSpeed; i += 1f) {
             addJumpsEdges(i);
         }
 
