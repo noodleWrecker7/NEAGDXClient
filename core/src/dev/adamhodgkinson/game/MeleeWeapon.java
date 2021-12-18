@@ -13,7 +13,7 @@ public class MeleeWeapon extends Weapon implements Physical {
     ArrayList<GameSprite> collidingBodies;
     float animationRotation = 0;
     boolean attackOnCooldown = false;
-    float knockback = 50f;
+
 
     public MeleeWeapon(int damage, int range, int attackspeed, TextureRegion _texture, GameSprite sprite) {
         super(damage, range, attackspeed, _texture);

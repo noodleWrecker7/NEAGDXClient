@@ -19,9 +19,11 @@ public class GDXClient extends Game {
     public OrthographicCamera worldCam;
     public OrthographicCamera uiCam;
 
+    public PlayerData playerData;
+
 //    public BitmapFont font;
 
-    float zoom;
+   public float zoom;
 
     public boolean debug = false;
 
@@ -38,7 +40,7 @@ public class GDXClient extends Game {
         int pixelsPerUnit = 32;
         // camera for rendering objects in a world that move
         // could probably be moved to game screen
-        worldCam.setToOrtho(false, (Gdx.graphics.getWidth() / pixelsPerUnit) / zoom, (Gdx.graphics.getHeight() / pixelsPerUnit) / zoom); // ortho camera, 1 unit is one tile
+        worldCam.setToOrtho(false, ((float) Gdx.graphics.getWidth() / pixelsPerUnit) / zoom, ((float) Gdx.graphics.getHeight() / pixelsPerUnit) / zoom); // ortho camera, 1 unit is one tile
         worldCam.position.set(5, 3, 0);
         worldCam.update();
 
@@ -50,6 +52,9 @@ public class GDXClient extends Game {
         assets = new AssetManager(); // manages loading of multiple assets asynchronously
 
         loadAssets();
+
+        // todo load playe data from server
+        playerData = new PlayerData();
 
         // Starts the loading screen while the assets are loading
         setScreen(new Loading(this)); // changes screen to the loading screen

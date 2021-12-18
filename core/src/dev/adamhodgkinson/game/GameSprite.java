@@ -66,12 +66,12 @@ abstract public class GameSprite extends Animated implements Physical {
         final FixtureDef fix = new FixtureDef();
         final PolygonShape shape = new PolygonShape();
 
-      /*  if (width > 1) {
+        if (width > 1) {
             width = 1;
         }
         if (height > 2) {
             height = 2;
-        }*/
+        }
         shape.setAsBox(width / 2, height / 2);
         fix.shape = shape;
         fix.density = density;

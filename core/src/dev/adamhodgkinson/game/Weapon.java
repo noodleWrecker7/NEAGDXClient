@@ -14,6 +14,7 @@ abstract public class Weapon extends Sprite {
     float absoluteRotation = 20;
     // negative is facing right
     int rotationfFlip = -1;
+    float knockback = 50f;
 
     abstract public void destroy();
 

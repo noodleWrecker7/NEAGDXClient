@@ -24,22 +24,28 @@ public class Menu extends ScreenAdapter {
         TextureAtlas texAtlas = client.assets.get("core/assets/packed/pack.atlas");
         skin.addRegions(texAtlas);
 
-        float scaleFactor = (client.worldCam.viewportWidth / 4) / texAtlas.findRegion("Menu/ButtonLevelSelect").originalWidth; // desired width / current width
-        float scaledHeight = scaleFactor * texAtlas.findRegion("Menu/ButtonLevelSelect").originalHeight;
-        skin.setScale(scaleFactor); // to shrink the images to fit on viewport
+        float scaledHeight = client.zoom * texAtlas.findRegion("Menu/ButtonLevelSelect").originalHeight;
+//        skin.setScale(scaleFactor); // to shrink the images to fit on viewport
 
 
         stage = new Stage(); // to hold the buttons
         stage.getCamera().position.set(0, 0, 0);
-        stage.getCamera().viewportWidth = client.worldCam.viewportWidth;
-        stage.getCamera().viewportHeight = client.worldCam.viewportHeight;
+        stage.getCamera().viewportWidth = client.uiCam.viewportWidth;
+        stage.getCamera().viewportHeight = client.uiCam.viewportHeight;
 
         String[] buttonNames = {"ButtonLevelSelect", "ButtonMultiplayer", "ButtonInventory", "ButtonOptions", "ButtonExit"};
 
 
         float topMargin = 5f; // needs to be tied to viewport scale
-        float verticalSpacePerButton = (client.worldCam.viewportHeight - topMargin) / buttonNames.length;
+        float verticalSpacePerButton = (client.uiCam.viewportHeight - topMargin) / buttonNames.length;
 
+        float buttonHeight = texAtlas.findRegion("Menu/ButtonInventory").originalHeight;
+        float spaceBetweenButtons = buttonHeight/3;
+        float totalHeight = (buttonHeight +spaceBetweenButtons) * buttonNames.length + spaceBetweenButtons;
+
+//        if(totalHeight > client.uiCam.viewportHeight){
+            float scale = client.uiCam.viewportHeight / totalHeight;
+//        }
 
 
         for (int i = 0; i < buttonNames.length; i++) {
@@ -50,7 +56,7 @@ public class Menu extends ScreenAdapter {
             menuButton = new ImageButton(imageButtonStyle); // creates button from styling
 
             // starts from top and lowers the height by and equal amount for each button
-            float yPos = -topMargin + client.worldCam.viewportHeight / 2 - verticalSpacePerButton * i - scaledHeight / 2;
+            float yPos = client.uiCam.viewportHeight / 2 - (spaceBetweenButtons+buttonHeight)*i;
             menuButton.setPosition(0, yPos, Align.center);
 
             stage.addActor(menuButton); // adds button to stage
@@ -72,6 +78,9 @@ public class Menu extends ScreenAdapter {
         switch (name) {
             case "ButtonLevelSelect":
                 client.setScreen(new GameScreen(client));
+                break;
+            case "ButtonInventory":
+                client.setScreen(new Inventory(client));
                 break;
         }
     }
