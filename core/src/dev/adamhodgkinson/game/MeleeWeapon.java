@@ -94,7 +94,6 @@ public class MeleeWeapon extends Weapon implements Physical {
         if (isValidObj(obj1)) {
             collidingBodies.add((GameSprite) obj1);
         }
-        System.out.println("In rnage of attack: " + collidingBodies.size());
     }
 
     public boolean isValidObj(Object obj) {
@@ -116,7 +115,6 @@ public class MeleeWeapon extends Weapon implements Physical {
         if (isValidObj(obj1)) {
             collidingBodies.remove((GameSprite) obj1);
         }
-        System.out.println("In rnage of attack: " + collidingBodies.size());
 
     }
 }

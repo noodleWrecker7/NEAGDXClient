@@ -9,6 +9,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
 abstract public class GameSprite extends Animated implements Physical {
+    public static final float MAX_PHYSICAL_WIDTH = .95f;
+    public static final float MAX_PHYSICAL_HEIGHT = 1.95f;
+
+    public static final float LINEAR_DAMPING = 0;
+
     Vector2 movement = new Vector2();
     protected Body body;
     protected float speed;
@@ -42,10 +47,10 @@ abstract public class GameSprite extends Animated implements Physical {
     }
 
     public GameSprite(World world, float x, float y, String textureName, AssetManager assets) {
-        this(world, x, y, 5, 4f, .5f, 0, textureName, assets);
+        this(world, x, y, 5, 4f, .5f, textureName, assets);
     }
 
-    public GameSprite(World world, float x, float y, float density, float speed, float friction, float linearDamping,
+    public GameSprite(World world, float x, float y, float density, float speed, float friction,
                       String textureName, AssetManager assets) {
         this.speed = speed;
         jumpSpeed = speed * 2;
@@ -66,17 +71,17 @@ abstract public class GameSprite extends Animated implements Physical {
         final FixtureDef fix = new FixtureDef();
         final PolygonShape shape = new PolygonShape();
 
-        if (width > 1) {
-            width = 1;
+        if (width > MAX_PHYSICAL_WIDTH) {
+            width = MAX_PHYSICAL_WIDTH;
         }
-        if (height > 2) {
-            height = 2;
+        if (height > MAX_PHYSICAL_HEIGHT) {
+            height = MAX_PHYSICAL_HEIGHT;
         }
         shape.setAsBox(width / 2, height / 2);
         fix.shape = shape;
         fix.density = density;
         fix.friction = friction;
-        body.setLinearDamping(linearDamping);
+        body.setLinearDamping(LINEAR_DAMPING);
         body.createFixture(fix);
 
         body.setUserData(this);
@@ -125,8 +130,11 @@ abstract public class GameSprite extends Animated implements Physical {
         }
 
         // gets width each frame as it can change
-        batch.draw(frame, pos.x - width / 2, pos.y - height / 2, frame.getRegionWidth() / 16.f,
-                frame.getRegionHeight() / 16.f); /*
+        float width = frame.getRegionWidth() / 16.f;
+        float height = frame.getRegionHeight() / 16.f;
+
+        batch.draw(frame, pos.x - width / 2, pos.y - height / 2, width,
+                height); /*
          * had to add coord offsets to account for being at center of object
          * + weird height/8 offset accounts for extra whitespace in texture
          */
