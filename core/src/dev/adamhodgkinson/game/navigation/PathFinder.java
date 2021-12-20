@@ -83,6 +83,9 @@ public class PathFinder {
             int checking = queue.get(0); // gets first node in quque
             queue.remove(0); // pops it off queue
             visited.add(checking); // node marked as visited
+            if (checking == end) { // if reached end
+                return generatePath(start, end);
+            }
             Arc[] connections = nav.adjacencyMatrix[checking]; // all possible routes from current node
             for (int i = 0; i < connections.length; i++) { // for each connected node
                 Arc connection = connections[i]; // conenction to neighbour
@@ -97,9 +100,7 @@ public class PathFinder {
                     weightToNode[i] = (short) (weightToNode[checking] + connection.weight); // sets the weight to the new weight
                     previousNode[i] = checking;
                 }
-                if (i == end) { // if reached end
-                    return generatePath(start, end);
-                }
+
 
             }
         }
