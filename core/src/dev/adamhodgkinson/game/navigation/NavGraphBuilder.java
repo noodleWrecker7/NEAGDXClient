@@ -26,9 +26,11 @@ public class NavGraphBuilder {
         this.gravity = gravity;
     }
 
+
     public void addJumpsEdges(float jumpSpeed) {
         // checks every node as a starting node
         final Vertex[] nodes = navGraph.getNodesArray();
+
         for (final Vertex node : nodes) {
             // the delta x and y from the starting node
             short dx = (short) -node.x;
@@ -41,61 +43,51 @@ public class NavGraphBuilder {
                     continue;
                 }
                 Arc arc = navGraph.getArc(node.x, node.y, (short) (node.x + dx), (short) (node.y + dy));
-                if (arc != null) { // if the arc already exists
+
+                // escape conditions
+                // if the arc already exists
+                if (arc != null) {
                     continue;
                 }
 
-                if (node.x + dx >= width) { // if out of bounds
+                // if out of bounds
+                if (node.x + dx >= width) {
                     break;
                 }
 
-                if (dx == 0 && dy == 0) { // cant jump to itself
+                // cant jump to itself
+                if (dx == 0 && dy == 0) {
                     continue;
                 }
 
-
-
                 // gets the destination node object
                 final Vertex destinationNode = navGraph.getVertexByCoords((short) (node.x + dx), (short) (node.y + dy));
+
                 // if there is no node there
                 if (destinationNode == null) {
                     continue;
                 }
+
                 // the calculated jump speed to jump from the start to the destination node
-                final float[] speed = findHorizontalSpeedForJump(dx, dy, jumpSpeed);
-                // if the jump cannot be made
-                if (speed == null) {
+                final float[] speeds = findHorizontalSpeedForJump(dx, dy, jumpSpeed);
+
+                // if the jump is too far
+                if (speeds == null) {
                     dx++;
-                    dy = 0;
+                    dy = (short) -node.y;
                     continue;
                 }
 
-                float finalSpeed = 0;
-                if (isValidArc(node.x, node.y, node.x + dx, node.y + dy, jumpSpeed, speed[0])) {
-                    finalSpeed = speed[0];
-                    if (Float.isInfinite(finalSpeed) || Float.isNaN(finalSpeed) || Math.abs(finalSpeed) <= 0.5f || Math.abs(finalSpeed) > maxXSpeed * 1.5f) {
-                        finalSpeed = 0;
-                    }
-                }
-                if (isValidArc(node.x, node.y, node.x + dx, node.y + dy, jumpSpeed, speed[1])) {
-                    if ((Math.abs(speed[1]) < Math.abs(finalSpeed) || finalSpeed == 0) && speed[1] != 0) {
-                        finalSpeed = speed[1];
-                    }
-                }
-                if (Float.isInfinite(finalSpeed) || Float.isNaN(finalSpeed) || Math.abs(finalSpeed) <= 0.5f || Math.abs(finalSpeed) > maxXSpeed * 1.5f) {
-                    finalSpeed = 0;
-                }
+                float finalSpeed = chooseBestSpeed(speeds, node.x, node.y, node.x + dx, node.y + dy, jumpSpeed);
                 if (finalSpeed == 0) {
                     continue;
                 }
 
-                // calculates the weight by the horizontal distance, multiplied by the ratio of
-                // the maxXSpeed to the calculated xSpeed
-                // which means that for any pair of nodes in a jumpArc, the weight is inversely
-                // proportional to the xSpeed needed to cross it
-                // thus making the weight directly proportional to actual time needed to cross
-                // it
+                /* calculates the weight by the horizontal distance, multiplied by the ratio of
+                 the maxXSpeed to the calculated xSpeed, this means that a lower final speed results in a greater weight,
+                 since going slower takes longer */
                 final short weight = (short) (dx * (maxXSpeed / finalSpeed));
+
                 // creates the jump edge;
                 navGraph.addJumpEdge(node.x, node.y, (short) (node.x + dx), (short) (node.y + dy), weight, finalSpeed,
                         jumpSpeed);
@@ -103,7 +95,27 @@ public class NavGraphBuilder {
         }
     }
 
-    public boolean isValidArc(int startX, int startY, int endX, int endY, float jumpSpeed, float horizSpeed) {
+    public float chooseBestSpeed(float[] speeds, int startX, int startY, int endX, int endY, float jumpSpeed) {
+        float finalSpeed = 0;
+        if (isValidArc(startX, startY, endX, jumpSpeed, speeds[0])) {
+            finalSpeed = speeds[0];
+            if (Float.isInfinite(finalSpeed) || Float.isNaN(finalSpeed) || Math.abs(finalSpeed) <= 0.5f || Math.abs(finalSpeed) > maxXSpeed * 1.5f) {
+                finalSpeed = 0;
+            }
+        }
+        if (isValidArc(startX, startY, endX, jumpSpeed, speeds[1])) {
+            if ((Math.abs(speeds[1]) < Math.abs(finalSpeed) || finalSpeed == 0) && speeds[1] != 0) {
+                finalSpeed = speeds[1];
+            }
+        }
+        if (Float.isInfinite(finalSpeed) || Float.isNaN(finalSpeed) || Math.abs(finalSpeed) <= 0.5f || Math.abs(finalSpeed) > maxXSpeed * 1.5f) {
+            finalSpeed = 0;
+        }
+
+        return finalSpeed;
+    }
+
+    public boolean isValidArc(int startX, int startY, int endX, float jumpSpeed, float horizSpeed) {
         final int interpolatesPerTile = 100;
         final int totalInterpolates = Math.abs((endX - startX) * interpolatesPerTile);
 
@@ -145,59 +157,23 @@ public class NavGraphBuilder {
         return a * x * x + b * x; // y
     }
 
-    /*
-     * public boolean curveCollidesWithTile(int tileX, int tileY, float jumpSpeed,
-     * float horizSpeed, int startX, int startY) { final float a = 0.5f * gravity /
-     * (horizSpeed * horizSpeed); final float b = jumpSpeed / horizSpeed; final int
-     * tileXOffset = tileX - startX; // distance from origin of curve to tile center
-     * final int tileYOffset = tileY - startY;
-     *
-     * for (float tI = -0.5f; tI <= 0.5f; tI += 1.f) { // accounts for different
-     * sides of tile for (float pI = +0.5f; pI >= 1.5f; pI -= 2.f) { // accounts for
-     * different sides of player final float c = tileYOffset + tI + pI; // offsets
-     * the tile rather than the line for (float xI = -1f; xI <= 1f; xI += 0.5f) {
-     *
-     * if (xI == 0) { continue; } final float x = tileXOffset + xI;
-     *
-     * final float discriminant = b * b - 4 * a * c;
-     *
-     * if (discriminant <= 0) { continue; }
-     *
-     * final double root1 = (-b + Math.sqrt(b * b - 4 * a * c)) / 2 * a; final
-     * double root2 = (-b - Math.sqrt(b * b - 4 * a * c)) / 2 * a; if (root1 < x +
-     * 0.5f && root1 > x - 0.5f || root2 < x + 0.5f && root2 > x - 0.5f) return
-     * true;
-     *
-     * final float y = a * x * x + b * x + c;
-     *
-     * } }
-     *
-     * }
-     *
-     * // todo same but for horizontal - plug in x values and get the y and see if
-     * // chill
-     *
-     * return false;
-     *
-     * }
+    /**
+     * returns the horizontal speed to jump the specified distances
      */
-
-    public float[] findHorizontalSpeedForJump(int x, int y, float jumpSpeed) { // returns the horizontal speed to make
-        // a
-        // jump the specified distances
-        final double discriminant = jumpSpeed * jumpSpeed * x * x + 2 * y * gravity * x * x;
-        if (discriminant < 0)
-            return null;
-
-        // values of y==0 need to be changed to just be really small otherwise some valid values can get lost
+    public float[] findHorizontalSpeedForJump(int x, int y, float jumpSpeed) {
         float correctedY = y;
         if (y == 0) {
             correctedY = 0.1f;
         }
-        final float speed1 = (float) (jumpSpeed * x + Math.sqrt(discriminant)) / (float) (2 * correctedY);
-        final float speed2 = (float) (jumpSpeed * x - Math.sqrt(discriminant)) / (float) (2 * correctedY);
-        return new float[]{speed1, speed2};
+        final double discriminant = jumpSpeed * jumpSpeed * x * x + 2 * correctedY * gravity * x * x;
+        if (discriminant < 0)
+            return null;
 
+        // values of y==0 need to be changed to just be small otherwise some valid values can get lost, even though the jump is technically possible
+
+        final float speed1 = (float) (jumpSpeed * x + Math.sqrt(discriminant)) / (2 * correctedY);
+        final float speed2 = (float) (jumpSpeed * x - Math.sqrt(discriminant)) / (2 * correctedY);
+        return new float[]{speed1, speed2};
     }
 
     public void addValidNodes() {
