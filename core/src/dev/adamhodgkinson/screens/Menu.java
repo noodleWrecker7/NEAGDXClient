@@ -5,7 +5,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
@@ -24,40 +24,37 @@ public class Menu extends ScreenAdapter {
         TextureAtlas texAtlas = client.assets.get("core/assets/packed/pack.atlas");
         skin.addRegions(texAtlas);
 
-        float scaledHeight = client.zoom * texAtlas.findRegion("Menu/ButtonLevelSelect").originalHeight;
-//        skin.setScale(scaleFactor); // to shrink the images to fit on viewport
-
-
-        stage = new Stage(); // to hold the buttons
-        stage.getCamera().position.set(0, 0, 0);
+        stage = new Stage(); // renderer of buttons
+        stage.getCamera().position.set(0, 0, 0); // centers cam
         stage.getCamera().viewportWidth = client.uiCam.viewportWidth;
         stage.getCamera().viewportHeight = client.uiCam.viewportHeight;
 
         String[] buttonNames = {"ButtonLevelSelect", "ButtonMultiplayer", "ButtonInventory", "ButtonOptions", "ButtonExit"};
 
-
-        float topMargin = 5f; // needs to be tied to viewport scale
-        float verticalSpacePerButton = (client.uiCam.viewportHeight - topMargin) / buttonNames.length;
-
         float buttonHeight = texAtlas.findRegion("Menu/ButtonInventory").originalHeight;
-        float spaceBetweenButtons = buttonHeight/3;
-        float totalHeight = (buttonHeight +spaceBetweenButtons) * buttonNames.length + spaceBetweenButtons;
 
-//        if(totalHeight > client.uiCam.viewportHeight){
-            float scale = client.uiCam.viewportHeight / totalHeight;
-//        }
+        float topMargin = 25f; // extra height above buttons - makes room for title image
+
+        float verticalSpacePerButton = (client.uiCam.viewportHeight - topMargin) / buttonNames.length; // how much space is possible to allocate per button
+        float spaceBetweenButtons = verticalSpacePerButton / 3; // how much gap should be between a button
+
+        float scale = (verticalSpacePerButton - spaceBetweenButtons) / buttonHeight;
+        float scaledHeight = buttonHeight*scale;
 
 
         for (int i = 0; i < buttonNames.length; i++) {
-            ImageButton menuButton;
-            ImageButton.ImageButtonStyle imageButtonStyle = new ImageButton.ImageButtonStyle(); // how the button is displayed
 
-            imageButtonStyle.up = skin.getDrawable("Menu/"+buttonNames[i]); // assigns texture to button
-            menuButton = new ImageButton(imageButtonStyle); // creates button from styling
+            Button.ButtonStyle imageButtonStyle = new Button.ButtonStyle(); // how the button is displayed
+            imageButtonStyle.up = skin.getDrawable("Menu/" + buttonNames[i]); // assigns texture to button
 
-            // starts from top and lowers the height by and equal amount for each button
-            float yPos = client.uiCam.viewportHeight / 2 - (spaceBetweenButtons+buttonHeight)*i;
-            menuButton.setPosition(0, yPos, Align.center);
+            Button menuButton = new Button(imageButtonStyle); // creates button from styling
+            menuButton.setTransform(true);
+
+            // starts from top and lowers the height by equal amount per button
+            float yPos = client.uiCam.viewportHeight / 2 - (verticalSpacePerButton) * i - topMargin - scaledHeight/2;
+
+            menuButton.setPosition(0 + scaledHeight, yPos, Align.center);
+            menuButton.setScale(scale);
 
             stage.addActor(menuButton); // adds button to stage
 
@@ -66,8 +63,6 @@ public class Menu extends ScreenAdapter {
             menuButton.addListener(new ClickListener() { // adds listener to each button
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    // handle input here
-                    // change screen etc
                     goToButtonTarget(event.getListenerActor().getName());
                 }
             });
