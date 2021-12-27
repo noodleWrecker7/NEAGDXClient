@@ -2,27 +2,50 @@ package dev.adamhodgkinson.game;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import dev.adamhodgkinson.WeaponData;
 
 abstract public class Weapon extends Sprite {
-    int damage;
-    int range;
-    int attackspeed; // time in ms between hits, higher value is slower
+    int damage = 1;
+    int range = 1;
+    int attackspeed = 1000; // time in ms between hits, higher value is slower
     long timeOfLastHit;
     float xOffset = .25f;
     float yOffset = -.25f;
     float absoluteRotation = 20;
-    // negative is facing right
+    // negative is facing rig ht
     int rotationfFlip = -1;
     float knockback = 50f;
 
     abstract public void destroy();
 
-    public Weapon(int _damage, int _range, int _attackspeed, TextureRegion _texture) {
+    public static Weapon createFromData(WeaponData data, TextureAtlas atlas, GameSprite s) {
+        Weapon w;
+        TextureRegion texture = atlas.findRegion(data.textureName);
+        if (texture == null) {
+            System.out.println("Error reading texture: " + data.textureName);
+            return null;
+        }
+
+        if (data.isMelee) {
+            w = new MeleeWeapon(texture, s);
+        } else {
+            return null;
+        }
+        w.knockback = data.knockback;
+        w.damage = data.damage;
+        w.setRange(data.range);
+        w.attackspeed = data.attackspeed;
+        return w;
+    }
+
+    public void setRange(int r){
+        this.range = r;
+    }
+
+    public Weapon(TextureRegion _texture) {
         super(_texture);
-        damage = _damage;
-        range = _range;
-        attackspeed = _attackspeed;
         this.setScale(1 / 16.f);
         this.setRotation(absoluteRotation * rotationfFlip);
         this.setOrigin(_texture.getRegionWidth() / 2f, 0); // makes it rotate about the center of the bottom edge

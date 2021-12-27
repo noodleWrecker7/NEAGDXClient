@@ -2,20 +2,16 @@ package dev.adamhodgkinson.game;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import dev.adamhodgkinson.game.enemies.Enemy;
+import com.google.gson.Gson;
 import dev.adamhodgkinson.game.navigation.NavGraph;
 import dev.adamhodgkinson.game.navigation.NavGraphBuilder;
+import dev.adamhodgkinson.game.navigation.PathFindTask;
 import dev.adamhodgkinson.game.navigation.PathFinder;
-import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,7 +19,8 @@ import java.util.ArrayList;
 
 public class Level {
     TileGroup solids;
-    ArrayList<Enemy> enemiesArray;
+    ArrayList<Enemy> enemiesArray = new ArrayList<>();
+
     Vector2 playerSpawnPos;
     NavGraph navGraph;
     int worldWidth;
@@ -63,53 +60,48 @@ public class Level {
     }
 
     public void initialize(FileHandle file, World world, AssetManager assets) throws ParserConfigurationException, IOException, SAXException {
-        // Loads and parses xml file
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        DocumentBuilder db = dbf.newDocumentBuilder();
-        Document doc = db.parse(file.read());
-        doc.getDocumentElement().normalize();
+        Gson gson = new Gson();
+        LevelDataSchema levelData = gson.fromJson(file.reader(), LevelDataSchema.class);
+        System.out.println("Level name: " + levelData.name);
 
-        Node level = doc.getElementsByTagName("ShootyStabbyLevel").item(0);
-        worldWidth = Integer.parseInt(level.getAttributes().getNamedItem("width").getNodeValue());
-        worldHeight = Integer.parseInt(level.getAttributes().getNamedItem("height").getNodeValue());
-        Node spawnpos = doc.getElementsByTagName("spawnpos").item(0);
-        playerSpawnPos = new Vector2(Integer.parseInt(spawnpos.getAttributes().getNamedItem("x").getNodeValue()), Integer.parseInt(spawnpos.getAttributes().getNamedItem("y").getNodeValue()));
+        worldWidth = levelData.width;
+        worldHeight = levelData.height;
 
+        playerSpawnPos = new Vector2(levelData.playerSpawnPosX, levelData.playerSpawnPosY);
 
-        NodeList solidTiles = doc.getElementsByTagName("solid");
         solids = new TileGroup(world);
+        TextureAtlas atlas = assets.get("core/assets/packed/pack.atlas");
 
-        for (int i = 0; i < solidTiles.getLength(); i++) {
-            NamedNodeMap attr = solidTiles.item(i).getAttributes();
-            Tile t = Tile.createTileFromXml(attr);
-            if (t.getX() >= worldWidth || t.getY() >= worldHeight || t.getX() < 0 || t.getY() < 0) {
-                System.out.println("Tile outside level bounds at ( " + t.getX() + " , " + t.getY() + " )");
+        for (int i = 0; i < levelData.tiles.length; i++) {
+            TileData data = levelData.tiles[i];
+            if (data.x >= worldWidth || data.y >= worldHeight || data.x < 0 || data.y < 0) {
+                System.out.println("Tile outside level bounds at ( " + data.x + " , " + data.y + " )");
                 continue;
             }
-            solids.addTile(t); // moved tile initialization to a static method in the tile class
+            Tile t = new Tile(data.x, data.y, atlas.findRegion(data.texture, data.i));
+            solids.addTile(t);
         }
+
         solids.build();
-        solids.setBodyType(GameBodyType.TILE_SOLID);
+
         NavGraphBuilder navGraphBuilder = new NavGraphBuilder(worldWidth, worldHeight + 2, solids, 10, 16, world.getGravity().y);
         navGraph = navGraphBuilder.generateNavGraph();
         Enemy.pathFinder = new PathFinder(navGraph);
+        PathFindTask.pathFinder = Enemy.pathFinder;
 
-
-        // load enemies
-        NodeList enemies = doc.getElementsByTagName("enemy");
-
-        enemiesArray = new ArrayList<>();
-        for (int i = 0; i < enemies.getLength(); i++) {
-            Node node = enemies.item(i);
-            Enemy e = Enemy.createFromNode(node, assets, world);
+        for (int i = 0; i < levelData.enemies.length; i++) {
+            EnemyData data = levelData.enemies[i];
+            Enemy e = new Enemy(atlas, data.texture, world, data.x, data.y);
+            e.health = data.health;
+            e.maxHealth = data.health;
             enemiesArray.add(e);
         }
 
         //todo temp
-        for (int i = 0; i < 256*2; i++) {
+        for (int i = 0; i < 256 * 2; i++) {
             int x = (int) Math.floor(Math.random() * worldWidth);
             int y = (int) Math.floor(Math.random() * worldHeight);
-            Enemy e = new Enemy(assets, "chort", world, x, y);
+            Enemy e = new Enemy(atlas, "game/sprites/chort", world, x, y);
             e.health = 5;
             e.maxHealth = 5;
             enemiesArray.add(e);

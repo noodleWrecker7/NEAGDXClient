@@ -1,18 +1,17 @@
-package dev.adamhodgkinson.game.enemies;
+package dev.adamhodgkinson.game;
 
-import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.physics.box2d.World;
-import dev.adamhodgkinson.game.GameSprite;
-import dev.adamhodgkinson.game.Player;
 import dev.adamhodgkinson.game.navigation.*;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Enemy extends GameSprite {
     // Constants
@@ -23,37 +22,25 @@ public class Enemy extends GameSprite {
 
     // Pathfinding
     Player target;
-    PathFinderThread thread;
     public static PathFinder pathFinder;
     List<Vertex> path;
 
     Vertex currentPoint;
     Arc currentArc;
 
+    static final ExecutorService pool = Executors.newFixedThreadPool(20);
+
     boolean alreadyJumpedThisArc = false;
     long timeOfArcAttempt;
     int invalidPathCount = 0;
-    long timeOfLastPathFind = System.currentTimeMillis();
+    long timeOfLastPathFind = System.currentTimeMillis() + (new Random()).nextInt(5000);
     int targetRange = 20; // what range a target must be within to target it
 
 
-    public static Enemy createFromNode(Node node, AssetManager assets, World world) {
-        NamedNodeMap attr = node.getAttributes();
-        String name = attr.getNamedItem("name").getNodeValue();
-        float _health = Float.parseFloat(attr.getNamedItem("health").getNodeValue());
-
-        int x = Integer.parseInt(attr.getNamedItem("x").getNodeValue());
-        int y = Integer.parseInt(attr.getNamedItem("y").getNodeValue());
-        Enemy e = new Enemy(assets, name, world, x, y);
-        e.health = _health;
-        e.maxHealth = _health;
-        return e;
-    }
-
-    public Enemy(AssetManager assets, String textureName, World world, int x, int y) {
-        super(world, x, y, textureName, assets);
-        thread = new PathFinderThread(this);
-        thread.start();
+    public Enemy(TextureAtlas atlas, String textureName, World world, int x, int y) {
+        super(world, x, y, textureName, atlas);
+//        pathFinderThread = new PathFinderThread(this);
+//        pathFinderThread.start();
     }
 
     public void attack() {
@@ -72,12 +59,18 @@ public class Enemy extends GameSprite {
         }
         if (System.currentTimeMillis() - timeOfLastPathFind > TIME_BETWEEN_PATH_FINDS && (currentArc == null || System.currentTimeMillis() - timeOfArcAttempt > TIME_UNTIL_GIVE_UP_ON_ARC)) {
             if (target.getLastValidPosition().dst(Math.round(getPos().x), Math.round(getPos().y)) < targetRange) {
-                thread.requestPath(getGridPoint(), target.getLastValidPosition());
+//                pathFinderThread.notify();
+//                pathFinderThread.requestPath(getGridPoint(), target.getLastValidPosition());
+
+                PathFindTask task = new PathFindTask(this, getGridPoint(), target.getLastValidPosition());
+                pool.execute(task);
                 timeOfLastPathFind = System.currentTimeMillis();
+                timeOfArcAttempt = System.currentTimeMillis();
 //                findNewPath();
             }
         }
         followPath();
+
     }
 
     public synchronized void receivePath(Vertex[] _path) {
@@ -88,8 +81,8 @@ public class Enemy extends GameSprite {
         path = new ArrayList<>(Arrays.asList(_path));
         currentArc = null;
         currentPoint = null;
-        timeOfArcAttempt = System.currentTimeMillis();
     }
+/*
 
     public void findNewPath() {
         timeOfLastPathFind = System.currentTimeMillis();
@@ -109,6 +102,7 @@ public class Enemy extends GameSprite {
         timeOfArcAttempt = System.currentTimeMillis();
 
     }
+*/
 
     public void followPath() {
         if (invalidPathCount > MAX_INVALID_PATHS) { // if ai gets stuck then it should just walk until a new path is found
@@ -129,10 +123,10 @@ public class Enemy extends GameSprite {
 
         if (currentPoint == null) { // if no current target point
             if (path.size() == 0) { // if path empty
-                System.out.println("path empty");
+//                System.out.println("path empty");
                 currentArc = null;
                 if (invalidPathCount == 0 && System.currentTimeMillis() - timeOfLastPathFind > TIME_BETWEEN_PATH_FINDS / 6) {
-                    pathFinder.requestPath();
+//                    pathFinder.requestPath();
                 }
                 return;
             }

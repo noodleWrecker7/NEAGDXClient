@@ -1,12 +1,12 @@
 package dev.adamhodgkinson.game;
 
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import dev.adamhodgkinson.PlayerData;
 import dev.adamhodgkinson.game.UserInputHandler.Action;
 
 public class Player extends GameSprite {
@@ -15,6 +15,7 @@ public class Player extends GameSprite {
     State _state = State.IDLE;
     GridPoint2 lastValidPosition; // the last time the player was a valid pathfind-able position
     Level level;
+    PlayerData playerData;
 
     static final float DENSITY = 50;
     static final float SPEED = 6;
@@ -27,8 +28,9 @@ public class Player extends GameSprite {
     }
 
 
-    public Player(World world, AssetManager assets, float x, float y, Level _level) {
-        super(world, x, y, DENSITY, SPEED, FRICTION, "knight_f", assets);
+    public Player(PlayerData _playerData, World world, TextureAtlas atlas, Level _level) {
+        super(world, _level.playerSpawnPos.x, _level.playerSpawnPos.y, DENSITY, SPEED, FRICTION, _playerData.getTexture(), atlas);
+        playerData = _playerData;
         level = _level;
 
         this.jumpSpeed = JUMP_SPEED;
@@ -46,8 +48,9 @@ public class Player extends GameSprite {
 
         //fixme temporary
         //todo rename all weapons to remove weapon_ prefix
-        TextureAtlas atlas = assets.get("core/assets/packed/pack.atlas");
-        this.weapon = new MeleeWeapon(1, 6, 100, atlas.findRegion("game/weapons/weapon_anime_sword"), this);
+//        TextureAtlas atlas = assets.get("core/assets/packed/pack.atlas");
+
+        this.weapon = Weapon.createFromData(playerData.getEquippedWeaponData(), atlas, this);
     }
 
     @Override

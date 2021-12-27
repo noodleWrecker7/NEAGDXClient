@@ -1,6 +1,5 @@
 package dev.adamhodgkinson.game;
 
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -46,19 +45,22 @@ abstract public class GameSprite extends Animated implements Physical {
         }
     }
 
-    public GameSprite(World world, float x, float y, String textureName, AssetManager assets) {
-        this(world, x, y, 5, 4f, .5f, textureName, assets);
+    public GameSprite(World world, float x, float y, String textureName, TextureAtlas atlas) {
+        this(world, x, y, 5, 4f, .5f, textureName, atlas);
     }
 
     public GameSprite(World world, float x, float y, float density, float speed, float friction,
-                      String textureName, AssetManager assets) {
-        this.speed = speed;
-        jumpSpeed = speed * 2;
-        final TextureAtlas atlas = assets.get("core/assets/packed/pack.atlas");
-        final String prefix = "game/sprites/" + textureName;
-        width = (float) atlas.findRegions(prefix + "_idle_anim").get(0).packedWidth / 16;
-        height = (float) atlas.findRegions(prefix + "_idle_anim").get(0).packedHeight / 16;
-        setDefaultAnims(assets, textureName);
+                      String textureName, TextureAtlas atlas) {
+        try {
+            this.speed = speed;
+            jumpSpeed = speed * 2;
+            width = (float) atlas.findRegions(textureName + "_idle_anim").get(0).packedWidth / 16;
+            height = (float) atlas.findRegions(textureName + "_idle_anim").get(0).packedHeight / 16;
+            setDefaultAnims(atlas, textureName);
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Could not find texture for GameSprite");
+            return;
+        }
 
         final BodyDef def = new BodyDef();
         def.position.set(x, y);
@@ -105,15 +107,14 @@ abstract public class GameSprite extends Animated implements Physical {
     }
 
 
-    public void setDefaultAnims(AssetManager assets, String textureName) {
-        final TextureAtlas atlas = assets.get("core/assets/packed/pack.atlas");
-        final String prefix = "game/sprites/" + textureName;
+    public void setDefaultAnims(TextureAtlas atlas, String textureName) {
+        // todo error catch
         final Animation<TextureRegion> runAnimation = new Animation<TextureRegion>(.15f,
-                atlas.findRegions(prefix + "_run_anim"), Animation.PlayMode.LOOP);
+                atlas.findRegions(textureName + "_run_anim"), Animation.PlayMode.LOOP);
         final Animation<TextureRegion> hitAnimation = new Animation<TextureRegion>(.5f,
-                atlas.findRegions(prefix + "_hit_anim"), Animation.PlayMode.NORMAL);
+                atlas.findRegions(textureName + "_hit_anim"), Animation.PlayMode.NORMAL);
         final Animation<TextureRegion> idleAnimation = new Animation<TextureRegion>(.25f,
-                atlas.findRegions(prefix + "_idle_anim"), Animation.PlayMode.LOOP);
+                atlas.findRegions(textureName + "_idle_anim"), Animation.PlayMode.LOOP);
         addAnimation("idle", idleAnimation);
         addAnimation("run", runAnimation);
         addAnimation("hit", hitAnimation);

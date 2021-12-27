@@ -115,7 +115,7 @@ public class GameScreen extends ScreenAdapter {
      * @param t The tile to be rendered
      */
     public void drawTile(Tile t) {
-        batch.draw(gameTextures.findRegion(t.getTextureName(), t.getTextureIndex()), t.getX() - .5f, t.getY() - .5f, 1, 1); // had to add .5f as forgot coords are at center
+        batch.draw(t.getTexture(), t.getX() - .5f, t.getY() - .5f, 1, 1); // had to add .5f as forgot coords are at center
 
     }
 

@@ -2,6 +2,7 @@ package dev.adamhodgkinson.game;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 

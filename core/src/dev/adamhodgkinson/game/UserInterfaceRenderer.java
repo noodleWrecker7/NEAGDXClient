@@ -1,5 +1,6 @@
 package dev.adamhodgkinson.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -41,7 +42,8 @@ public class UserInterfaceRenderer {
         font.draw(batch, "Player X/Y: ( " + df.format(game.player.getPos().x) + " , " + df.format(game.player.getPos().y) + " )\n" +
                         "       dX/dY: (" + df.format(game.player.body.getLinearVelocity().x) + "," + df.format(game.player.body.getLinearVelocity().y) + ")\n" +
                         "       Enemies: " + game.level.enemiesArray.size() + "\n" +
-                        "       PlayerWeaponFlip: " + game.player.weapon.rotationfFlip
+                        "       PlayerWeaponFlip: " + game.player.weapon.rotationfFlip+ "\n" +
+                        "       FPS: " + Gdx.graphics.getFramesPerSecond()
                 , -client.uiCam.viewportWidth / 2 + 5, client.uiCam.viewportHeight / 2 - 15, 10, Align.left, false);
     }
 

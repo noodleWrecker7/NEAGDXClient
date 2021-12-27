@@ -2,7 +2,6 @@ package dev.adamhodgkinson.game;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.*;
-import dev.adamhodgkinson.game.enemies.Enemy;
 
 import java.util.ArrayList;
 
@@ -15,8 +14,8 @@ public class MeleeWeapon extends Weapon implements Physical {
     boolean attackOnCooldown = false;
 
 
-    public MeleeWeapon(int damage, int range, int attackspeed, TextureRegion _texture, GameSprite sprite) {
-        super(damage, range, attackspeed, _texture);
+    public MeleeWeapon(TextureRegion _texture, GameSprite sprite) {
+        super(_texture);
         parentSprite = sprite;
 
         collidingBodies = new ArrayList<>();
@@ -28,15 +27,20 @@ public class MeleeWeapon extends Weapon implements Physical {
         body = parentSprite.body.getWorld().createBody(def);
         body.setUserData(this);
 
+        setRange(this.range);
+    }
+
+    @Override
+    public void setRange(int r) {
+        this.range = r;
         final FixtureDef fix = new FixtureDef();
         final CircleShape shape = new CircleShape();
         fix.isSensor = true;
         shape.setRadius(this.range);
         fix.shape = shape;
         body.createFixture(fix);
-
-
     }
+
 
     public void update(float dt) {
         this.body.setTransform(parentSprite.getPos(), 0);

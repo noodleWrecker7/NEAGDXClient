@@ -1,12 +1,17 @@
 package dev.adamhodgkinson.game;
 
-import org.w3c.dom.NamedNodeMap;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Tile {
     private short x;
     private short y;
     String textureName;
     int textureIndex = -1;
+    TextureRegion texture;
+
+    public TextureRegion getTexture() {
+        return texture;
+    }
 
     public String getTextureName() {
         return textureName;
@@ -24,16 +29,12 @@ public class Tile {
         return y;
     }
 
-    public static Tile createTileFromXml(NamedNodeMap attr) {
-        Tile t = new Tile();
-        t.x = Short.parseShort(attr.getNamedItem("x").getNodeValue());
-        t.y = Short.parseShort(attr.getNamedItem("y").getNodeValue());
-        t.textureName = attr.getNamedItem("texture").getNodeValue();
-        if (attr.getNamedItem("i") != null) {
-            t.textureIndex = Integer.parseInt(attr.getNamedItem("i").getNodeValue());
-        }
-        return t;
+    public Tile(short x, short y, TextureRegion texture) {
+        this.x = x;
+        this.y = y;
+        this.texture = texture;
     }
+
 }
 
 
