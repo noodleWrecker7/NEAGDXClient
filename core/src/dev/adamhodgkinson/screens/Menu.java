@@ -20,6 +20,8 @@ public class Menu extends ScreenAdapter {
     public Menu(GDXClient app) {
         this.client = app;
 
+        System.out.println("We at menu");
+
         Skin skin = new Skin(); // will store texture data
         TextureAtlas texAtlas = client.assets.get("core/assets/packed/pack.atlas");
         skin.addRegions(texAtlas);
@@ -67,6 +69,7 @@ public class Menu extends ScreenAdapter {
                 }
             });
         }
+        this.show();
     }
 
     public void goToButtonTarget(String name) {
@@ -82,6 +85,7 @@ public class Menu extends ScreenAdapter {
 
     @Override
     public void show() {
+        super.show();
         // setup input handling
         Gdx.input.setInputProcessor(stage); // input must be directed to stage for this screen
 
@@ -89,6 +93,7 @@ public class Menu extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
+        super.render(delta);
         ScreenUtils.clear(0, 0, 0, 1);
         // render menu screen
         stage.draw();

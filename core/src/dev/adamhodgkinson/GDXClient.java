@@ -12,6 +12,15 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import dev.adamhodgkinson.screens.Loading;
+import dev.adamhodgkinson.screens.Login;
+
+import java.net.CookieManager;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
+import java.util.function.Consumer;
 
 public class GDXClient extends Game {
     public AssetManager assets;
@@ -19,11 +28,18 @@ public class GDXClient extends Game {
     public OrthographicCamera worldCam;
     public OrthographicCamera uiCam;
 
+    public final String SERVER_ADDRESS = "http://localhost:26500";
+
+    HttpClient httpClient = HttpClient.newBuilder()
+            .version(HttpClient.Version.HTTP_2)
+            .cookieHandler(new CookieManager())
+            .build();
+
     public PlayerData playerData;
 
 //    public BitmapFont font;
 
-   public float zoom;
+    public float zoom;
 
     public boolean debug = false;
 
@@ -57,12 +73,13 @@ public class GDXClient extends Game {
         playerData = new PlayerData();
 
         // Starts the loading screen while the assets are loading
-        setScreen(new Loading(this)); // changes screen to the loading screen
+        setScreen(new Loading(this, new Login(this))); // changes screen to the loading screen
     }
 
     public void loadAssets() {
 // todo important, remember to mention in design that there used to be multiple atlases
-        assets.load("core/assets/packed/pack.atlas", TextureAtlas.class);
+
+        assets.load(Gdx.files.internal("packed/pack.atlas").path(), TextureAtlas.class);
 
 
         // set the loaders for the generator and the fonts themselves
@@ -105,4 +122,28 @@ public class GDXClient extends Game {
     public void dispose() {
         assets.dispose();
     }
+
+    public void postRequest(String endpoint, String json, Consumer<HttpResponse<String>> handler) {
+        HttpRequest r = HttpRequest.newBuilder()
+                .uri(URI.create(SERVER_ADDRESS + endpoint))
+                .timeout(Duration.ofMinutes(1))
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(json))
+                .build();
+
+
+        httpClient.sendAsync(r, HttpResponse.BodyHandlers.ofString()).thenAccept(handler);
+    }
+
+    public void getRequest(String endpoint, Consumer<HttpResponse<String>> handler) {
+        HttpRequest r = HttpRequest.newBuilder()
+                .uri(URI.create(SERVER_ADDRESS + endpoint))
+                .timeout(Duration.ofMinutes(1))
+                .header("Content-Type", "application/json")
+                .GET()
+                .build();
+        httpClient.sendAsync(r, HttpResponse.BodyHandlers.ofString()).thenAccept(handler);
+    }
+
 }
+

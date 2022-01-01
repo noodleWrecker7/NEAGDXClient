@@ -1,5 +1,6 @@
 package dev.adamhodgkinson.desktop;
 
+import com.badlogic.gdx.Files;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.tools.texturepacker.TexturePacker;
@@ -12,6 +13,7 @@ public class DevLauncher {
         config.width = Math.round(960 * zoom);
         config.height = Math.round(512 * zoom);
         config.resizable = false;
+        config.addIcon("icon.png", Files.FileType.Internal);
 
 
         TexturePacker.Settings settings = new TexturePacker.Settings();
