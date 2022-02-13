@@ -1,5 +1,6 @@
 package dev.adamhodgkinson.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -70,7 +71,7 @@ public class Level {
         playerSpawnPos = new Vector2(levelData.playerSpawnPosX, levelData.playerSpawnPosY);
 
         solids = new TileGroup(world);
-        TextureAtlas atlas = assets.get("core/assets/packed/pack.atlas");
+        TextureAtlas atlas = assets.get(Gdx.files.internal("packed/pack.atlas").path());
 
         for (int i = 0; i < levelData.tiles.length; i++) {
             TileData data = levelData.tiles[i];
@@ -98,14 +99,14 @@ public class Level {
         }
 
         //todo temp
-        for (int i = 0; i < 256 * 2; i++) {
+       /* for (int i = 0; i < 256 * 2; i++) {
             int x = (int) Math.floor(Math.random() * worldWidth);
             int y = (int) Math.floor(Math.random() * worldHeight);
             Enemy e = new Enemy(atlas, "game/sprites/chort", world, x, y);
             e.health = 5;
             e.maxHealth = 5;
             enemiesArray.add(e);
-        }
+        }*/
 
         BodyDef worldEdgeDef = new BodyDef();
         worldEdgeDef.type = BodyDef.BodyType.StaticBody;

@@ -82,27 +82,6 @@ public class Enemy extends GameSprite {
         currentArc = null;
         currentPoint = null;
     }
-/*
-
-    public void findNewPath() {
-        timeOfLastPathFind = System.currentTimeMillis();
-        System.out.println("Calculating new route to player");
-        System.out.println(getGridPoint().toString() + ", " + target.getLastValidPosition().toString());
-        Vertex[] _path = pathFinder.search(getGridPoint(), target.getLastValidPosition());
-        if (_path == null) {
-            System.out.println("invalid path");
-            invalidPathCount++;
-            return;
-        }
-        invalidPathCount = 0;
-//                path = _path;
-        path = new ArrayList<>(Arrays.asList(_path));
-        currentArc = null;
-        currentPoint = null;
-        timeOfArcAttempt = System.currentTimeMillis();
-
-    }
-*/
 
     public void followPath() {
         if (invalidPathCount > MAX_INVALID_PATHS) { // if ai gets stuck then it should just walk until a new path is found

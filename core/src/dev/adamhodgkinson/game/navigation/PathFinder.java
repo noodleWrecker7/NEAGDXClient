@@ -79,7 +79,6 @@ public class PathFinder {
         weightToNode[start] = 0;
         queue = new ArrayList<>();
         visited = new ArrayList<>();
-//        addToQueue(new PathNode(null, null, start));
         queue.add(start);
         while (queue.size() != 0) { // whilst queue not empty
             int checking = queue.get(0); // gets first node in quque
@@ -102,8 +101,6 @@ public class PathFinder {
                     weightToNode[i] = (short) (weightToNode[checking] + connection.weight); // sets the weight to the new weight
                     previousNode[i] = checking;
                 }
-
-
             }
         }
         return null;

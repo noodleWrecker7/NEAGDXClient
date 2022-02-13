@@ -20,7 +20,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
-import java.util.function.Consumer;
+import java.util.concurrent.CompletableFuture;
 
 public class GDXClient extends Game {
     public AssetManager assets;
@@ -29,10 +29,10 @@ public class GDXClient extends Game {
     public OrthographicCamera uiCam;
 
     public final String SERVER_ADDRESS = "http://localhost:26500";
-
     HttpClient httpClient = HttpClient.newBuilder()
             .version(HttpClient.Version.HTTP_2)
             .cookieHandler(new CookieManager())
+            .connectTimeout(Duration.ofSeconds(5))
             .build();
 
     public PlayerData playerData;
@@ -93,6 +93,8 @@ public class GDXClient extends Game {
         assets.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
 
         loadFont("fonts/NotoSansMono-Regular.ttf", 10, "noto10");
+        loadFont("fonts/NotoSansMono-Regular.ttf", 15, "noto15");
+        loadFont("fonts/NotoSansMono-Regular.ttf", 25, "noto25");
     }
 
     /**
@@ -123,7 +125,7 @@ public class GDXClient extends Game {
         assets.dispose();
     }
 
-    public void postRequest(String endpoint, String json, Consumer<HttpResponse<String>> handler) {
+    public CompletableFuture<HttpResponse<String>> postRequest(String endpoint, String json) {
         HttpRequest r = HttpRequest.newBuilder()
                 .uri(URI.create(SERVER_ADDRESS + endpoint))
                 .timeout(Duration.ofMinutes(1))
@@ -132,17 +134,17 @@ public class GDXClient extends Game {
                 .build();
 
 
-        httpClient.sendAsync(r, HttpResponse.BodyHandlers.ofString()).thenAccept(handler);
+        return httpClient.sendAsync(r, HttpResponse.BodyHandlers.ofString());
     }
 
-    public void getRequest(String endpoint, Consumer<HttpResponse<String>> handler) {
+    public CompletableFuture<HttpResponse<String>> getRequest(String endpoint) {
         HttpRequest r = HttpRequest.newBuilder()
                 .uri(URI.create(SERVER_ADDRESS + endpoint))
                 .timeout(Duration.ofMinutes(1))
                 .header("Content-Type", "application/json")
                 .GET()
                 .build();
-        httpClient.sendAsync(r, HttpResponse.BodyHandlers.ofString()).thenAccept(handler);
+        return httpClient.sendAsync(r, HttpResponse.BodyHandlers.ofString());
     }
 
 }

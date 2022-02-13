@@ -24,8 +24,8 @@ abstract public class Weapon extends Sprite {
         Weapon w;
         TextureRegion texture = atlas.findRegion(data.textureName);
         if (texture == null) {
-            System.out.println("Error reading texture: " + data.textureName);
-            return null;
+            System.out.println("Error reading texture: " + data.textureName + ", Using default.");
+            texture = atlas.findRegion("game/weapons/weapon_anime_sword");
         }
 
         if (data.isMelee) {

@@ -137,7 +137,6 @@ abstract public class GameSprite extends Animated implements Physical {
         batch.draw(frame, pos.x - width / 2, pos.y - height / 2, width,
                 height); /*
          * had to add coord offsets to account for being at center of object
-         * + weird height/8 offset accounts for extra whitespace in texture
          */
 
     }

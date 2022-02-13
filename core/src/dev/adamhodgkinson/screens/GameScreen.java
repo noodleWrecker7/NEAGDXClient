@@ -30,7 +30,7 @@ public class GameScreen extends ScreenAdapter {
 
         // temporary
         this.game = new Game(new PlayerData(), client.assets); // this should get players data from somewhere, eg be initialised earlier get from server etc
-        gameTextures = client.assets.get("core/assets/packed/pack.atlas"); // keep this in the class to be used often
+        gameTextures = client.assets.get(Gdx.files.internal("packed/pack.atlas").path()); // keep this in the class to be used often
 
         uirender = new UserInterfaceRenderer(this.client, this.game);
         batch = new SpriteBatch();

@@ -89,7 +89,7 @@ public class Login extends ScreenAdapter {
         SignupBody data = new SignupBody();
         data.username = usernameBox.getText();
         data.password = passwordBox.getText();
-        client.postRequest("/user/login", g.toJson(data), handler);
+        client.postRequest("/user/login", g.toJson(data)).thenAccept(handler);
     }
 
 
@@ -99,7 +99,7 @@ public class Login extends ScreenAdapter {
         data.username = usernameBox.getText();
         data.password = passwordBox.getText();
         System.out.println("signup clicked");
-        client.postRequest("/user/signup", g.toJson(data), handler);
+        client.postRequest("/user/signup", g.toJson(data)).thenAccept(handler);
     }
 
     Consumer<HttpResponse<String>> handler = httpResponse -> {

@@ -86,7 +86,7 @@ public class NavGraphBuilder {
                 /* calculates the weight by the horizontal distance, multiplied by the ratio of
                  the maxXSpeed to the calculated xSpeed, this means that a lower final speed results in a greater weight,
                  since going slower takes longer */
-                final short weight = (short) (dx * (maxXSpeed / finalSpeed));
+                final short weight = (short) (Math.abs((dx * (maxXSpeed / finalSpeed))) + Math.abs(dx));
 
                 // creates the jump edge;
                 navGraph.addJumpEdge(node.x, node.y, (short) (node.x + dx), (short) (node.y + dy), weight, finalSpeed,
@@ -116,8 +116,8 @@ public class NavGraphBuilder {
     }
 
     public boolean isValidArc(int startX, int startY, int endX, float jumpSpeed, float horizSpeed) {
-        final int interpolatesPerTile = 100;
-        final int totalInterpolates = Math.abs((endX - startX) * interpolatesPerTile);
+        final int samplesPerTile = 20;
+        final int totalSamples = Math.abs((endX - startX) * samplesPerTile);
 
         int sign;
         if (startX < endX) {
@@ -127,15 +127,15 @@ public class NavGraphBuilder {
         }
         float x, y;
 
-        for (float interpolate = 0; interpolate <= totalInterpolates; interpolate++) {
+        for (float sample = 0; sample <= totalSamples; sample++) {
 
-            x = (1 / (float) interpolatesPerTile) * interpolate * sign;
+            x = ((sample * sign) / (float) samplesPerTile);
 
             y = f(x, horizSpeed, jumpSpeed);
 
             for (float xOffset = -GameSprite.MAX_PHYSICAL_WIDTH / 2; xOffset <= GameSprite.MAX_PHYSICAL_WIDTH / 2; xOffset += GameSprite.MAX_PHYSICAL_WIDTH) {
 
-                float yOffset = -GameSprite.MAX_PHYSICAL_HEIGHT / 4;
+                float yOffset = -GameSprite.MAX_PHYSICAL_HEIGHT / 2 + 0.5f;
 
                 Tile t = solids.findTileByCoords(Math.round(x + startX + xOffset), Math.round(y + startY + yOffset));
                 if (t != null)

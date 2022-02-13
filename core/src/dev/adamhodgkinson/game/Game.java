@@ -42,7 +42,7 @@ public class Game {
         // The box2d physics world object which all physical bodies will be placed into
         world = new World(new Vector2(0, -30), true); // Given vector is gravity
         level = new Level(Gdx.files.internal("core/assets/level.json"), world, assets, this);
-        player = new Player(playerData, world, (TextureAtlas) assets.get("core/assets/packed/pack.atlas"), level);
+        player = new Player(playerData, world, (TextureAtlas) assets.get(Gdx.files.internal("packed/pack.atlas").path()), level);
         for (Enemy e : level.getEnemiesArray()) {
             e.setTarget(player);
         }

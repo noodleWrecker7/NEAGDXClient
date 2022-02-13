@@ -1,9 +1,8 @@
 package dev.adamhodgkinson;
 
 public class PlayerData {
-    InventoryData inventory;
-    String texture = "game/sprites/chort";
-    String sessionID;
+    public InventoryData inventory;
+    String texture = "game/sprites/knight_m";
 
 
     public PlayerData() {

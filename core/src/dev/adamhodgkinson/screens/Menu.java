@@ -10,7 +10,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.google.gson.Gson;
 import dev.adamhodgkinson.GDXClient;
+import dev.adamhodgkinson.WeaponData;
+
+import java.net.http.HttpResponse;
+import java.util.concurrent.ExecutionException;
 
 public class Menu extends ScreenAdapter {
     GDXClient client;
@@ -23,7 +28,7 @@ public class Menu extends ScreenAdapter {
         System.out.println("We at menu");
 
         Skin skin = new Skin(); // will store texture data
-        TextureAtlas texAtlas = client.assets.get("core/assets/packed/pack.atlas");
+        TextureAtlas texAtlas = client.assets.get(Gdx.files.internal("packed/pack.atlas").path());
         skin.addRegions(texAtlas);
 
         stage = new Stage(); // renderer of buttons
@@ -41,7 +46,7 @@ public class Menu extends ScreenAdapter {
         float spaceBetweenButtons = verticalSpacePerButton / 3; // how much gap should be between a button
 
         float scale = (verticalSpacePerButton - spaceBetweenButtons) / buttonHeight;
-        float scaledHeight = buttonHeight*scale;
+        float scaledHeight = buttonHeight * scale;
 
 
         for (int i = 0; i < buttonNames.length; i++) {
@@ -53,7 +58,7 @@ public class Menu extends ScreenAdapter {
             menuButton.setTransform(true);
 
             // starts from top and lowers the height by equal amount per button
-            float yPos = client.uiCam.viewportHeight / 2 - (verticalSpacePerButton) * i - topMargin - scaledHeight/2;
+            float yPos = client.uiCam.viewportHeight / 2 - (verticalSpacePerButton) * i - topMargin - scaledHeight / 2;
 
             menuButton.setPosition(0 + scaledHeight, yPos, Align.center);
             menuButton.setScale(scale);
@@ -69,12 +74,14 @@ public class Menu extends ScreenAdapter {
                 }
             });
         }
-        this.show();
     }
 
     public void goToButtonTarget(String name) {
         switch (name) {
             case "ButtonLevelSelect":
+                client.setScreen(new LevelSelect(client));
+                break;
+            case "ButtonMultiplayer":
                 client.setScreen(new GameScreen(client));
                 break;
             case "ButtonInventory":
@@ -86,6 +93,14 @@ public class Menu extends ScreenAdapter {
     @Override
     public void show() {
         super.show();
+        try {
+            HttpResponse<String> response = client.getRequest("/inventory").get();
+            System.out.println(response.body());
+            client.playerData.inventory.storedweapons = new Gson().fromJson(response.body(), WeaponData[].class);
+
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
         // setup input handling
         Gdx.input.setInputProcessor(stage); // input must be directed to stage for this screen
 

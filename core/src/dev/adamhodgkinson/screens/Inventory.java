@@ -35,7 +35,6 @@ public class Inventory extends ScreenAdapter {
 
     @Override
     public void render(float delta){
-        font.draw(batch, "hello", 0,0);
     }
 
 }
