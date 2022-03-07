@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import dev.adamhodgkinson.screens.Loading;
 import dev.adamhodgkinson.screens.Login;
 
@@ -48,6 +49,21 @@ public class GDXClient extends Game {
         this.zoom = zoom;
     }
 
+    public static String escapeHTML(String s) {
+        StringBuilder out = new StringBuilder(Math.max(16, s.length()));
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c > 127 || c == '"' || c == '\'' || c == '<' || c == '>' || c == '&') {
+                out.append("&#");
+                out.append((int) c);
+                out.append(';');
+            } else {
+                out.append(c);
+            }
+        }
+        return out.toString();
+    }
+
     @Override
     public void create() {
         // Creates camera and sets correct sizing and positioning
@@ -70,31 +86,10 @@ public class GDXClient extends Game {
         loadAssets();
 
         // todo load playe data from server
-        playerData = new PlayerData();
+        playerData = new PlayerData(this);
 
         // Starts the loading screen while the assets are loading
         setScreen(new Loading(this, new Login(this))); // changes screen to the loading screen
-    }
-
-    public void loadAssets() {
-// todo important, remember to mention in design that there used to be multiple atlases
-
-        assets.load(Gdx.files.internal("packed/pack.atlas").path(), TextureAtlas.class);
-
-
-        // set the loaders for the generator and the fonts themselves
-        // freetype font gen takes a vectorised ttf format and creates a bitmap font to be used by the renderer
-
-        // the resolver loads the files from disk
-        FileHandleResolver resolver = new InternalFileHandleResolver();
-        // sets a the loader for the freetypefontgenerator, the loader comes bundled with the package
-        assets.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
-        // sets the loader for font files, will pick up any .ttf files loaded
-        assets.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
-
-        loadFont("fonts/NotoSansMono-Regular.ttf", 10, "noto10");
-        loadFont("fonts/NotoSansMono-Regular.ttf", 15, "noto15");
-        loadFont("fonts/NotoSansMono-Regular.ttf", 25, "noto25");
     }
 
     /**
@@ -145,6 +140,28 @@ public class GDXClient extends Game {
                 .GET()
                 .build();
         return httpClient.sendAsync(r, HttpResponse.BodyHandlers.ofString());
+    }
+
+    public void loadAssets() {
+// todo important, remember to mention in design that there used to be multiple atlases
+
+        assets.load(Gdx.files.internal("packed/pack.atlas").path(), TextureAtlas.class);
+        assets.load(Gdx.files.internal("skins/uiskin.json").path(), Skin.class);
+
+
+        // set the loaders for the generator and the fonts themselves
+        // freetype font gen takes a vectorised ttf format and creates a bitmap font to be used by the renderer
+
+        // the resolver loads the files from disk
+        FileHandleResolver resolver = new InternalFileHandleResolver();
+        // sets a the loader for the freetypefontgenerator, the loader comes bundled with the package
+        assets.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
+        // sets the loader for font files, will pick up any .ttf files loaded
+        assets.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
+
+        loadFont("fonts/NotoSansMono-Regular.ttf", 10, "noto10");
+        loadFont("fonts/NotoSansMono-Regular.ttf", 15, "noto15");
+        loadFont("fonts/NotoSansMono-Regular.ttf", 25, "noto25");
     }
 
 }

@@ -10,12 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.google.gson.Gson;
 import dev.adamhodgkinson.GDXClient;
-import dev.adamhodgkinson.WeaponData;
-
-import java.net.http.HttpResponse;
-import java.util.concurrent.ExecutionException;
 
 public class Menu extends ScreenAdapter {
     GDXClient client;
@@ -82,10 +77,13 @@ public class Menu extends ScreenAdapter {
                 client.setScreen(new LevelSelect(client));
                 break;
             case "ButtonMultiplayer":
-                client.setScreen(new GameScreen(client));
+                client.setScreen(new GameScreen(client, Gdx.files.internal("core/assets/level.json")));
                 break;
             case "ButtonInventory":
                 client.setScreen(new Inventory(client));
+                break;
+            case "ButtonExit":
+                Gdx.app.exit();
                 break;
         }
     }
@@ -93,14 +91,7 @@ public class Menu extends ScreenAdapter {
     @Override
     public void show() {
         super.show();
-        try {
-            HttpResponse<String> response = client.getRequest("/inventory").get();
-            System.out.println(response.body());
-            client.playerData.inventory.storedweapons = new Gson().fromJson(response.body(), WeaponData[].class);
-
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
+        client.playerData.retrieveWeaponData();
         // setup input handling
         Gdx.input.setInputProcessor(stage); // input must be directed to stage for this screen
 

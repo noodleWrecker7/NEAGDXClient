@@ -95,6 +95,9 @@ public class Level {
             Enemy e = new Enemy(atlas, data.texture, world, data.x, data.y);
             e.health = data.health;
             e.maxHealth = data.health;
+            if (data.weapon != null) {
+                e.weapon = Weapon.createFromData(data.weapon, atlas, e);
+            }
             enemiesArray.add(e);
         }
 

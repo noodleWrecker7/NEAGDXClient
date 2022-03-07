@@ -1,5 +1,8 @@
 package dev.adamhodgkinson.game;
 
+
+import dev.adamhodgkinson.WeaponData;
+
 public class LevelDataSchema {
     int height;
     int width;
@@ -10,7 +13,6 @@ public class LevelDataSchema {
     TileData[] tiles;
     EnemyData[] enemies;
 
-
 }
 
 class TileData {
@@ -20,9 +22,11 @@ class TileData {
     int i; // tile index, for variations of same tile
 }
 
+
 class EnemyData {
     String texture;
     int x;
     int y;
     float health;
+    WeaponData weapon;
 }

@@ -297,9 +297,17 @@
   "enemies": [
     {
       "texture": "game/sprites/big_demon",
-      "x": "3",
+      "x": "4",
       "y": "5",
-      "health": "10"
+      "health": "10",
+      "weapon": {
+        "textureName": "game/weapons/weapon_anime_sword",
+        "damage": 2,
+        "range": 5,
+        "attackspeed": 100,
+        "knockback": 3,
+        "isMelee": true
+      }
     }
   ],
   "chests": {

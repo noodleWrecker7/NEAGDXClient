@@ -2,12 +2,12 @@ package dev.adamhodgkinson.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 import dev.adamhodgkinson.GDXClient;
-import dev.adamhodgkinson.PlayerData;
 import dev.adamhodgkinson.game.Game;
 import dev.adamhodgkinson.game.Tile;
 import dev.adamhodgkinson.game.UserInputHandler;
@@ -25,11 +25,11 @@ public class GameScreen extends ScreenAdapter {
     SpriteBatch batch;
     ShapeRenderer shapeRenderer;
 
-    public GameScreen(GDXClient client) {
+    public GameScreen(GDXClient client, FileHandle file) {
         this.client = client;
 
         // temporary
-        this.game = new Game(new PlayerData(), client.assets); // this should get players data from somewhere, eg be initialised earlier get from server etc
+        this.game = new Game(client.playerData, client.assets, file); // this should get players data from somewhere, eg be initialised earlier get from server etc
         gameTextures = client.assets.get(Gdx.files.internal("packed/pack.atlas").path()); // keep this in the class to be used often
 
         uirender = new UserInterfaceRenderer(this.client, this.game);

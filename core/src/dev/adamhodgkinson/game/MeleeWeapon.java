@@ -8,7 +8,6 @@ import java.util.ArrayList;
 public class MeleeWeapon extends Weapon implements Physical {
     GameSprite parentSprite;
     Body body;
-    Joint joint;
     ArrayList<GameSprite> collidingBodies;
     float animationRotation = 0;
     boolean attackOnCooldown = false;
@@ -63,7 +62,6 @@ public class MeleeWeapon extends Weapon implements Physical {
     @Override
     public void destroy() {
         World world = body.getWorld();
-        world.destroyJoint(joint);
         world.destroyBody(body);
         collidingBodies = null;
         parentSprite = null;

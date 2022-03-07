@@ -187,6 +187,7 @@ abstract public class GameSprite extends Animated implements Physical {
         if (this.health <= 0) {
             this.die();
         }
+        this.updateFlippage();
     }
 
     public void die() {

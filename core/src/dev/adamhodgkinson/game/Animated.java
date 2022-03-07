@@ -2,7 +2,6 @@ package dev.adamhodgkinson.game;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 
@@ -11,6 +10,10 @@ public abstract class Animated {
     float animTime = 0f;
     HashMap<String, Animation<TextureRegion>> animations = new HashMap<>();
     String currentAnimation = "idle"; // default
+
+    /**
+     * Indicated wether the sprite is facing the opposite direction, right = false, left = true
+     */
     boolean isXFlipped = false;
 
     protected void addAnimation(String name, Animation<TextureRegion> animation) {

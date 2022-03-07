@@ -120,7 +120,6 @@ public class Player extends GameSprite {
         if (level.navGraph.getVertexByCoords((short) pathFindingCoords.x, (short) pathFindingCoords.y) != null) {
             this.lastValidPosition = pathFindingCoords;
         }
-        System.out.println("Player height: " + this.height);
     }
 
     protected GridPoint2 getPathFindingCoords() {

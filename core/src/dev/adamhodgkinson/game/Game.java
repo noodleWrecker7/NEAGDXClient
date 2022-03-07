@@ -2,6 +2,7 @@ package dev.adamhodgkinson.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
@@ -36,12 +37,12 @@ public class Game {
      * @param assets     assets manager of the client, should be passed in by the
      *                   screen object
      */
-    public Game(PlayerData playerData, AssetManager assets) {
+    public Game(PlayerData playerData, AssetManager assets, FileHandle file) {
         /** Currently non functional */
 
         // The box2d physics world object which all physical bodies will be placed into
         world = new World(new Vector2(0, -30), true); // Given vector is gravity
-        level = new Level(Gdx.files.internal("core/assets/level.json"), world, assets, this);
+        level = new Level(file, world, assets, this);
         player = new Player(playerData, world, (TextureAtlas) assets.get(Gdx.files.internal("packed/pack.atlas").path()), level);
         for (Enemy e : level.getEnemiesArray()) {
             e.setTarget(player);

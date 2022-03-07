@@ -3,6 +3,7 @@ package dev.adamhodgkinson.game;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.GridPoint2;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import dev.adamhodgkinson.game.navigation.*;
 
@@ -19,6 +20,11 @@ public class Enemy extends GameSprite {
     public static final int MAX_INVALID_PATHS = 3;
     public static final long TIME_UNTIL_GIVE_UP_ON_ARC = 3500;
     static final long TIME_BETWEEN_PATH_FINDS = 2000;
+
+    /**
+     * Enemies will still attack if player no more than this distance out of the attack range
+     */
+    static final int ATTACK_RANGE_BUFFER = 5;
 
     // Pathfinding
     Player target;
@@ -44,15 +50,33 @@ public class Enemy extends GameSprite {
     }
 
     public void attack() {
-
+        weapon.attack();
     }
 
     public GridPoint2 getGridPoint() {
         return new GridPoint2(Math.round(getPos().x), Math.round(getPos().y));
     }
 
+    private boolean isTargetInRangeToAttack() {
+        Vector2 pos = target.getPos();
+        float distX = Math.abs(pos.x - getPos().x);
+        float distY = Math.abs(pos.y - getPos().y);
+
+        if (pos.x - getPos().x > 0 == !isXFlipped) {
+            return distX * distX + distY * distY < (this.weapon.range + ATTACK_RANGE_BUFFER) * (this.weapon.range + ATTACK_RANGE_BUFFER);
+        }
+
+        return false;
+
+
+    }
+
     @Override
     public void update(float dt) {
+        if (weapon != null && isTargetInRangeToAttack()) {
+            System.out.println("attack");
+            attack();
+        }
         super.update(dt);
         if (target == null) {
             return;
@@ -86,9 +110,9 @@ public class Enemy extends GameSprite {
     public void followPath() {
         if (invalidPathCount > MAX_INVALID_PATHS) { // if ai gets stuck then it should just walk until a new path is found
             if (invalidPathCount % MAX_INVALID_PATHS * 2 < MAX_INVALID_PATHS) { // so it swaps direction occaisonally
-                body.setLinearVelocity(speed, body.getLinearVelocity().y);
+                movement.set(1, 0);
             } else {
-                body.setLinearVelocity(-speed, body.getLinearVelocity().y);
+                movement.set(-1, 0);
             }
             return;
         }
@@ -143,13 +167,14 @@ public class Enemy extends GameSprite {
 
         // walk to destination point
         if (currentPoint.x > getPos().x) {
-            body.setLinearVelocity(speed, body.getLinearVelocity().y);
+            movement.set(1, 0);
         } else {
-            body.setLinearVelocity(-speed, body.getLinearVelocity().y);
+            movement.set(-1, 0);
         }
     }
 
     public void doJumpArc() {
+        movement.set(0, 0);
         GridPoint2 pos = getGridPoint();
         body.setTransform(pos.x, pos.y + height / 2 - 0.4f, 0);
         // perform the jump
