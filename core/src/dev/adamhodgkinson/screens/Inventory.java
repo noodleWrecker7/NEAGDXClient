@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -53,14 +54,15 @@ public class Inventory extends ScreenAdapter {
         shapeRenderer.setProjectionMatrix(client.uiCam.combined);
         defaultUISkin = client.assets.get("skins/uiskin.json");
         createInvisButtons();
-        ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
-        Image i = new Image(((TextureAtlas) client.assets.get("packed/pack.atlas")).findRegion("game/weapons/weapon_anime_sword"));
-//        style.up = new Image(Gdx.files.internal("core/assets/raw/game/weapons/weapon_anime_sword.png").path());
-        stage.addActor(i);
-        i.setPosition(0,0);
+        client.playerData.retrieveWeaponData();
+        TextureRegion region = ((TextureAtlas) client.assets.get("packed/pack.atlas")).findRegion("game/weapons/weapon_anime_sword");
+        Image i = new Image(region);
+
         i.setHeight(imagePreviewHeight);
-
-
+        System.out.println(i.getImageWidth());
+        i.setWidth(region.getRegionWidth() * imagePreviewHeight / region.getRegionHeight());
+        i.setPosition(0, 0);
+        stage.addActor(i);
 
 
 //        stage.addActor(table);

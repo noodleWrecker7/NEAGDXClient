@@ -25,6 +25,9 @@ public class PlayerData {
         this.inventory.equippedWeaponData.damage = 2;
     }
 
+    /**
+     * Synchronously updates weapon data from server, once this method has returned the data stored in this object should be current and up to date
+     */
     public void retrieveWeaponData() {
         try {
             HttpResponse<String> response = client.getRequest("/inventory").get();
@@ -40,6 +43,9 @@ public class PlayerData {
 
     }
 
+    /**
+     * Returns the currently equipped weapon's data object
+     */
     public WeaponData getEquippedWeaponData() {
         return inventory.equippedWeaponData;
     }
