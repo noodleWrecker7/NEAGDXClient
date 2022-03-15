@@ -25,6 +25,10 @@ public class GameScreen extends ScreenAdapter {
     SpriteBatch batch;
     ShapeRenderer shapeRenderer;
 
+    public GDXClient getClient() {
+        return client;
+    }
+
     public GameScreen(GDXClient client, FileHandle file) {
         this.client = client;
 

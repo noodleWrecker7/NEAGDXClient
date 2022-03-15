@@ -2,6 +2,7 @@ package dev.adamhodgkinson.game;
 
 import com.badlogic.gdx.InputAdapter;
 import dev.adamhodgkinson.screens.GameScreen;
+import dev.adamhodgkinson.screens.Menu;
 
 /**
  * Handles all user input eg key presses etc, and passes them to the relevant
@@ -35,6 +36,8 @@ public class UserInputHandler extends InputAdapter { // temporary
             case 32:
                 player.handleInput(Action.MOVE_RIGHT_START);
                 break;
+            case 111:
+                screen.getClient().setScreen(new Menu(screen.getClient()));
         }
         return super.keyDown(keycode);
     }

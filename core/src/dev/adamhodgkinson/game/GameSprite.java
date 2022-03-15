@@ -148,10 +148,14 @@ abstract public class GameSprite extends Animated implements Physical {
     public void updateFlippage() {
         if (movement.x < 0 && !isXFlipped) {
             isXFlipped = true;
-            this.weapon.flipx();
+            if (weapon != null) {
+                this.weapon.flipx();
+            }
         } else if (movement.x > 0 && isXFlipped) {
             isXFlipped = false;
-            this.weapon.flipx();
+            if (weapon != null) {
+                this.weapon.flipx();
+            }
         }
     }
 

@@ -1,13 +1,21 @@
 package dev.adamhodgkinson.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import dev.adamhodgkinson.GDXClient;
 
@@ -21,12 +29,21 @@ public class Inventory extends ScreenAdapter {
 
     public Inventory(GDXClient app) {
         client = app;
-        stage = new Stage();
 
         stage = new Stage(); // to hold the buttons
         stage.getCamera().position.set(0, 0, 0);
         stage.getCamera().viewportWidth = client.uiCam.viewportWidth;
         stage.getCamera().viewportHeight = client.uiCam.viewportHeight;
+        stage.addListener(new InputListener() {
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                System.out.println(keycode);
+                if (keycode == 111) {
+                    client.setScreen(new Menu(client));
+                }
+                return super.keyDown(event, keycode);
+            }
+        });
 
 
         batch = new SpriteBatch();
@@ -35,31 +52,15 @@ public class Inventory extends ScreenAdapter {
         batch.setProjectionMatrix(client.uiCam.combined);
         shapeRenderer.setProjectionMatrix(client.uiCam.combined);
         defaultUISkin = client.assets.get("skins/uiskin.json");
-    /*    TextureAtlas atlas = client.assets.get("packed/pack.atlas");
-        Skin invButtonSkins = new Skin();
-        invButtonSkins.addRegions(atlas);
+        createInvisButtons();
+        ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
+        Image i = new Image(((TextureAtlas) client.assets.get("packed/pack.atlas")).findRegion("game/weapons/weapon_anime_sword"));
+//        style.up = new Image(Gdx.files.internal("core/assets/raw/game/weapons/weapon_anime_sword.png").path());
+        stage.addActor(i);
+        i.setPosition(0,0);
+        i.setHeight(imagePreviewHeight);
 
 
-        ImageButton.ImageButtonStyle buttonStyle = new ImageButton.ImageButtonStyle();
-        buttonStyle.up = invButtonSkins.getDrawable("game/weapons/weapon_anime_sword");
-        ImageButton button = new ImageButton(buttonStyle);
-
-        ImageButton.ImageButtonStyle buttonStyle2 = new ImageButton.ImageButtonStyle();
-        buttonStyle2.up = invButtonSkins.getDrawable("game/weapons/weapon_axe");
-        ImageButton button2 = new ImageButton(buttonStyle2);
-
-        ImageButton.ImageButtonStyle buttonStyle3 = new ImageButton.ImageButtonStyle();
-        buttonStyle3.up = invButtonSkins.getDrawable("game/weapons/weapon_knife");
-        ImageButton button3 = new ImageButton(buttonStyle3);
-
-
-        Table table = new Table(defaultUISkin);
-        table.setSize(stage.getWidth(), stage.getHeight());
-        table.setPosition(-table.getWidth()/2, -table.getHeight()/2);
-        table.add(button).expand();
-
-        table.add(button2);
-        table.add(button3);*/
 
 
 //        stage.addActor(table);
@@ -71,44 +72,66 @@ public class Inventory extends ScreenAdapter {
         Gdx.input.setInputProcessor(stage);
     }
 
+    float imagePreviewHeight;
+
+    public void createInvisButtons() {
+        int cols = 7;
+        int rows = 5;
+        int leftMargin = 220;
+        int padding = 20;
+        float workableSpace = client.uiCam.viewportWidth - leftMargin - (padding * 2);
+        float spacePerCol = workableSpace / cols;
+        float gapPerCol = 25;
+        float colWidth = spacePerCol - gapPerCol;
+
+        float bottomMargin = 60;
+        float workableHeight = client.uiCam.viewportHeight - bottomMargin - (padding * 2);
+        float spacePerRow = workableHeight / rows;
+        float gapPerRow = gapPerCol;
+        float rowHeight = spacePerRow - gapPerRow;
+        imagePreviewHeight = rowHeight;
+
+
+        for (int i = 0; i < cols; i++) {
+            float x = spacePerCol * i + leftMargin + padding - client.uiCam.viewportWidth / 2;
+            for (int j = 0; j < rows; j++) {
+                float y = spacePerRow * j + bottomMargin + padding - client.uiCam.viewportHeight / 2;
+//                shapeRenderer.rect(x, y, colWidth, rowHeight);
+                Button button = new Button(defaultUISkin);
+                button.setColor(1, 1, 1, .5f);
+                button.setWidth(colWidth);
+                button.setHeight(rowHeight);
+                button.setPosition(x, y);
+                button.setVisible(true);
+                button.setDisabled(false);
+
+                int count = (rows - j - 1) * cols + i;
+                button.setUserObject(count);
+//                font.draw(batch, Integer.toString(count), x, y);
+                button.addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        System.out.println("clicked" + event.getTarget().getUserObject());
+                    }
+                });
+                stage.addActor(button);
+            }
+        }
+    }
+
 
     @Override
     public void render(float delta) {
         super.render(delta);
         stage.act();
         ScreenUtils.clear(0, 0, 0, 1);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+//        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(Color.RED);
-        batch.begin();
-        int cols = 7;
-        int rows = 5;
-        int leftMargin = 220;
-        int padding = 20;
-        float workableSpace = stage.getWidth() - leftMargin - (padding * 2);
-        float spacePerCol = workableSpace / cols;
-        float gapPerCol = 25;
-        float colWidth = spacePerCol - gapPerCol;
+//        batch.begin();
 
-        float bottomMargin = 60;
-        float workableHeight = stage.getHeight() - bottomMargin - (padding * 2);
-        float spacePerRow = workableHeight / rows;
-        float gapPerRow = gapPerCol;
-        float rowHeight = spacePerRow - gapPerRow;
+//        batch.end();
 
-        for (int i = 0; i < cols; i++) {
-            float x = spacePerCol * i + leftMargin + padding - stage.getWidth() / 2;
-            for (int j = 0; j < rows; j++) {
-                float y = spacePerRow * j + bottomMargin + padding - stage.getHeight() / 2;
-                shapeRenderer.rect(x, y, colWidth, rowHeight);
-                int count = (rows - j - 1) * cols + i;
-                font.draw(batch, Integer.toString(count), x, y);
-
-            }
-
-        }
-        batch.end();
-
-        shapeRenderer.end();
+//        shapeRenderer.end();
         stage.draw();
     }
 

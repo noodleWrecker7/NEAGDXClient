@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -52,6 +53,16 @@ public class LevelSelect extends ScreenAdapter {
         stage.getCamera().position.set(0, 0, 0);
         stage.getCamera().viewportWidth = client.uiCam.viewportWidth;
         stage.getCamera().viewportHeight = client.uiCam.viewportHeight;
+        stage.addListener(new InputListener() {
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                System.out.println(keycode);
+                if (keycode == 111) {
+                    client.setScreen(new Menu(client));
+                }
+                return super.keyDown(event, keycode);
+            }
+        });
 
         defaultUISkin = client.assets.get("skins/uiskin.json");
 

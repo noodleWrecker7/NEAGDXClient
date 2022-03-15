@@ -19,7 +19,7 @@ public class DevLauncher {
         TexturePacker.Settings settings = new TexturePacker.Settings();
         settings.stripWhitespaceX = true; // needed to ensure hitboxes and visuals match
         settings.stripWhitespaceY = true;
-        TexturePacker.process(settings, "raw", "core/assets/packed", "pack");
+        TexturePacker.process(settings, "core/assets/raw", "core/assets/packed", "pack");
 
         GDXClient client = new GDXClient(zoom);
         client.debug = true;
