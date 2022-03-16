@@ -11,7 +11,6 @@ import dev.adamhodgkinson.game.UserInputHandler.Action;
 
 public class Player extends GameSprite {
 
-    GameBodyType type = GameBodyType.PLAYER;
     State _state = State.IDLE;
     GridPoint2 lastValidPosition; // the last time the player was a valid pathfind-able position
     Level level;

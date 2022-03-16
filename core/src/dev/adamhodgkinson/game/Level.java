@@ -57,6 +57,9 @@ public class Level {
                 enemiesArray.remove(i);
                 i--;
             }
+            if(enemiesArray.size() == 0) {
+                System.out.println("Game finit");
+            }
         }
     }
 

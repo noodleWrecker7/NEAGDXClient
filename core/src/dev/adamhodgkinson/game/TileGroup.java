@@ -8,7 +8,6 @@ import com.badlogic.gdx.physics.box2d.World;
 import java.util.ArrayList;
 
 public class TileGroup implements Physical {
-    GameBodyType type;
     private final ArrayList<Tile> tiles;
     Body body;
     World world;
@@ -61,9 +60,6 @@ public class TileGroup implements Physical {
 
     }
 
-    public void setBodyType(GameBodyType type) {
-        this.type = type;
-    }
 
     public void update(float dt) {
 

@@ -29,9 +29,18 @@ public class UserInterfaceRenderer {
 
     public void render() {
         batch.begin();
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(1, 0, 0, 1);
+        float width = client.uiCam.viewportWidth * .8f;
+        shapeRenderer.rect(-width / 2, -client.uiCam.viewportHeight / 2, width, 10);
+
+        shapeRenderer.setColor(0, 1, 0, 1);
+        float greenWidth = width * (game.player.health / game.player.maxHealth);
+        shapeRenderer.rect(-width / 2, -client.uiCam.viewportHeight / 2, greenWidth, 10);
         if (client.debug) {
             renderDebugInfo();
         }
+        shapeRenderer.end();
         batch.end();
     }
 
@@ -42,7 +51,7 @@ public class UserInterfaceRenderer {
         font.draw(batch, "Player X/Y: ( " + df.format(game.player.getPos().x) + " , " + df.format(game.player.getPos().y) + " )\n" +
                         "       dX/dY: (" + df.format(game.player.body.getLinearVelocity().x) + "," + df.format(game.player.body.getLinearVelocity().y) + ")\n" +
                         "       Enemies: " + game.level.enemiesArray.size() + "\n" +
-                        "       PlayerWeaponFlip: " + game.player.weapon.rotationfFlip+ "\n" +
+                        "       PlayerWeaponFlip: " + game.player.weapon.rotationfFlip + "\n" +
                         "       FPS: " + Gdx.graphics.getFramesPerSecond()
                 , -client.uiCam.viewportWidth / 2 + 5, client.uiCam.viewportHeight / 2 - 15, 10, Align.left, false);
     }

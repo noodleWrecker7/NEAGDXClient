@@ -67,9 +67,9 @@ public class LevelSelect extends ScreenAdapter {
         defaultUISkin = client.assets.get("skins/uiskin.json");
 
         searchBox = new TextField("", defaultUISkin);
-        searchBox.setPosition(-searchBox.getWidth(), stage.getHeight() / 2 - searchBox.getHeight() - 5);
+        searchBox.setPosition(-searchBox.getWidth(), client.uiCam.viewportHeight / 2 - searchBox.getHeight() - 5);
         TextButton searchButton = new TextButton("Search", defaultUISkin);
-        searchButton.setPosition(searchButton.getWidth(), stage.getHeight() / 2 - searchButton.getHeight() - 5);
+        searchButton.setPosition(searchButton.getWidth(), client.uiCam.viewportHeight / 2 - searchButton.getHeight() - 5);
         searchButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
