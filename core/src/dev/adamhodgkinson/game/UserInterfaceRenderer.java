@@ -25,18 +25,22 @@ public class UserInterfaceRenderer {
         shapeRenderer.setAutoShapeType(true);
         batch.setProjectionMatrix(client.uiCam.combined);
         shapeRenderer.setProjectionMatrix(client.uiCam.combined);
+        healthBarWidth = client.uiCam.viewportWidth * .8f;
     }
+
+    float healthBarWidth;
+    float healthBarHeight = 10;
 
     public void render() {
         batch.begin();
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(1, 0, 0, 1);
-        float width = client.uiCam.viewportWidth * .8f;
-        shapeRenderer.rect(-width / 2, -client.uiCam.viewportHeight / 2, width, 10);
+
+        shapeRenderer.rect(-healthBarWidth / 2, -client.uiCam.viewportHeight / 2 + healthBarHeight / 2, healthBarWidth, healthBarHeight);
 
         shapeRenderer.setColor(0, 1, 0, 1);
-        float greenWidth = width * (game.player.health / game.player.maxHealth);
-        shapeRenderer.rect(-width / 2, -client.uiCam.viewportHeight / 2, greenWidth, 10);
+        float greenWidth = healthBarWidth * (game.player.health / game.player.maxHealth);
+        shapeRenderer.rect(-healthBarWidth / 2, -client.uiCam.viewportHeight / 2 + healthBarHeight / 2, greenWidth, healthBarHeight);
         if (client.debug) {
             renderDebugInfo();
         }

@@ -4,6 +4,4 @@ public class InventoryData {
     public WeaponData[] storedweapons;
     WeaponData equippedWeaponData;
 
-
-
 }
