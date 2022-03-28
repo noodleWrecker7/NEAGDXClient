@@ -31,14 +31,14 @@ public class Menu extends ScreenAdapter {
         stage.getCamera().viewportWidth = client.uiCam.viewportWidth;
         stage.getCamera().viewportHeight = client.uiCam.viewportHeight;
 
-        String[] buttonNames = {"ButtonLevelSelect", "ButtonMultiplayer", "ButtonInventory", "ButtonOptions", "ButtonExit"};
+        String[] buttonNames = {"ButtonLevelSelect", "ButtonInventory", "ButtonExit"};
 
         float buttonHeight = texAtlas.findRegion("Menu/ButtonInventory").originalHeight;
 
-        float topMargin = 25f; // extra height above buttons - makes room for title image
+        float topMargin = 60f; // extra height above buttons - makes room for title image
 
         float verticalSpacePerButton = (client.uiCam.viewportHeight - topMargin) / buttonNames.length; // how much space is possible to allocate per button
-        float spaceBetweenButtons = verticalSpacePerButton / 3; // how much gap should be between a button
+        float spaceBetweenButtons = verticalSpacePerButton / 2; // how much gap should be between a button
 
         float scale = (verticalSpacePerButton - spaceBetweenButtons) / buttonHeight;
         float scaledHeight = buttonHeight * scale;

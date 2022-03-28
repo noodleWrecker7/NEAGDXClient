@@ -82,7 +82,8 @@ public class Enemy extends GameSprite {
             return;
         }
         if (System.currentTimeMillis() - timeOfLastPathFind > TIME_BETWEEN_PATH_FINDS && (currentArc == null || System.currentTimeMillis() - timeOfArcAttempt > TIME_UNTIL_GIVE_UP_ON_ARC)) {
-            if (target.getLastValidPosition().dst(Math.round(getPos().x), Math.round(getPos().y)) < targetRange) {
+            GridPoint2 lastTargetPosition = target.getLastValidPosition();
+            if (lastTargetPosition != null && lastTargetPosition.dst(Math.round(getPos().x), Math.round(getPos().y)) < targetRange) {
 //                pathFinderThread.notify();
 //                pathFinderThread.requestPath(getGridPoint(), target.getLastValidPosition());
 

@@ -29,6 +29,8 @@ public class Level {
     //    GridPoint2 playerLastNavPos;
     Game game;
 
+    String levelID;
+
     public TileGroup getSolids() {
         return solids;
     }
@@ -42,10 +44,16 @@ public class Level {
             System.out.println("failed reading level file");
             System.exit(1);
         }
+
+
     }
 
     public NavGraph getNavGraph() {
         return navGraph;
+    }
+
+    public String getID() {
+        return levelID;
     }
 
     public void update(float dt) {
@@ -57,13 +65,12 @@ public class Level {
                 enemiesArray.remove(i);
                 i--;
             }
-            if (enemiesArray.size() == 0) {
-                System.out.println("Game finit");
-            }
+
         }
     }
 
     public void initialize(FileHandle file, World world, AssetManager assets) throws ParserConfigurationException, IOException, SAXException {
+        levelID = file.name().substring(0, file.name().length() - 5);
         Gson gson = new Gson();
         LevelDataSchema levelData = gson.fromJson(file.reader(), LevelDataSchema.class);
         System.out.println("Level name: " + levelData.name);
@@ -105,22 +112,25 @@ public class Level {
                 enemiesArray.add(e);
             }
         }
-        //todo temp
-       /* for (int i = 0; i < 256 * 2; i++) {
-            int x = (int) Math.floor(Math.random() * worldWidth);
-            int y = (int) Math.floor(Math.random() * worldHeight);
-            Enemy e = new Enemy(atlas, "game/sprites/chort", world, x, y);
-            e.health = 5;
-            e.maxHealth = 5;
-            enemiesArray.add(e);
-        }*/
-
         BodyDef worldEdgeDef = new BodyDef();
         worldEdgeDef.type = BodyDef.BodyType.StaticBody;
         worldEdgeDef.allowSleep = true;
         worldEdgeDef.position.x = 0;
         worldEdgeDef.position.y = 0;
         Body worldEdge = world.createBody(worldEdgeDef);
+        worldEdge.setUserData(new Physical() {
+            @Override
+            public void beginCollide(Fixture fixture) {
+                if (fixture.getBody().getUserData() instanceof GameSprite) {
+                    ((GameSprite) fixture.getBody().getUserData()).die();
+                }
+            }
+
+            @Override
+            public void endCollide(Fixture fixture) {
+
+            }
+        });
 
         FixtureDef fixDef = new FixtureDef();
         PolygonShape shape = new PolygonShape();

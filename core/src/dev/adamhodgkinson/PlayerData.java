@@ -10,6 +10,7 @@ public class PlayerData {
     String texture = "game/sprites/knight_m";
     GDXClient client;
     Gson g = new Gson();
+    public final int HEALTH = 200;
 
     public PlayerData(GDXClient client) {
         this.client = client;
