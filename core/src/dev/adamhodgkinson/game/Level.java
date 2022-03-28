@@ -57,7 +57,7 @@ public class Level {
                 enemiesArray.remove(i);
                 i--;
             }
-            if(enemiesArray.size() == 0) {
+            if (enemiesArray.size() == 0) {
                 System.out.println("Game finit");
             }
         }
@@ -82,7 +82,7 @@ public class Level {
                 System.out.println("Tile outside level bounds at ( " + data.x + " , " + data.y + " )");
                 continue;
             }
-            Tile t = new Tile(data.x, data.y, atlas.findRegion(data.texture, data.i));
+            Tile t = new Tile(data.x, data.y, atlas.findRegion(data.texture));
             solids.addTile(t);
         }
 
@@ -93,17 +93,18 @@ public class Level {
         Enemy.pathFinder = new PathFinder(navGraph);
         PathFindTask.pathFinder = Enemy.pathFinder;
 
-        for (int i = 0; i < levelData.enemies.length; i++) {
-            EnemyData data = levelData.enemies[i];
-            Enemy e = new Enemy(atlas, data.texture, world, data.x, data.y);
-            e.health = data.health;
-            e.maxHealth = data.health;
-            if (data.weapon != null) {
-                e.weapon = Weapon.createFromData(data.weapon, atlas, e);
+        if (levelData.enemies != null) {
+            for (int i = 0; i < levelData.enemies.length; i++) {
+                EnemyData data = levelData.enemies[i];
+                Enemy e = new Enemy(atlas, data.texture, world, data.x, data.y);
+                e.health = data.health;
+                e.maxHealth = data.health;
+                if (data.weapon != null) {
+                    e.weapon = Weapon.createFromData(data.weapon, atlas, e);
+                }
+                enemiesArray.add(e);
             }
-            enemiesArray.add(e);
         }
-
         //todo temp
        /* for (int i = 0; i < 256 * 2; i++) {
             int x = (int) Math.floor(Math.random() * worldWidth);
