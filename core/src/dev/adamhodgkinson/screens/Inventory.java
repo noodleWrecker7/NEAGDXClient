@@ -62,6 +62,8 @@ public class Inventory extends ScreenAdapter {
         client.playerData.retrieveWeaponData();
         createPagination();
         createInvisButtons();
+        createPreviewSection();
+
         setInvImages();
 
 
@@ -74,10 +76,66 @@ public class Inventory extends ScreenAdapter {
         Gdx.input.setInputProcessor(stage);
     }
 
-    float imagePreviewHeight;
+    float imagePreviewHeight; // height of smaller image previews
+    float previewImageHeight = 200; // height of larger preview image
+    Image previewImage;
+
+    Label damageValue;
+    Label rangeValue;
+    Label speedValue;
+    Label knockbackValue;
+
+    TextButton equipButton;
+    TextButton deleteButton;
 
     public void createPreviewSection() {
+        // damage range speed knockback
+        Label damageLabel = new Label("Damage: ", defaultUISkin);
+        Label rangeLabel = new Label("Range: ", defaultUISkin);
+        Label speedLabel = new Label("Speed: ", defaultUISkin);
+        Label knockbackLabel = new Label("Knockback: ", defaultUISkin);
 
+        damageLabel.setPosition(-client.uiCam.viewportWidth / 2 + client.uiCam.viewportWidth * .03f, -80);
+        rangeLabel.setPosition(-client.uiCam.viewportWidth / 2 + client.uiCam.viewportWidth * .03f, -100);
+        speedLabel.setPosition(-client.uiCam.viewportWidth / 2 + client.uiCam.viewportWidth * .03f, -120);
+        knockbackLabel.setPosition(-client.uiCam.viewportWidth / 2 + client.uiCam.viewportWidth * .03f, -140);
+
+        damageValue = new Label("1", defaultUISkin);
+        rangeValue = new Label("2", defaultUISkin);
+        speedValue = new Label("3", defaultUISkin);
+        knockbackValue = new Label("4", defaultUISkin);
+
+        damageValue.setPosition(-client.uiCam.viewportWidth / 2 + client.uiCam.viewportWidth * .15f, -80);
+        rangeValue.setPosition(-client.uiCam.viewportWidth / 2 + client.uiCam.viewportWidth * .15f, -100);
+        speedValue.setPosition(-client.uiCam.viewportWidth / 2 + client.uiCam.viewportWidth * .15f, -120);
+        knockbackValue.setPosition(-client.uiCam.viewportWidth / 2 + client.uiCam.viewportWidth * .15f, -140);
+
+        equipButton = new TextButton("Equip", defaultUISkin);
+        deleteButton = new TextButton("Delete", defaultUISkin);
+
+        equipButton.setPosition(-client.uiCam.viewportWidth / 2 + client.uiCam.viewportWidth * .13f, -190);
+        deleteButton.setPosition(-client.uiCam.viewportWidth / 2 + client.uiCam.viewportWidth * .03f, -190);
+
+        stage.addActor(equipButton);
+        stage.addActor(deleteButton);
+
+        stage.addActor(damageLabel);
+        stage.addActor(rangeLabel);
+        stage.addActor(speedLabel);
+        stage.addActor(knockbackLabel);
+        stage.addActor(damageValue);
+        stage.addActor(rangeValue);
+        stage.addActor(speedValue);
+        stage.addActor(knockbackValue);
+
+        equipButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                client.postRequest("weapon/equipped", client.playerData.getEquippedWeaponData().weaponID).thenAccept(stringHttpResponse -> {
+                    client.playerData.retrieveWeaponData();
+                });
+            }
+        });
     }
 
     public void createPagination() {
@@ -186,11 +244,43 @@ public class Inventory extends ScreenAdapter {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         System.out.println("clicked" + event.getTarget().getUserObject());
+                        selectItem((int) event.getTarget().getUserObject());
                     }
                 });
                 stage.addActor(button);
             }
         }
+    }
+
+    int selectedWeapon;
+
+    public void selectItem(int index) {
+        selectedWeapon = index;
+        System.out.println("selected " + index);
+        if (index < 0 || index >= buttons.length) {
+            System.out.println("Error trying to get weapon index: " + index);
+            return;
+        }
+        WeaponData wep = client.playerData.inventory.storedweapons[index];
+        if (previewImage != null) previewImage.remove();
+
+        TextureRegion region = ((TextureAtlas) client.assets.get("packed/pack.atlas")).findRegion(wep.textureName);
+        previewImage = new Image(region);
+        previewImage.setHeight(previewImageHeight);
+        previewImage.setWidth(region.getRegionWidth() * previewImageHeight / region.getRegionHeight());
+        previewImage.setPosition(-client.uiCam.viewportWidth / 2 + previewImage.getWidth() / 2 + 20, client.uiCam.viewportHeight / 2 - previewImage.getHeight() - 60);
+
+        damageValue.setText(wep.damage);
+        rangeValue.setText(wep.range);
+        speedValue.setText(wep.attackspeed);
+        knockbackValue.setText(Float.toString(wep.knockback));
+
+        // if weapon is equipped disables the buttons
+        equipButton.setDisabled(wep.weaponID.equals(client.playerData.getEquippedWeaponData().weaponID));
+        deleteButton.setDisabled(wep.weaponID.equals(client.playerData.getEquippedWeaponData().weaponID));
+
+        stage.addActor(previewImage);
+
     }
 
 
@@ -201,6 +291,11 @@ public class Inventory extends ScreenAdapter {
         ScreenUtils.clear(0, 0, 0, 1);
 //        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(Color.RED);
+
+        shapeRenderer.begin();
+
+        shapeRenderer.rect(1 - client.uiCam.viewportWidth / 2, 1 - client.uiCam.viewportHeight / 2, client.uiCam.viewportWidth * .2f, client.uiCam.viewportHeight - 1);
+        shapeRenderer.end();
 //        batch.begin();
 
 //        batch.end();
