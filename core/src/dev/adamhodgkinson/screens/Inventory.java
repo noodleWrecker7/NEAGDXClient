@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import dev.adamhodgkinson.GDXClient;
 import dev.adamhodgkinson.WeaponData;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Inventory extends ScreenAdapter {
@@ -39,6 +40,7 @@ public class Inventory extends ScreenAdapter {
         stage.getCamera().position.set(0, 0, 0);
         stage.getCamera().viewportWidth = client.uiCam.viewportWidth;
         stage.getCamera().viewportHeight = client.uiCam.viewportHeight;
+        // returns to main menu when esc is pressed
         stage.addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
@@ -88,6 +90,7 @@ public class Inventory extends ScreenAdapter {
     TextButton equipButton;
     TextButton deleteButton;
 
+    /**Creates ui for the preview section of the currently selected weapon*/
     public void createPreviewSection() {
         // damage range speed knockback
         Label damageLabel = new Label("Damage: ", defaultUISkin);
@@ -133,11 +136,27 @@ public class Inventory extends ScreenAdapter {
             public void clicked(InputEvent event, float x, float y) {
                 client.postRequest("weapon/equipped", client.playerData.getEquippedWeaponData().weaponID).thenAccept(stringHttpResponse -> {
                     client.playerData.retrieveWeaponData();
+                    setInvImages();
+                });
+            }
+        });
+
+        deleteButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (client.playerData.inventory.storedweapons[selectedWeapon].weaponID.equals(client.playerData.getEquippedWeaponData().weaponID)) {
+                    return;
+                }
+                client.deleteRequest("weapon/" + client.playerData.inventory.storedweapons[selectedWeapon].weaponID).thenAccept(stringHttpResponse -> {
+                    if (stringHttpResponse.statusCode() != 200) {
+                        System.out.println(stringHttpResponse.body());
+                    }
                 });
             }
         });
     }
 
+    /**Creates pagination ui to switch pages and indicate the current page*/
     public void createPagination() {
         Label pageNumLabel = new Label(Integer.toString(pageNo), defaultUISkin);
         TextButton nextPageButton = new TextButton("Next", defaultUISkin);
@@ -183,10 +202,20 @@ public class Inventory extends ScreenAdapter {
         stage.addActor(refreshButton);
     }
 
+    /**
+     * Required to mainatain refernces to images so they can be deleted when the page is refreshed
+     */
+    ArrayList<Image> images = new ArrayList<>();
+
+    /**Creates the inventory images for the items in the inventory, also wipes previous images to act as a reset*/
     public void setInvImages() {
         WeaponData[] weps = client.playerData.inventory.storedweapons;
         weps = Arrays.copyOfRange(weps, (pageNo - 1) * cols * rows, pageNo * cols * rows);
         TextureAtlas atlas = client.assets.get("packed/pack.atlas");
+
+        for (Image i : images) {
+            i.remove();
+        }
 
         for (int i = 0; i < weps.length; i++) {
             if (weps[i] == null) {
@@ -199,12 +228,12 @@ public class Inventory extends ScreenAdapter {
             img.setPosition(buttons[i].getX() + buttons[i].getWidth() / 2 - img.getWidth() / 2,
                     buttons[i].getY() + buttons[i].getHeight() / 2 - img.getHeight() / 2);
             img.setTouchable(Touchable.disabled);
+            images.add(img);
             stage.addActor(img);
         }
-
-
     }
 
+    /**Creates the invisible buttons, they go behind the images of the weapons to act as listeners for clicks*/
     public void createInvisButtons() {
 
         int leftMargin = 220;
@@ -254,6 +283,7 @@ public class Inventory extends ScreenAdapter {
 
     int selectedWeapon;
 
+    /**Called by click listener when an inventory item is clicked*/
     public void selectItem(int index) {
         selectedWeapon = index;
         System.out.println("selected " + index);

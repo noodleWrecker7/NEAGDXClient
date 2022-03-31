@@ -127,8 +127,16 @@ public class GDXClient extends Game {
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(json))
                 .build();
+        return httpClient.sendAsync(r, HttpResponse.BodyHandlers.ofString());
+    }
 
-
+    public CompletableFuture<HttpResponse<String>> deleteRequest(String endpoint) {
+        HttpRequest r = HttpRequest.newBuilder()
+                .uri(URI.create(SERVER_ADDRESS + endpoint))
+                .timeout(Duration.ofMinutes(1))
+                .header("Content-Type", "application/json")
+                .DELETE()
+                .build();
         return httpClient.sendAsync(r, HttpResponse.BodyHandlers.ofString());
     }
 

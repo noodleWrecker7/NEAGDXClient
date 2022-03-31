@@ -7,9 +7,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import dev.adamhodgkinson.WeaponData;
 
 abstract public class Weapon extends Sprite {
-    int damage = 1;
-    int range = 1;
-    int attackspeed = 1000; // time in ms between hits, higher value is slower
+    float damage = 1;
+    float range = 1;
+    float attackspeed = 1000; // time in ms between hits, higher value is slower
     long timeOfLastHit;
     float xOffset = .25f;
     float yOffset = -.25f;
@@ -18,6 +18,9 @@ abstract public class Weapon extends Sprite {
     int rotationfFlip = -1;
     float knockback = 50f;
 
+    /**
+     * Destroys any objects, called when parent sprite dies
+     */
     abstract public void destroy();
 
     public static Weapon createFromData(WeaponData data, TextureAtlas atlas, GameSprite s) {
@@ -40,7 +43,7 @@ abstract public class Weapon extends Sprite {
         return w;
     }
 
-    public void setRange(int r){
+    public void setRange(float r) {
         this.range = r;
     }
 

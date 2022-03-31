@@ -30,7 +30,7 @@ public class MeleeWeapon extends Weapon implements Physical {
     }
 
     @Override
-    public void setRange(int r) {
+    public void setRange(float r) {
         this.range = r;
         final FixtureDef fix = new FixtureDef();
         final CircleShape shape = new CircleShape();
