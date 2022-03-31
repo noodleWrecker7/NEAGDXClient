@@ -24,6 +24,7 @@ public class GameScreen extends ScreenAdapter {
     UserInterfaceRenderer uirender;
     SpriteBatch batch;
     ShapeRenderer shapeRenderer;
+    long startTime;
 
     public GDXClient getClient() {
         return client;
@@ -40,6 +41,7 @@ public class GameScreen extends ScreenAdapter {
         batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
         shapeRenderer.setAutoShapeType(true);
+        startTime = System.currentTimeMillis();
     }
 
     @Override
@@ -108,9 +110,19 @@ public class GameScreen extends ScreenAdapter {
         shapeRenderer.end();
     }
 
-
     public void update(float dt) {
         game.update(dt);
+        // if level completed successfully
+        if (game.getLevel().getEnemiesArray().size() == 0) {
+            client.setScreen(
+                    new GameOver(client,
+                            game.getLevel().getID(),
+                            true,
+                            (int) ((System.currentTimeMillis() - startTime)) / 1000));
+//             if failed level / died
+        } else if (game.getPlayer().getHealth() <= 0) {
+            client.setScreen(new GameOver(client, game.getLevel().getID(), false, (int) ((System.currentTimeMillis() - startTime)) / 1000));
+        }
     }
 
     /**
@@ -119,6 +131,7 @@ public class GameScreen extends ScreenAdapter {
      * @param t The tile to be rendered
      */
     public void drawTile(Tile t) {
+//        System.out.println(t.getTextureName());
         batch.draw(t.getTexture(), t.getX() - .5f, t.getY() - .5f, 1, 1); // had to add .5f as forgot coords are at center
 
     }

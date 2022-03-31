@@ -19,7 +19,6 @@ class TileData {
     short x;
     short y;
     String texture;
-    int i; // tile index, for variations of same tile
 }
 
 

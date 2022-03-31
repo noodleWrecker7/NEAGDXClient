@@ -6,8 +6,8 @@ public class Tile {
     private short x;
     private short y;
     String textureName;
-    int textureIndex = -1;
-    TextureRegion texture;
+//    int textureIndex = -1;
+TextureRegion texture;
 
     public TextureRegion getTexture() {
         return texture;
@@ -17,9 +17,9 @@ public class Tile {
         return textureName;
     }
 
-    public int getTextureIndex() {
-        return textureIndex;
-    }
+//    public int getTextureIndex() {
+//        return textureIndex;
+//    }
 
     public short getX() {
         return x;

@@ -3,7 +3,6 @@ package dev.adamhodgkinson.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import dev.adamhodgkinson.PlayerData;
@@ -43,7 +42,7 @@ public class Game {
         // The box2d physics world object which all physical bodies will be placed into
         world = new World(new Vector2(0, -30), true); // Given vector is gravity
         level = new Level(file, world, assets, this);
-        player = new Player(playerData, world, (TextureAtlas) assets.get(Gdx.files.internal("packed/pack.atlas").path()), level);
+        player = new Player(playerData, world, assets.get(Gdx.files.internal("packed/pack.atlas").path()), level);
         for (Enemy e : level.getEnemiesArray()) {
             e.setTarget(player);
         }
@@ -92,6 +91,9 @@ public class Game {
         player.update(dt);
 
         level.update(dt);
+
+
+
         /*int len = level.navGraph.getNodesArray().length - 1;
         int n1 = (int) Math.round(Math.random() * len);
         int n2 = (int) Math.round(Math.random() * len);

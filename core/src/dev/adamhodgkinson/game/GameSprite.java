@@ -23,7 +23,6 @@ abstract public class GameSprite extends Animated implements Physical {
     Weapon weapon;
     protected float health;
     protected float maxHealth;
-    protected boolean jumpAvailable = true;
 
     protected int maxJumps = 1, jumpsAvailable = 1;
 
@@ -90,6 +89,10 @@ abstract public class GameSprite extends Animated implements Physical {
 
         this.health = this.maxHealth = 10;
 
+    }
+
+    public float getHealth() {
+        return health;
     }
 
     public void jump() {
@@ -188,14 +191,11 @@ abstract public class GameSprite extends Animated implements Physical {
             this.weapon.update(dt);
         }
 
-        if (this.health <= 0) {
-            this.die();
-        }
         this.updateFlippage();
     }
 
     public void die() {
-        System.out.println("dead");
+        this.health = 0;
     }
 
 
@@ -211,6 +211,8 @@ abstract public class GameSprite extends Animated implements Physical {
     public void beginCollide(Fixture fixture) {
         if (fixture.getBody().getUserData() instanceof TileGroup || fixture.getBody().getUserData() instanceof GameSprite) {
             onGround();
+        } else if (fixture.getBody().getUserData().equals("worldedge")) {
+            this.die();
         }
     }
 

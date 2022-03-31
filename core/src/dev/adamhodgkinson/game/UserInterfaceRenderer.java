@@ -15,6 +15,8 @@ public class UserInterfaceRenderer {
     private final Game game;
     private final SpriteBatch batch;
     private final ShapeRenderer shapeRenderer;
+    DecimalFormat df;
+    BitmapFont font;
 
     public UserInterfaceRenderer(GDXClient _client, Game _game) {
         client = _client;
@@ -26,13 +28,16 @@ public class UserInterfaceRenderer {
         batch.setProjectionMatrix(client.uiCam.combined);
         shapeRenderer.setProjectionMatrix(client.uiCam.combined);
         healthBarWidth = client.uiCam.viewportWidth * .8f;
+
+        df = new DecimalFormat("#.##");
+        font = client.assets.get("noto10.ttf");
     }
 
     float healthBarWidth;
     float healthBarHeight = 10;
 
     public void render() {
-        batch.begin();
+
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(1, 0, 0, 1);
 
@@ -41,16 +46,16 @@ public class UserInterfaceRenderer {
         shapeRenderer.setColor(0, 1, 0, 1);
         float greenWidth = healthBarWidth * (game.player.health / game.player.maxHealth);
         shapeRenderer.rect(-healthBarWidth / 2, -client.uiCam.viewportHeight / 2 + healthBarHeight / 2, greenWidth, healthBarHeight);
+        shapeRenderer.end();
+        batch.begin();
         if (client.debug) {
             renderDebugInfo();
         }
-        shapeRenderer.end();
+
         batch.end();
     }
 
     public void renderDebugInfo() {
-        DecimalFormat df = new DecimalFormat("#.##");
-        BitmapFont font = client.assets.get("noto10.ttf");
         font.draw(batch, "Debug=true", -client.uiCam.viewportWidth / 2 + 5, 15 - client.uiCam.viewportHeight / 2, 10, Align.left, false);
         font.draw(batch, "Player X/Y: ( " + df.format(game.player.getPos().x) + " , " + df.format(game.player.getPos().y) + " )\n" +
                         "       dX/dY: (" + df.format(game.player.body.getLinearVelocity().x) + "," + df.format(game.player.body.getLinearVelocity().y) + ")\n" +

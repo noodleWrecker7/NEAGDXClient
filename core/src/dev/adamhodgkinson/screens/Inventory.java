@@ -134,7 +134,9 @@ public class Inventory extends ScreenAdapter {
         equipButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                client.postRequest("weapon/equipped", client.playerData.getEquippedWeaponData().weaponID).thenAccept(stringHttpResponse -> {
+                String selectedWep = client.playerData.inventory.storedweapons[selectedWeapon].weaponID;
+                client.postRequest("/inventory/weapon/equipped", selectedWep).thenAccept(stringHttpResponse -> {
+                    System.out.println(stringHttpResponse.body());
                     client.playerData.retrieveWeaponData();
                     setInvImages();
                 });
@@ -285,12 +287,14 @@ public class Inventory extends ScreenAdapter {
 
     /**Called by click listener when an inventory item is clicked*/
     public void selectItem(int index) {
-        selectedWeapon = index;
+
         System.out.println("selected " + index);
-        if (index < 0 || index >= buttons.length) {
+        if (index < 0 || index >= buttons.length || index >= client.playerData.inventory.storedweapons.length) {
             System.out.println("Error trying to get weapon index: " + index);
             return;
         }
+
+        selectedWeapon = index;
         WeaponData wep = client.playerData.inventory.storedweapons[index];
         if (previewImage != null) previewImage.remove();
 

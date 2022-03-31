@@ -27,10 +27,11 @@ public class Loading extends ScreenAdapter {
         ScreenUtils.clear(0, 0, 0, 1); // clear screen
 
         // todo render loading screen & progress bar
-        if (client.assets.isLoaded("noto10.ttf")) {
+        client.assets.update();
 
-        }
-        if (client.assets.update()) { // if its ready
+        System.out.println("Percent done: " + client.assets.getProgress());
+
+        if (client.assets.isFinished()) { // if its ready
             System.out.println("loaded assets");
             client.setScreen(this.nextScreen); // go to menu
         }
