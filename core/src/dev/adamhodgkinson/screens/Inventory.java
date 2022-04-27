@@ -90,7 +90,9 @@ public class Inventory extends ScreenAdapter {
     TextButton equipButton;
     TextButton deleteButton;
 
-    /**Creates ui for the preview section of the currently selected weapon*/
+    /**
+     * Creates ui for the preview section of the currently selected weapon
+     */
     public void createPreviewSection() {
         // damage range speed knockback
         Label damageLabel = new Label("Damage: ", defaultUISkin);
@@ -158,7 +160,9 @@ public class Inventory extends ScreenAdapter {
         });
     }
 
-    /**Creates pagination ui to switch pages and indicate the current page*/
+    /**
+     * Creates pagination ui to switch pages and indicate the current page
+     */
     public void createPagination() {
         Label pageNumLabel = new Label(Integer.toString(pageNo), defaultUISkin);
         TextButton nextPageButton = new TextButton("Next", defaultUISkin);
@@ -209,7 +213,9 @@ public class Inventory extends ScreenAdapter {
      */
     ArrayList<Image> images = new ArrayList<>();
 
-    /**Creates the inventory images for the items in the inventory, also wipes previous images to act as a reset*/
+    /**
+     * Creates the inventory images for the items in the inventory, also wipes previous images to act as a reset
+     */
     public void setInvImages() {
         WeaponData[] weps = client.playerData.inventory.storedweapons;
         weps = Arrays.copyOfRange(weps, (pageNo - 1) * cols * rows, pageNo * cols * rows);
@@ -235,7 +241,9 @@ public class Inventory extends ScreenAdapter {
         }
     }
 
-    /**Creates the invisible buttons, they go behind the images of the weapons to act as listeners for clicks*/
+    /**
+     * Creates the invisible buttons, they go behind the images of the weapons to act as listeners for clicks
+     */
     public void createInvisButtons() {
 
         int leftMargin = 220;
@@ -285,7 +293,9 @@ public class Inventory extends ScreenAdapter {
 
     int selectedWeapon;
 
-    /**Called by click listener when an inventory item is clicked*/
+    /**
+     * Called by click listener when an inventory item is clicked
+     */
     public void selectItem(int index) {
 
         System.out.println("selected " + index);
@@ -304,9 +314,9 @@ public class Inventory extends ScreenAdapter {
         previewImage.setWidth(region.getRegionWidth() * previewImageHeight / region.getRegionHeight());
         previewImage.setPosition(-client.uiCam.viewportWidth / 2 + previewImage.getWidth() / 2 + 20, client.uiCam.viewportHeight / 2 - previewImage.getHeight() - 60);
 
-        damageValue.setText(wep.damage);
-        rangeValue.setText(wep.range);
-        speedValue.setText(wep.attackspeed);
+        damageValue.setText(Float.toString(wep.damage));
+        rangeValue.setText(Float.toString(wep.range));
+        speedValue.setText(Float.toString(wep.attackspeed));
         knockbackValue.setText(Float.toString(wep.knockback));
 
         // if weapon is equipped disables the buttons

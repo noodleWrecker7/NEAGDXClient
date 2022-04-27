@@ -23,6 +23,7 @@ abstract public class Weapon extends Sprite {
      */
     abstract public void destroy();
 
+    /**Static helper method to create a weapon instance */
     public static Weapon createFromData(WeaponData data, TextureAtlas atlas, GameSprite s) {
         Weapon w;
         TextureRegion texture = atlas.findRegion(data.textureName);
