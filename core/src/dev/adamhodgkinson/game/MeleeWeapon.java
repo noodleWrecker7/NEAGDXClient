@@ -30,7 +30,7 @@ public class MeleeWeapon extends Weapon implements Physical {
     }
 
     @Override
-    public void setRange(int r) {
+    public void setRange(float r) {
         // should only ever have one fixture
         for (Fixture f : body.getFixtureList()) {
             body.destroyFixture(f);
