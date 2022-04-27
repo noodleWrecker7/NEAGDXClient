@@ -29,7 +29,7 @@ public class GDXClient extends Game {
     public OrthographicCamera worldCam;
     public OrthographicCamera uiCam;
 
-    public final String SERVER_ADDRESS = "http://local.adamhodgkinson.dev:26500";
+    public final String SERVER_ADDRESS = "http://localhost:26500";
     HttpClient httpClient = HttpClient.newBuilder()
             .version(HttpClient.Version.HTTP_2)
             .cookieHandler(new CookieManager())

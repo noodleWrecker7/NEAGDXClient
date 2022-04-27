@@ -15,6 +15,7 @@ public class Game {
     Level level;
     Player player;
     World world;
+    public final long startTime;
 
     public Player getPlayer() {
         return player;
@@ -37,8 +38,7 @@ public class Game {
      *                   screen object
      */
     public Game(PlayerData playerData, AssetManager assets, FileHandle file) {
-        /** Currently non functional */
-
+        startTime = System.currentTimeMillis();
         // The box2d physics world object which all physical bodies will be placed into
         world = new World(new Vector2(0, -30), true); // Given vector is gravity
         level = new Level(file, world, assets, this);
@@ -55,6 +55,8 @@ public class Game {
                 if (A == null || B == null) {
                     return;
                 }
+                // enemies cannot collide with themselves
+                contact.setEnabled(!(A instanceof Enemy && B instanceof Enemy));
                 A.beginCollide(contact.getFixtureB());
                 B.beginCollide(contact.getFixtureA());
 

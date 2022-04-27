@@ -15,7 +15,7 @@ abstract public class Weapon extends Sprite {
     float yOffset = -.25f;
     float absoluteRotation = 20;
     // negative is facing rig ht
-    int rotationfFlip = -1;
+    int rotationFlip = -1;
     float knockback = 50f;
 
     abstract public void destroy();
@@ -47,7 +47,7 @@ abstract public class Weapon extends Sprite {
     public Weapon(TextureRegion _texture) {
         super(_texture);
         this.setScale(1 / 16.f);
-        this.setRotation(absoluteRotation * rotationfFlip);
+        this.setRotation(absoluteRotation * rotationFlip);
         this.setOrigin(_texture.getRegionWidth() / 2f, 0); // makes it rotate about the center of the bottom edge
     }
 
@@ -59,8 +59,8 @@ abstract public class Weapon extends Sprite {
     public void flipx() {
         flip(true, false);
         xOffset = -xOffset;
-        rotationfFlip = -rotationfFlip;
-        this.setRotation(absoluteRotation * rotationfFlip);
+        rotationFlip = -rotationFlip;
+        this.setRotation(absoluteRotation * rotationFlip);
     }
 
     abstract public void update(float dt);

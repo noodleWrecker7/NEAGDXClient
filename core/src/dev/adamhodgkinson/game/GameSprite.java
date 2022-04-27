@@ -8,8 +8,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
 abstract public class GameSprite extends Animated implements Physical {
-    public static final float MAX_PHYSICAL_WIDTH = .95f;
-    public static final float MAX_PHYSICAL_HEIGHT = 1.95f;
+    public static final float MAX_PHYSICAL_WIDTH = .90f;
+    public static final float MAX_PHYSICAL_HEIGHT = 1.90f;
 
     public static final float LINEAR_DAMPING = 0;
 
@@ -62,16 +62,17 @@ abstract public class GameSprite extends Animated implements Physical {
         }
 
         final BodyDef def = new BodyDef();
-        def.position.set(x, y);
+        def.position.set(x, y + 0.5f);
         def.type = BodyDef.BodyType.DynamicBody;
         body = world.createBody(def);
+
 
         body.setFixedRotation(true);
 
         // main fixture
         final FixtureDef fix = new FixtureDef();
         final PolygonShape shape = new PolygonShape();
-
+        fix.restitution = .1f;
         if (width > MAX_PHYSICAL_WIDTH) {
             width = MAX_PHYSICAL_WIDTH;
         }
@@ -83,8 +84,16 @@ abstract public class GameSprite extends Animated implements Physical {
         fix.density = density;
         fix.friction = friction;
         body.setLinearDamping(LINEAR_DAMPING);
-        body.createFixture(fix);
-
+        Filter filter = new Filter();
+        // player = 1, nemy 2, tile 4
+        if (this instanceof Player) {
+            filter.categoryBits = 1;
+            filter.maskBits = 7;
+        } else {
+            filter.categoryBits = 2;
+            filter.maskBits = 5;
+        }
+        body.createFixture(fix).setFilterData(filter);
         body.setUserData(this);
 
         this.health = this.maxHealth = 10;
@@ -108,7 +117,6 @@ abstract public class GameSprite extends Animated implements Physical {
         jumpsAvailable--;
         return true;
     }
-
 
     public void setDefaultAnims(TextureAtlas atlas, String textureName) {
         // todo error catch
@@ -218,7 +226,5 @@ abstract public class GameSprite extends Animated implements Physical {
 
     @Override
     public void endCollide(Fixture fixture) {
-
     }
-
 }

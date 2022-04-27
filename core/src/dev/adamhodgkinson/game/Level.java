@@ -9,7 +9,6 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.google.gson.Gson;
 import dev.adamhodgkinson.game.navigation.NavGraph;
 import dev.adamhodgkinson.game.navigation.NavGraphBuilder;
-import dev.adamhodgkinson.game.navigation.PathFindTask;
 import dev.adamhodgkinson.game.navigation.PathFinder;
 import org.xml.sax.SAXException;
 
@@ -19,7 +18,7 @@ import java.util.ArrayList;
 
 
 public class Level {
-    TileGroup solids;
+    TileGroup tilesGroup;
     ArrayList<Enemy> enemiesArray = new ArrayList<>();
 
     Vector2 playerSpawnPos;
@@ -31,8 +30,8 @@ public class Level {
 
     String levelID;
 
-    public TileGroup getSolids() {
-        return solids;
+    public TileGroup getTilesGroup() {
+        return tilesGroup;
     }
 
     public Level(FileHandle file, World world, AssetManager assets, Game _game) {
@@ -80,7 +79,7 @@ public class Level {
 
         playerSpawnPos = new Vector2(levelData.playerSpawnPosX, levelData.playerSpawnPosY);
 
-        solids = new TileGroup(world);
+        tilesGroup = new TileGroup(world);
         TextureAtlas atlas = assets.get(Gdx.files.internal("packed/pack.atlas").path());
 
         for (int i = 0; i < levelData.tiles.length; i++) {
@@ -90,15 +89,14 @@ public class Level {
                 continue;
             }
             Tile t = new Tile(data.x, data.y, atlas.findRegion(data.texture));
-            solids.addTile(t);
+            tilesGroup.addTile(t);
         }
 
-        solids.build();
+        tilesGroup.build();
 
-        NavGraphBuilder navGraphBuilder = new NavGraphBuilder(worldWidth, worldHeight + 2, solids, 10, 16, world.getGravity().y);
+        NavGraphBuilder navGraphBuilder = new NavGraphBuilder(worldWidth, worldHeight + 2, tilesGroup, 10, 16, world.getGravity().y);
         navGraph = navGraphBuilder.generateNavGraph();
         Enemy.pathFinder = new PathFinder(navGraph);
-        PathFindTask.pathFinder = Enemy.pathFinder;
 
         if (levelData.enemies != null) {
             for (int i = 0; i < levelData.enemies.length; i++) {

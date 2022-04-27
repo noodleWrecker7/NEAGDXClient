@@ -31,6 +31,10 @@ public class MeleeWeapon extends Weapon implements Physical {
 
     @Override
     public void setRange(int r) {
+        // should only ever have one fixture
+        for (Fixture f : body.getFixtureList()) {
+            body.destroyFixture(f);
+        }
         this.range = r;
         final FixtureDef fix = new FixtureDef();
         final CircleShape shape = new CircleShape();
@@ -56,7 +60,7 @@ public class MeleeWeapon extends Weapon implements Physical {
                 animationRotation = 180 - animationRotation; // equivalent to above line
             }
         }
-        this.setRotation((absoluteRotation + animationRotation) * rotationfFlip);
+        this.setRotation((absoluteRotation + animationRotation) * rotationFlip);
     }
 
     @Override
@@ -75,13 +79,13 @@ public class MeleeWeapon extends Weapon implements Physical {
         this.attackOnCooldown = true;
         this.timeOfLastHit = System.currentTimeMillis();
         for (GameSprite s : collidingBodies) {
-            if (rotationfFlip == -1) {
+            if (rotationFlip == -1) {
                 if (s.getPos().x < parentSprite.getPos().x) {
                     continue;
                 }
 
             }
-            if (rotationfFlip == 1) {
+            if (rotationFlip == 1) {
                 if (s.getPos().x > parentSprite.getPos().x) {
                     continue;
                 }

@@ -5,14 +5,14 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-import dev.adamhodgkinson.game.navigation.*;
+import dev.adamhodgkinson.game.navigation.Arc;
+import dev.adamhodgkinson.game.navigation.JumpArc;
+import dev.adamhodgkinson.game.navigation.PathFinder;
+import dev.adamhodgkinson.game.navigation.Vertex;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class Enemy extends GameSprite {
     // Constants
@@ -20,27 +20,26 @@ public class Enemy extends GameSprite {
     public static final int MAX_INVALID_PATHS = 3;
     public static final long TIME_UNTIL_GIVE_UP_ON_ARC = 3500;
     static final long TIME_BETWEEN_PATH_FINDS = 2000;
-
     /**
      * Enemies will still attack if player no more than this distance out of the attack range
      */
-    static final int ATTACK_RANGE_BUFFER = 5;
+    static final int ATTACK_RANGE_BUFFER = 4;
+    boolean isSearching = false;
 
     // Pathfinding
     Player target;
     public static PathFinder pathFinder;
-    List<Vertex> path;
+    ArrayList<Vertex> path;
 
     Vertex currentPoint;
     Arc currentArc;
 
-    static final ExecutorService pool = Executors.newFixedThreadPool(20);
 
     boolean alreadyJumpedThisArc = false;
     long timeOfArcAttempt;
     int invalidPathCount = 0;
     long timeOfLastPathFind = System.currentTimeMillis() + (new Random()).nextInt(5000);
-    int targetRange = 20; // what range a target must be within to target it
+    int targetRange = 10; // what range a target must be within to target it
 
 
     public Enemy(TextureAtlas atlas, String textureName, World world, int x, int y) {
@@ -54,7 +53,7 @@ public class Enemy extends GameSprite {
     }
 
     public GridPoint2 getGridPoint() {
-        return new GridPoint2(Math.round(getPos().x), Math.round(getPos().y));
+        return new GridPoint2(Math.round(getPos().x), Math.round(getPos().y - height / 2 + 0.5f));
     }
 
     private boolean isTargetInRangeToAttack() {
@@ -74,7 +73,6 @@ public class Enemy extends GameSprite {
     @Override
     public void update(float dt) {
         if (weapon != null && isTargetInRangeToAttack()) {
-            System.out.println("attack");
             attack();
         }
         super.update(dt);
@@ -83,32 +81,43 @@ public class Enemy extends GameSprite {
         }
         if (System.currentTimeMillis() - timeOfLastPathFind > TIME_BETWEEN_PATH_FINDS && (currentArc == null || System.currentTimeMillis() - timeOfArcAttempt > TIME_UNTIL_GIVE_UP_ON_ARC)) {
             GridPoint2 lastTargetPosition = target.getLastValidPosition();
-            if (lastTargetPosition != null && lastTargetPosition.dst(Math.round(getPos().x), Math.round(getPos().y)) < targetRange) {
+            System.out.println("dist" + lastTargetPosition.dst(getGridPoint()));
+            if (lastTargetPosition != null && lastTargetPosition.dst(getGridPoint()) < targetRange) {
 //                pathFinderThread.notify();
 //                pathFinderThread.requestPath(getGridPoint(), target.getLastValidPosition());
 
-                PathFindTask task = new PathFindTask(this, getGridPoint(), target.getLastValidPosition());
-                pool.execute(task);
-                timeOfLastPathFind = System.currentTimeMillis();
-                timeOfArcAttempt = System.currentTimeMillis();
+                if (!isSearching) {
+                    System.out.println("finding new task");
+                    pathFinder.newTask(this, getGridPoint(), target.getLastValidPosition());
+                    isSearching = true;
+                    timeOfLastPathFind = System.currentTimeMillis();
+                    timeOfArcAttempt = System.currentTimeMillis();
 //                findNewPath();
+                }
             }
         }
         followPath();
 
     }
 
-    public synchronized void receivePath(Vertex[] _path) {
-        if (_path == null) {
+    public void receivePath(Vertex[] _path) {
+        System.out.println("received path");
+        isSearching = false;
+        if (_path == null || _path.length == 0) {
             invalidPathCount++;
+            System.out.println("bad path");
             return;
         }
+        System.out.println("path ok");
         path = new ArrayList<>(Arrays.asList(_path));
         currentArc = null;
         currentPoint = null;
+        invalidPathCount = 0;
+
     }
 
     public void followPath() {
+        System.out.println("invalid count: " + invalidPathCount);
         if (invalidPathCount > MAX_INVALID_PATHS) { // if ai gets stuck then it should just walk until a new path is found
             if (invalidPathCount % MAX_INVALID_PATHS * 2 < MAX_INVALID_PATHS) { // so it swaps direction occaisonally
                 movement.set(1, 0);
@@ -124,22 +133,33 @@ public class Enemy extends GameSprite {
 //        System.out.println("follow path");
         GridPoint2 gridPos = getGridPoint();
 
-
+        System.out.println("currentpoint null: " + (currentPoint == null));
         if (currentPoint == null) { // if no current target point
             if (path.size() == 0) { // if path empty
-//                System.out.println("path empty");
+                System.out.println("path empty");
                 currentArc = null;
-                if (invalidPathCount == 0 && System.currentTimeMillis() - timeOfLastPathFind > TIME_BETWEEN_PATH_FINDS / 6) {
+                if (invalidPathCount == 0 && System.currentTimeMillis() - timeOfLastPathFind > TIME_BETWEEN_PATH_FINDS) {
 //                    pathFinder.requestPath();
+                    if (!isSearching) {
+                        System.out.println("finding new task2");
+                        pathFinder.newTask(this, getGridPoint(), target.getLastValidPosition());
+                        isSearching = true;
+                        timeOfLastPathFind = System.currentTimeMillis();
+                        timeOfArcAttempt = System.currentTimeMillis();
+                    }
                 }
                 return;
             }
             // get next path point
             currentPoint = path.get(0);
+            if (currentPoint == null) {
+                System.out.println("PATH CAME WITH NULL POINT");
+            }
             path.remove(0);
 
+
             // get arc to point
-            currentArc = pathFinder.getNav().getArc((short) gridPos.x, (short) gridPos.y, currentPoint.x, currentPoint.y);
+            currentArc = pathFinder.getNav().getArc((short) gridPos.x, (short) (gridPos.y /*- height / 2 + 0.5f*/), currentPoint.x, currentPoint.y);
             timeOfArcAttempt = System.currentTimeMillis();
             alreadyJumpedThisArc = false;
 
@@ -151,6 +171,12 @@ public class Enemy extends GameSprite {
         if (gridPos.dst(currentPoint.x, currentPoint.y) == 0) {
             currentPoint = null;
             return;
+        }
+
+        if (target.getLastValidPosition() != null && target.getLastValidPosition().dst(getGridPoint()) > targetRange) {
+            currentPoint = null;
+            path = null;
+            currentArc = null;
         }
 
         // if arc not real

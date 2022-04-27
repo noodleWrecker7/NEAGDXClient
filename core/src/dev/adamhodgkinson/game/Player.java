@@ -31,6 +31,7 @@ public class Player extends GameSprite {
         super(world, _level.playerSpawnPos.x, _level.playerSpawnPos.y, DENSITY, SPEED, FRICTION, _playerData.getTexture(), atlas);
         playerData = _playerData;
         health = playerData.HEALTH;
+        maxHealth = playerData.HEALTH;
         level = _level;
 
         this.jumpSpeed = JUMP_SPEED;
