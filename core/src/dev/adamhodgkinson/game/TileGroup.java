@@ -60,11 +60,6 @@ public class TileGroup implements Physical {
 
     }
 
-
-    public void update(float dt) {
-
-    }
-
     @Override
     public void beginCollide(Fixture fixture) {
 

@@ -13,6 +13,7 @@ import dev.adamhodgkinson.game.Tile;
 import dev.adamhodgkinson.game.UserInputHandler;
 import dev.adamhodgkinson.game.UserInterfaceRenderer;
 import dev.adamhodgkinson.game.navigation.Arc;
+import dev.adamhodgkinson.game.navigation.JumpArc;
 import dev.adamhodgkinson.game.navigation.NavGraph;
 import dev.adamhodgkinson.game.navigation.Vertex;
 
@@ -24,7 +25,6 @@ public class GameScreen extends ScreenAdapter {
     UserInterfaceRenderer uirender;
     SpriteBatch batch;
     ShapeRenderer shapeRenderer;
-    long startTime;
 
     public GDXClient getClient() {
         return client;
@@ -41,7 +41,7 @@ public class GameScreen extends ScreenAdapter {
         batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
         shapeRenderer.setAutoShapeType(true);
-        startTime = System.currentTimeMillis();
+
     }
 
     @Override
@@ -64,7 +64,7 @@ public class GameScreen extends ScreenAdapter {
         batch.begin();
         // actually render
 
-        for (Tile t : game.getLevel().getSolids().getTiles()) {
+        for (Tile t : game.getLevel().getTilesGroup().getTiles()) {
             drawTile(t);
         }
 
@@ -102,6 +102,9 @@ public class GameScreen extends ScreenAdapter {
                     if (ng.getAdjacencyMatrix()[j][i] != null) {
                         shapeRenderer.setColor(255, 0, 0, 255);
                     }
+                    if (ng.getAdjacencyMatrix()[i][j] instanceof JumpArc) {
+                        shapeRenderer.setColor(0, 0, 255, 255);
+                    }
                     shapeRenderer.line(v.x, v.y, v2.x, v2.y);
                 }
             }
@@ -118,10 +121,10 @@ public class GameScreen extends ScreenAdapter {
                     new GameOver(client,
                             game.getLevel().getID(),
                             true,
-                            (int) ((System.currentTimeMillis() - startTime)) / 1000));
+                            (int) ((System.currentTimeMillis() - game.startTime)) / 1000));
 //             if failed level / died
         } else if (game.getPlayer().getHealth() <= 0) {
-            client.setScreen(new GameOver(client, game.getLevel().getID(), false, (int) ((System.currentTimeMillis() - startTime)) / 1000));
+            client.setScreen(new GameOver(client, game.getLevel().getID(), false, (int) ((System.currentTimeMillis() - game.startTime)) / 1000));
         }
     }
 

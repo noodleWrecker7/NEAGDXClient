@@ -1,14 +1,18 @@
 package dev.adamhodgkinson.game.navigation;
 
 import com.badlogic.gdx.math.GridPoint2;
+import dev.adamhodgkinson.game.Enemy;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class PathFinder {
     // todo put an algorithm here
 
     NavGraph nav;
+    final ExecutorService pool = Executors.newFixedThreadPool(10);
 
 
     public NavGraph getNav() {
@@ -19,11 +23,14 @@ public class PathFinder {
         this.nav = nav;
     }
 
-    public void requestPath() {
-
+    public void newTask(Enemy e, GridPoint2 start, GridPoint2 end) {
+        pool.execute(new PathFindTask(e, start, end, this));
     }
 
     private void addToQueue(int node, short weight, ArrayList<Integer> queue, short[] weightToNode) {
+        if (queue.contains(node)) {
+            return;
+        }
         if (queue.size() == 0) {
             queue.add(node);
             return;
@@ -46,15 +53,17 @@ public class PathFinder {
         }
         int startIndex = nav.coordToIndexMap[start.x][start.y];
         if (startIndex == -1) {
-
+            System.out.println("Start index negative");
             return null;
         }
         int endIndex = nav.coordToIndexMap[end.x][end.y];
         if (endIndex == -1) {
+            System.out.println("End index no exist");
             return null;
         }
         int[] path = search(startIndex, endIndex);
         if (path == null) {
+            System.out.println("Couldn't find path");
             return null;
         }
         Vertex[] result = new Vertex[path.length];
@@ -81,8 +90,10 @@ public class PathFinder {
         visited = new ArrayList<>();
         queue.add(start);
         while (queue.size() != 0) { // whilst queue not empty
-            int checking = queue.get(0); // gets first node in quque
-            queue.remove(0); // pops it off queue
+            System.out.println("searching");
+            System.out.println("q: " + queue.size() + " v: " + visited.size());
+            int checking = queue.remove(0); // gets first node in queue and removes it
+
             visited.add(checking); // node marked as visited
             if (checking == end) { // if reached end
                 return generatePath(start, end, previousNode);
@@ -108,7 +119,7 @@ public class PathFinder {
 
     // tried a whole bunch of different ways of threading, turned out the issue was in here,
     // sometimes if start and end were the same it would infinite loop and crash out of heap
-    // todo at some point try using a single thread again and queueing the searches to properly use threads
+
     private int[] generatePath(int start, int end, int[] previousNode) {
         // creates array such that the start of backwards is the end node and the end of backwards is the start node
         // and all the nodes in between are the steps in the path, in order

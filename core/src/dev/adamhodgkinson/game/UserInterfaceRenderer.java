@@ -27,7 +27,7 @@ public class UserInterfaceRenderer {
         shapeRenderer.setAutoShapeType(true);
         batch.setProjectionMatrix(client.uiCam.combined);
         shapeRenderer.setProjectionMatrix(client.uiCam.combined);
-        healthBarWidth = client.uiCam.viewportWidth * .8f;
+        healthBarWidth = client.uiCam.viewportWidth * .75f;
 
         df = new DecimalFormat("#.##");
         font = client.assets.get("noto10.ttf");
@@ -48,21 +48,19 @@ public class UserInterfaceRenderer {
         shapeRenderer.rect(-healthBarWidth / 2, -client.uiCam.viewportHeight / 2 + healthBarHeight / 2, greenWidth, healthBarHeight);
         shapeRenderer.end();
         batch.begin();
-        if (client.debug) {
-            renderDebugInfo();
-        }
+        renderInfo();
+
 
         batch.end();
     }
 
-    public void renderDebugInfo() {
-        font.draw(batch, "Debug=true", -client.uiCam.viewportWidth / 2 + 5, 15 - client.uiCam.viewportHeight / 2, 10, Align.left, false);
+    public void renderInfo() {
+//        font.draw(batch, "Debug=true", -client.uiCam.viewportWidth / 2 + 5, 15 - client.uiCam.viewportHeight / 2, 10, Align.left, false);
         font.draw(batch, "Player X/Y: ( " + df.format(game.player.getPos().x) + " , " + df.format(game.player.getPos().y) + " )\n" +
-                        "       dX/dY: (" + df.format(game.player.body.getLinearVelocity().x) + "," + df.format(game.player.body.getLinearVelocity().y) + ")\n" +
+                        "       Elapsed Time: " + (System.currentTimeMillis() - game.startTime) / 1000 + "s \n" +
                         "       Enemies: " + game.level.enemiesArray.size() + "\n" +
-                        "       PlayerWeaponFlip: " + game.player.weapon.rotationfFlip + "\n" +
                         "       FPS: " + Gdx.graphics.getFramesPerSecond()
-                , -client.uiCam.viewportWidth / 2 + 5, client.uiCam.viewportHeight / 2 - 15, 10, Align.left, false);
+                , -client.uiCam.viewportWidth / 2, client.uiCam.viewportHeight / 2, 10, Align.left, false);
     }
 
 
