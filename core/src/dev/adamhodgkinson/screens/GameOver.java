@@ -84,11 +84,12 @@ public class GameOver extends ScreenAdapter {
             });
 
             uploadNewWeapon();
-
-            // todo give random weapon
         }
     }
 
+    /**
+     * Generates a new random weapon and pushes it to the server
+     */
     public void uploadNewWeapon() {
         // post /weapon
 

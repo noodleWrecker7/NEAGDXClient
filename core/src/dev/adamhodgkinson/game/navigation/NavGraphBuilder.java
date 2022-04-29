@@ -26,7 +26,9 @@ public class NavGraphBuilder {
         this.gravity = gravity;
     }
 
-
+    /**
+     * Tests every tile against every other tile to see if it is possible to jump between them
+     */
     public void addJumpsEdges(float jumpSpeed) {
         // checks every node as a starting node
         final Vertex[] nodes = navGraph.getNodesArray();
@@ -95,6 +97,9 @@ public class NavGraphBuilder {
         }
     }
 
+    /**
+     * Every jump has two possible speeds which can be used to reach the end, this method accepts two speeds and returns whichever one is the lowest speed whilst still being a valid jump
+     */
     public float chooseBestSpeed(float[] speeds, int startX, int startY, int endX, int endY, float jumpSpeed) {
         float finalSpeed = 0;
         if (isValidArc(startX, startY, endX, jumpSpeed, speeds[0])) {
@@ -115,6 +120,9 @@ public class NavGraphBuilder {
         return finalSpeed;
     }
 
+    /**
+     * Interpolates every point along an arc to test if an entity traversing that arc would end up colliding with a tile
+     */
     public boolean isValidArc(int startX, int startY, int endX, float jumpSpeed, float horizSpeed) {
         final int samplesPerTile = 20;
         final int totalSamples = Math.abs((endX - startX) * samplesPerTile);
@@ -127,12 +135,14 @@ public class NavGraphBuilder {
         }
         float x, y;
 
+        // for each sample along the arc
         for (float sample = 0; sample <= totalSamples; sample++) {
 
             x = ((sample * sign) / (float) samplesPerTile);
 
-            y = f(x, horizSpeed, jumpSpeed);
+            y = calcArcYPosition(x, horizSpeed, jumpSpeed);
 
+            // testing different corners of the sprite for collision
             for (float xOffset = -GameSprite.MAX_PHYSICAL_WIDTH / 2; xOffset <= GameSprite.MAX_PHYSICAL_WIDTH / 2; xOffset += GameSprite.MAX_PHYSICAL_WIDTH) {
 
                 float yOffset = -GameSprite.MAX_PHYSICAL_HEIGHT / 2 + 0.5f;
@@ -150,7 +160,10 @@ public class NavGraphBuilder {
         return true;
     }
 
-    public float f(float x, float horizSpeed, float jumpSpeed) {
+    /**
+     * Function which returns the y displacement of the sprite at a given x displacement
+     */
+    public float calcArcYPosition(float x, float horizSpeed, float jumpSpeed) {
         final float a = 0.5f * gravity / (horizSpeed * horizSpeed);
         final float b = jumpSpeed / horizSpeed;
 
@@ -176,6 +189,9 @@ public class NavGraphBuilder {
         return new float[]{speed1, speed2};
     }
 
+    /**
+     * Adds every valid pathfinding node, which means it has at least 2 free tiles directly above
+     */
     public void addValidNodes() {
         final ArrayList<Tile> tiles = solids.getTiles();
         for (int i = 0; i < tiles.size(); i++) {
@@ -193,6 +209,9 @@ public class NavGraphBuilder {
         }
     }
 
+    /**
+     * Any two nodes which are directly adjacent are connected as they can be walked between
+     */
     public void addAdjacentEdges() {
         for (int i = 0; i < navGraph.getNodesArray().length; i++) {
             final Vertex v = navGraph.getNodesArray()[i];

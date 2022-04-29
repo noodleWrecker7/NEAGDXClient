@@ -31,6 +31,9 @@ public class TileGroup implements Physical {
         return null;
     }
 
+    /**
+     * Creates the physical body object in the engine
+     */
     public void createBody() {
         if (body != null) {
             world.destroyBody(body);
@@ -45,6 +48,7 @@ public class TileGroup implements Physical {
 
     ArrayList<Fixture> fixtures;
 
+    /**Finalises the tile group and constructs the chain shape polygons which are then added as a physical body*/
     protected void build() {
         System.out.println("Building tile group");
         createBody();

@@ -1,5 +1,8 @@
 package dev.adamhodgkinson.game.navigation;
 
+/**
+ * Stores the weight of an arc in the navgraph
+ */
 public class Arc {
     final public short weight;
 

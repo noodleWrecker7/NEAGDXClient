@@ -44,8 +44,6 @@ public class Enemy extends GameSprite {
 
     public Enemy(TextureAtlas atlas, String textureName, World world, int x, int y) {
         super(world, x, y, textureName, atlas);
-//        pathFinderThread = new PathFinderThread(this);
-//        pathFinderThread.start();
     }
 
     public void attack() {
@@ -83,8 +81,6 @@ public class Enemy extends GameSprite {
             GridPoint2 lastTargetPosition = target.getLastValidPosition();
             System.out.println("dist" + lastTargetPosition.dst(getGridPoint()));
             if (lastTargetPosition != null && lastTargetPosition.dst(getGridPoint()) < targetRange) {
-//                pathFinderThread.notify();
-//                pathFinderThread.requestPath(getGridPoint(), target.getLastValidPosition());
 
                 if (!isSearching) {
                     System.out.println("finding new task");
@@ -92,7 +88,6 @@ public class Enemy extends GameSprite {
                     isSearching = true;
                     timeOfLastPathFind = System.currentTimeMillis();
                     timeOfArcAttempt = System.currentTimeMillis();
-//                findNewPath();
                 }
             }
         }
@@ -130,7 +125,6 @@ public class Enemy extends GameSprite {
         if (path == null) {
             return;
         }
-//        System.out.println("follow path");
         GridPoint2 gridPos = getGridPoint();
 
         System.out.println("currentpoint null: " + (currentPoint == null));
@@ -139,7 +133,6 @@ public class Enemy extends GameSprite {
                 System.out.println("path empty");
                 currentArc = null;
                 if (invalidPathCount == 0 && System.currentTimeMillis() - timeOfLastPathFind > TIME_BETWEEN_PATH_FINDS) {
-//                    pathFinder.requestPath();
                     if (!isSearching) {
                         System.out.println("finding new task2");
                         pathFinder.newTask(this, getGridPoint(), target.getLastValidPosition());
@@ -159,7 +152,7 @@ public class Enemy extends GameSprite {
 
 
             // get arc to point
-            currentArc = pathFinder.getNav().getArc((short) gridPos.x, (short) (gridPos.y /*- height / 2 + 0.5f*/), currentPoint.x, currentPoint.y);
+            currentArc = pathFinder.getNav().getArc((short) gridPos.x, (short) (gridPos.y), currentPoint.x, currentPoint.y);
             timeOfArcAttempt = System.currentTimeMillis();
             alreadyJumpedThisArc = false;
 

@@ -9,6 +9,9 @@ import dev.adamhodgkinson.GDXClient;
 
 import java.text.DecimalFormat;
 
+/**
+ * Class used to manager rendering of the user interfaces in the gameplay screen
+ */
 public class UserInterfaceRenderer {
 
     private final GDXClient client;
@@ -37,7 +40,6 @@ public class UserInterfaceRenderer {
     float healthBarHeight = 10;
 
     public void render() {
-
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(1, 0, 0, 1);
 
@@ -50,12 +52,10 @@ public class UserInterfaceRenderer {
         batch.begin();
         renderInfo();
 
-
         batch.end();
     }
 
     public void renderInfo() {
-//        font.draw(batch, "Debug=true", -client.uiCam.viewportWidth / 2 + 5, 15 - client.uiCam.viewportHeight / 2, 10, Align.left, false);
         font.draw(batch, "Player X/Y: ( " + df.format(game.player.getPos().x) + " , " + df.format(game.player.getPos().y) + " )\n" +
                         "       Elapsed Time: " + (System.currentTimeMillis() - game.startTime) / 1000 + "s \n" +
                         "       Enemies: " + game.level.enemiesArray.size() + "\n" +

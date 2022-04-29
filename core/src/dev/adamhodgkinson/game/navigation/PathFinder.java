@@ -8,6 +8,9 @@ import java.util.Arrays;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * This class implements the dijkstras algorithm and also handles the allocation of threads to the sprite objects for their path finding
+ */
 public class PathFinder {
     // todo put an algorithm here
 
@@ -23,6 +26,9 @@ public class PathFinder {
         this.nav = nav;
     }
 
+    /**
+     * Used by entities to trigger a a thread to execute their pathfinding request and send the results to the requesting object
+     */
     public void newTask(Enemy e, GridPoint2 start, GridPoint2 end) {
         pool.execute(new PathFindTask(e, start, end, this));
     }
@@ -118,7 +124,7 @@ public class PathFinder {
     }
 
     // tried a whole bunch of different ways of threading, turned out the issue was in here,
-    // sometimes if start and end were the same it would infinite loop and crash out of heap
+    // sometimes if start and end were the same it would infinite loop and crash out of heap space
 
     private int[] generatePath(int start, int end, int[] previousNode) {
         // creates array such that the start of backwards is the end node and the end of backwards is the start node

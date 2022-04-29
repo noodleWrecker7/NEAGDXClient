@@ -10,10 +10,7 @@ import com.google.gson.Gson;
 import dev.adamhodgkinson.game.navigation.NavGraph;
 import dev.adamhodgkinson.game.navigation.NavGraphBuilder;
 import dev.adamhodgkinson.game.navigation.PathFinder;
-import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -25,7 +22,6 @@ public class Level {
     NavGraph navGraph;
     int worldWidth;
     int worldHeight;
-    //    GridPoint2 playerLastNavPos;
     Game game;
 
     String levelID;
@@ -43,8 +39,6 @@ public class Level {
             System.out.println("failed reading level file");
             System.exit(1);
         }
-
-
     }
 
     public NavGraph getNavGraph() {
@@ -55,6 +49,9 @@ public class Level {
         return levelID;
     }
 
+    /**
+     * Performs update on any entities within the level
+     */
     public void update(float dt) {
         // iterates through each enemy to update them
         for (int i = 0; i < enemiesArray.size(); i++) {
@@ -64,13 +61,16 @@ public class Level {
                 enemiesArray.remove(i);
                 i--;
             }
-
         }
     }
 
-    public void initialize(FileHandle file, World world, AssetManager assets) throws ParserConfigurationException, IOException, SAXException {
+    /**
+     * Ensures all objects needed for level are created and populated with data
+     */
+    public void initialize(FileHandle file, World world, AssetManager assets) {
         levelID = file.name().substring(0, file.name().length() - 5);
         Gson gson = new Gson();
+        // takes level information from level file and parses it to an object
         LevelDataSchema levelData = gson.fromJson(file.reader(), LevelDataSchema.class);
         System.out.println("Level name: " + levelData.name);
 
@@ -82,6 +82,7 @@ public class Level {
         tilesGroup = new TileGroup(world);
         TextureAtlas atlas = assets.get(Gdx.files.internal("packed/pack.atlas").path());
 
+        // for each tile, check it is valid and add it to the world
         for (int i = 0; i < levelData.tiles.length; i++) {
             TileData data = levelData.tiles[i];
             if (data.x >= worldWidth || data.y >= worldHeight || data.x < 0 || data.y < 0) {
@@ -92,12 +93,16 @@ public class Level {
             tilesGroup.addTile(t);
         }
 
+        // formalises the formation of tiles and also simplifies the number of physical bodies to fewer polygons
         tilesGroup.build();
 
+        // generates a navgraph object for the given tilemap
         NavGraphBuilder navGraphBuilder = new NavGraphBuilder(worldWidth, worldHeight + 2, tilesGroup, 10, 16, world.getGravity().y);
         navGraph = navGraphBuilder.generateNavGraph();
+        // the pathfinder object is given to the enemy class as a static member that they can use
         Enemy.pathFinder = new PathFinder(navGraph);
 
+        // adds all the enemies to enemiesArray
         if (levelData.enemies != null) {
             for (int i = 0; i < levelData.enemies.length; i++) {
                 EnemyData data = levelData.enemies[i];
@@ -110,6 +115,14 @@ public class Level {
                 enemiesArray.add(e);
             }
         }
+
+        createWorldEdge(world);
+    }
+
+    /**
+     * Creates the worlds edges for the entites to collide with
+     */
+    public void createWorldEdge(World world) {
         BodyDef worldEdgeDef = new BodyDef();
         worldEdgeDef.type = BodyDef.BodyType.StaticBody;
         worldEdgeDef.allowSleep = true;
@@ -146,8 +159,6 @@ public class Level {
         shape.setAsBox(worldWidth / 2f, .1f, new Vector2(worldWidth / 2f, worldHeight + .6f), 0);
         fixDef.shape = shape;
         worldEdge.createFixture(fixDef);
-
-
     }
 
     public ArrayList<Enemy> getEnemiesArray() {

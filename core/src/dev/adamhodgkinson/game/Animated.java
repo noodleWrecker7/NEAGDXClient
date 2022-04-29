@@ -31,6 +31,9 @@ public abstract class Animated {
         return animations.get(currentAnimation);
     }
 
+    /**
+     * Returns frame of the object to be drawn to screen, automatically mirrors texture based on flip flag
+     */
     public TextureRegion getFrame() {
         TextureRegion r= animations.get(currentAnimation).getKeyFrame(animTime);
         if(this.isXFlipped != r.isFlipX()) {

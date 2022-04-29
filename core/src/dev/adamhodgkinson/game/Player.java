@@ -123,6 +123,9 @@ public class Player extends GameSprite {
         }
     }
 
+    /**
+     * Coordinates rounded to the nearest grid coordinate so that they can be used for pathfinding purposes
+     */
     protected GridPoint2 getPathFindingCoords() {
         float x, y;
         y = getPos().y - height / 2 + 0.5f;

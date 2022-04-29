@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 import dev.adamhodgkinson.GDXClient;
@@ -21,7 +20,6 @@ public class GameScreen extends ScreenAdapter {
 
     GDXClient client;
     Game game;
-    TextureAtlas gameTextures;
     UserInterfaceRenderer uirender;
     SpriteBatch batch;
     ShapeRenderer shapeRenderer;
@@ -33,9 +31,7 @@ public class GameScreen extends ScreenAdapter {
     public GameScreen(GDXClient client, FileHandle file) {
         this.client = client;
 
-        // temporary
-        this.game = new Game(client.playerData, client.assets, file); // this should get players data from somewhere, eg be initialised earlier get from server etc
-        gameTextures = client.assets.get(Gdx.files.internal("packed/pack.atlas").path()); // keep this in the class to be used often
+        this.game = new Game(client.playerData, client.assets, file);
 
         uirender = new UserInterfaceRenderer(this.client, this.game);
         batch = new SpriteBatch();
@@ -44,8 +40,10 @@ public class GameScreen extends ScreenAdapter {
 
     }
 
+    /**
+     * Called immediately as the screen is made visible
+     */
     @Override
-    /**Called immediately as the screen is made visible*/
     public void show() {
         super.show();
         Gdx.input.setInputProcessor(new UserInputHandler(this));
@@ -53,16 +51,20 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
+        // updates camera position to follow player
         client.worldCam.position.x = game.getPlayer().getPos().x;
         client.worldCam.position.y = game.getPlayer().getPos().y;
         client.worldCam.update();
-        // Sets correct camera viewports for renderers
+
+        // updates camera viewports for renderers
         batch.setProjectionMatrix(client.worldCam.combined);
         shapeRenderer.setProjectionMatrix(client.worldCam.combined);
+
         update(delta);
+
+        // actually begin rendering
         ScreenUtils.clear(0, 0, 0, 1);
         batch.begin();
-        // actually render
 
         for (Tile t : game.getLevel().getTilesGroup().getTiles()) {
             drawTile(t);
@@ -80,6 +82,8 @@ public class GameScreen extends ScreenAdapter {
             game.getLevel().getEnemiesArray().get(i).renderHealth(shapeRenderer);
         }
         shapeRenderer.end();
+
+        // used only in development to see the calculated arcs on the navgraph
         if (client.debug) {
             renderNavGraph();
         }
@@ -117,13 +121,8 @@ public class GameScreen extends ScreenAdapter {
         game.update(dt);
         // if level completed successfully
         if (game.getLevel().getEnemiesArray().size() == 0) {
-            client.setScreen(
-                    new GameOver(client,
-                            game.getLevel().getID(),
-                            true,
-                            (int) ((System.currentTimeMillis() - game.startTime)) / 1000));
-//             if failed level / died
-        } else if (game.getPlayer().getHealth() <= 0) {
+            client.setScreen(new GameOver(client, game.getLevel().getID(), true, (int) ((System.currentTimeMillis() - game.startTime)) / 1000));
+        } else if (game.getPlayer().getHealth() <= 0) { // if failed level or died
             client.setScreen(new GameOver(client, game.getLevel().getID(), false, (int) ((System.currentTimeMillis() - game.startTime)) / 1000));
         }
     }

@@ -12,6 +12,9 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import dev.adamhodgkinson.GDXClient;
 
+/**
+ * Main menu screen for choosing which screen to go to next
+ */
 public class Menu extends ScreenAdapter {
     GDXClient client;
 
@@ -33,6 +36,8 @@ public class Menu extends ScreenAdapter {
 
         String[] buttonNames = {"ButtonLevelSelect", "ButtonInventory", "ButtonExit"};
 
+        // evenly spaces out all the buttons based on window and button size
+
         float buttonHeight = texAtlas.findRegion("Menu/ButtonInventory").originalHeight;
 
         float topMargin = 60f; // extra height above buttons - makes room for title image
@@ -43,9 +48,7 @@ public class Menu extends ScreenAdapter {
         float scale = (verticalSpacePerButton - spaceBetweenButtons) / buttonHeight;
         float scaledHeight = buttonHeight * scale;
 
-
         for (int i = 0; i < buttonNames.length; i++) {
-
             Button.ButtonStyle imageButtonStyle = new Button.ButtonStyle(); // how the button is displayed
             imageButtonStyle.up = skin.getDrawable("Menu/" + buttonNames[i]); // assigns texture to button
 
@@ -71,6 +74,7 @@ public class Menu extends ScreenAdapter {
         }
     }
 
+    /**Called once button is clicked to go to its desired screen*/
     public void goToButtonTarget(String name) {
         switch (name) {
             case "ButtonLevelSelect":

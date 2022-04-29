@@ -33,43 +33,31 @@ abstract public class GameSprite extends Animated implements Physical {
         }
     }
 
-    public void takeDamage(float amt, float knockback, GameSprite from) {
-        this.health -= amt;
-        playAnimation("hit");
-        // target(from)
-        if (this.getPos().x <= from.getPos().x) {
-            this.body.applyLinearImpulse(new Vector2(-knockback, knockback), this.body.getPosition(), true);
-        } else if (this.getPos().x >= from.getPos().x) {
-            this.body.applyLinearImpulse(new Vector2(knockback, knockback), this.body.getPosition(), true);
-        }
-    }
-
-    public GameSprite(World world, float x, float y, String textureName, TextureAtlas atlas) {
-        this(world, x, y, 5, 4f, .5f, textureName, atlas);
-    }
-
     public GameSprite(World world, float x, float y, float density, float speed, float friction,
                       String textureName, TextureAtlas atlas) {
+        this.health = this.maxHealth = 10;
+        this.speed = speed;
+        this.jumpSpeed = speed * 2;
+
         try {
-            this.speed = speed;
-            jumpSpeed = speed * 2;
+            // sets dimensions bases on textures
             width = (float) atlas.findRegions(textureName + "_idle_anim").get(0).packedWidth / 16;
             height = (float) atlas.findRegions(textureName + "_idle_anim").get(0).packedHeight / 16;
+            // sets animations
             setDefaultAnims(atlas, textureName);
         } catch (IndexOutOfBoundsException e) {
             System.out.println("Could not find texture for GameSprite");
             return;
         }
 
+        // setup physics definitions
         final BodyDef def = new BodyDef();
         def.position.set(x, y + 0.5f);
         def.type = BodyDef.BodyType.DynamicBody;
         body = world.createBody(def);
-
-
         body.setFixedRotation(true);
 
-        // main fixture
+        // main fixture for the entity
         final FixtureDef fix = new FixtureDef();
         final PolygonShape shape = new PolygonShape();
         fix.restitution = .1f;
@@ -84,6 +72,8 @@ abstract public class GameSprite extends Animated implements Physical {
         fix.density = density;
         fix.friction = friction;
         body.setLinearDamping(LINEAR_DAMPING);
+
+        // creates a filter for the body which allows enemies to pass through each other
         Filter filter = new Filter();
         // player = 1, nemy 2, tile 4
         if (this instanceof Player) {
@@ -95,9 +85,24 @@ abstract public class GameSprite extends Animated implements Physical {
         }
         body.createFixture(fix).setFilterData(filter);
         body.setUserData(this);
+    }
 
-        this.health = this.maxHealth = 10;
+    public GameSprite(World world, float x, float y, String textureName, TextureAtlas atlas) {
+        this(world, x, y, 5, 4f, .5f, textureName, atlas);
+    }
 
+    /**
+     * Called by another gamesprite to damage this object, decrements health by amt, and handles knockback application
+     */
+    public void takeDamage(float amt, float knockback, GameSprite from) {
+        this.health -= amt;
+        playAnimation("hit");
+
+        if (this.getPos().x <= from.getPos().x) {
+            this.body.applyLinearImpulse(new Vector2(-knockback, knockback), this.body.getPosition(), true);
+        } else if (this.getPos().x >= from.getPos().x) {
+            this.body.applyLinearImpulse(new Vector2(knockback, knockback), this.body.getPosition(), true);
+        }
     }
 
     public float getHealth() {
@@ -118,8 +123,10 @@ abstract public class GameSprite extends Animated implements Physical {
         return true;
     }
 
+    /**
+     * Loads animations from texture atlas, and adds them using the Animated interface
+     */
     public void setDefaultAnims(TextureAtlas atlas, String textureName) {
-        // todo error catch
         final Animation<TextureRegion> runAnimation = new Animation<TextureRegion>(.15f,
                 atlas.findRegions(textureName + "_run_anim"), Animation.PlayMode.LOOP);
         final Animation<TextureRegion> hitAnimation = new Animation<TextureRegion>(.5f,
@@ -132,30 +139,31 @@ abstract public class GameSprite extends Animated implements Physical {
 
     }
 
+    /**
+     * Renders textures to screen using specified batch renderer
+     */
     public void draw(SpriteBatch batch) {
         final Vector2 pos = getPos();
         final TextureRegion frame = getFrame();
 
         if (this.weapon != null) {
             this.weapon.draw(batch, pos.x, pos.y);
-//            batch.draw(this.weapon, pos.x, pos.y, width, this.weapon.getHeight() / 16.f);
         }
 
         // gets width each frame as it can change
         float width = frame.getRegionWidth() / 16.f;
         float height = frame.getRegionHeight() / 16.f;
 
-        batch.draw(frame, pos.x - width / 2, pos.y - height / 2, width,
-                height); /*
-         * had to add coord offsets to account for being at center of object
-         */
-
+        batch.draw(frame, pos.x - width / 2, pos.y - height / 2, width, height); // had to add coord offsets to account for being at center of object
     }
 
     public Vector2 getPos() {
         return body.getPosition();
     }
 
+    /**
+     * Sets which direction the textures are flipped to based on the current movement of the entity
+     */
     public void updateFlippage() {
         if (movement.x < 0 && !isXFlipped) {
             isXFlipped = true;
@@ -170,13 +178,11 @@ abstract public class GameSprite extends Animated implements Physical {
         }
     }
 
-    public void getHit() {
-        playAnimation("hit");
-    }
-
     @Override
     public void update(float dt) {
         super.update(dt);
+
+        // manages current animation state after being hit
         if (currentAnimation.equals("hit") && getAnimation().isAnimationFinished(animTime)) {
             if (isRunning) {
                 playAnimation("run");
@@ -184,10 +190,13 @@ abstract public class GameSprite extends Animated implements Physical {
                 playAnimation("idle");
             }
         }
-//        body.setLinearVelocity(movement.x * speed, movement.y * speed);
+
         final Vector2 mov = body.getLinearVelocity();
-        body.setLinearVelocity(movement.x != 0 ? movement.x * speed : mov.x,
-                movement.y != 0 ? movement.y * speed : mov.y);
+        /* for each direction: if the player is being moved by key being held then the speed is set to the speed of the sprite,
+         * otherwise it is left unchanged so that it can decay naturally in the physics engine */
+        body.setLinearVelocity(movement.x != 0 ? movement.x * speed : mov.x, movement.y != 0 ? movement.y * speed : mov.y);
+
+        // manages current animation state between running and idle
         if (!isRunning && (body.getLinearVelocity().x > 0.1 || body.getLinearVelocity().x < -0.1)) {
             isRunning = true;
             playAnimation("run");
@@ -195,6 +204,7 @@ abstract public class GameSprite extends Animated implements Physical {
             isRunning = false;
             playAnimation("idle");
         }
+        // updates weapon only if it exists
         if (this.weapon != null) {
             this.weapon.update(dt);
         }
@@ -202,21 +212,30 @@ abstract public class GameSprite extends Animated implements Physical {
         this.updateFlippage();
     }
 
+    /**
+     * Removes all health
+     */
     public void die() {
         this.health = 0;
     }
 
-
+    /**
+     * Returns true if all health has been depleted
+     */
     public boolean isDead() {
         return health <= 0;
     }
 
+    /**
+     * Called when entity touches ground, this refreshes the number of jumps available to the entity
+     */
     public void onGround() {
         jumpsAvailable = maxJumps;
     }
 
     @Override
     public void beginCollide(Fixture fixture) {
+        // if collides with tile or entity, jump is refreshed
         if (fixture.getBody().getUserData() instanceof TileGroup || fixture.getBody().getUserData() instanceof GameSprite) {
             onGround();
         } else if (fixture.getBody().getUserData().equals("worldedge")) {

@@ -29,6 +29,9 @@ public class GDXClient extends Game {
     public OrthographicCamera worldCam;
     public OrthographicCamera uiCam;
 
+    /**
+     * Server url for the backend server
+     */
     public final String SERVER_ADDRESS = "https://nea.adamhodgkinson.dev";
     HttpClient httpClient = HttpClient.newBuilder()
             .version(HttpClient.Version.HTTP_2)
@@ -38,8 +41,6 @@ public class GDXClient extends Game {
 
     public PlayerData playerData;
 
-//    public BitmapFont font;
-
     public float zoom;
 
     public boolean debug = false;
@@ -48,7 +49,6 @@ public class GDXClient extends Game {
         super();
         this.zoom = zoom;
     }
-
 
     @Override
     public void create() {
@@ -138,11 +138,8 @@ public class GDXClient extends Game {
     }
 
     public void loadAssets() {
-// todo important, remember to mention in design that there used to be multiple atlases
-
         assets.load(Gdx.files.internal("packed/pack.atlas").path(), TextureAtlas.class);
         assets.load(Gdx.files.internal("skins/uiskin.json").path(), Skin.class);
-
 
         // set the loaders for the generator and the fonts themselves
         // freetype font gen takes a vectorised ttf format and creates a bitmap font to be used by the renderer

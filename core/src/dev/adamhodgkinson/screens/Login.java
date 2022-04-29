@@ -18,6 +18,9 @@ import dev.adamhodgkinson.GDXClient;
 import java.net.http.HttpResponse;
 import java.util.function.Consumer;
 
+/**
+ * Main login screen used to authenticate the user before allowing them access to the rest of the application
+ */
 public class Login extends ScreenAdapter {
 
     GDXClient client;
@@ -28,13 +31,43 @@ public class Login extends ScreenAdapter {
     Label errorLabel;
 
 
+    /**
+     * Response handler for login/signup requests, both use same handler as response data should be identical
+     */
+    Consumer<HttpResponse<String>> handler = httpResponse -> {
+        System.out.println(httpResponse.statusCode());
+        switch (httpResponse.statusCode()) {
+            case 500:
+            case 409:
+            case 400:
+            case 401:
+                errorLabel.setText(httpResponse.body());
+                errorLabel.setVisible(true);
+                break;
+            case 200:
+                errorLabel.setVisible(false);
+                System.out.println("Switch to menu");
+                this.hide();
+                Gdx.app.postRunnable(new Runnable() {
+                    @Override
+                    public void run() {
+                        client.setScreen(new Menu(client));
+                    }
+                });
+                break;
+        }
+    };
+
     public Login(GDXClient client) {
         this.client = client;
 
+        // creates objects needed for rendering
         stage = new Stage();
         stage.getCamera().position.set(0, 0, 0); // centers cam
         stage.getCamera().viewportWidth = client.uiCam.viewportWidth;
         stage.getCamera().viewportHeight = client.uiCam.viewportHeight;
+
+        // sets up all ui objects
 
         Skin defaultUISkin = new Skin(Gdx.files.internal("skins/uiskin.json"));
         Label usernameLabel = new Label("Username:", defaultUISkin);
@@ -80,10 +113,11 @@ public class Login extends ScreenAdapter {
         stage.addActor(passwordBox);
         stage.addActor(signupButton);
         stage.addActor(errorLabel);
-
-
     }
 
+    /**
+     * Called when login button clicked, sends login request to server using data in text fields
+     */
     public void handleLoginClicked() {
         Gson g = new Gson();
         SignupBody data = new SignupBody();
@@ -92,7 +126,9 @@ public class Login extends ScreenAdapter {
         client.postRequest("/user/login", g.toJson(data)).thenAccept(handler);
     }
 
-
+    /**
+     * Called when signup button clicked, sends signup request to server using data in text fields
+     */
     public void handleSignupClicked() {
         Gson g = new Gson();
         SignupBody data = new SignupBody();
@@ -102,31 +138,9 @@ public class Login extends ScreenAdapter {
         client.postRequest("/user/signup", g.toJson(data)).thenAccept(handler);
     }
 
-    Consumer<HttpResponse<String>> handler = httpResponse -> {
-        System.out.println(httpResponse.statusCode());
-        switch (httpResponse.statusCode()) {
-            case 500:
-            case 409:
-            case 400:
-            case 401:
-                errorLabel.setText(httpResponse.body());
-                errorLabel.setVisible(true);
-                break;
-            case 200:
-                errorLabel.setVisible(false);
-                System.out.println("Switch to menu");
-                this.hide();
-                Gdx.app.postRunnable(new Runnable() {
-                    @Override
-                    public void run() {
-                        client.setScreen(new Menu(client));
-                    }
-                });
-                break;
-        }
-    };
-
-
+    /**
+     * Static utility class to contain and format the data for the request
+     */
     static class SignupBody {
         String username;
         String password;

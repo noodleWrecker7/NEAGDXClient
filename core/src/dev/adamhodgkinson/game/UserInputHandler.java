@@ -8,7 +8,7 @@ import dev.adamhodgkinson.screens.Menu;
  * Handles all user input eg key presses etc, and passes them to the relevant
  * parts of the program
  */
-public class UserInputHandler extends InputAdapter { // temporary
+public class UserInputHandler extends InputAdapter {
     GameScreen screen;
     final Player player;
 

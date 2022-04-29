@@ -76,12 +76,10 @@ public class Game {
 
             @Override
             public void preSolve(Contact contact, Manifold oldManifold) {
-
             }
 
             @Override
             public void postSolve(Contact contact, ContactImpulse impulse) {
-
             }
         });
 

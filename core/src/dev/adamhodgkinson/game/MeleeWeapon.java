@@ -8,6 +8,9 @@ import java.util.ArrayList;
 public class MeleeWeapon extends Weapon implements Physical {
     GameSprite parentSprite;
     Body body;
+    /**
+     * List of all gamesprites within range of the weapon, constantly kept up to date when an entity is detected within range
+     */
     ArrayList<GameSprite> collidingBodies;
     float animationRotation = 0;
     boolean attackOnCooldown = false;
@@ -29,6 +32,9 @@ public class MeleeWeapon extends Weapon implements Physical {
         setRange(this.range);
     }
 
+    /**
+     * Sets the range of the weapon and recreates the collision sensor which tests for entities within range
+     */
     @Override
     public void setRange(float r) {
         // should only ever have one fixture
@@ -49,6 +55,7 @@ public class MeleeWeapon extends Weapon implements Physical {
         this.body.setTransform(parentSprite.getPos(), 0);
         if (attackOnCooldown) {
             float timeSinceHit = System.currentTimeMillis() - this.timeOfLastHit;
+            // allows weapon to be used again once cooldown is done
             if (timeSinceHit >= this.attackspeed) {
                 attackOnCooldown = false;
                 return;
@@ -78,12 +85,13 @@ public class MeleeWeapon extends Weapon implements Physical {
         }
         this.attackOnCooldown = true;
         this.timeOfLastHit = System.currentTimeMillis();
+        // for every sprite within range
         for (GameSprite s : collidingBodies) {
+            // only allows sprite to be damaged if they are being faced by this weapon
             if (rotationFlip == -1) {
                 if (s.getPos().x < parentSprite.getPos().x) {
                     continue;
                 }
-
             }
             if (rotationFlip == 1) {
                 if (s.getPos().x > parentSprite.getPos().x) {
@@ -102,6 +110,9 @@ public class MeleeWeapon extends Weapon implements Physical {
         }
     }
 
+    /**
+     * Returns true if the specified object is a valid entity that can be attacked by this weapon
+     */
     public boolean isValidObj(Object obj) {
         if (!(obj instanceof GameSprite)) { // if obj is not an attackable entity
             return false;
